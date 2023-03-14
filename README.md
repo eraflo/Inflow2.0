@@ -65,3 +65,15 @@ php bin/console debug:router
 ```
 composer require twig
 ```
+
+### Important : Ne pas supprimer ou renommer via vs code, le faire en ligne de commande
+
+- Supprimer
+```
+del \chemin\fichierasupprimer
+```
+
+- Renommer
+```
+ren ancienNom nouveauNom
+```
