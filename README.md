@@ -51,6 +51,10 @@ Si composer n'est pas installé, voici le lien de l'exécutable : [Composer.exe]
 ```
 symfony server:start
 ```
+### Arrêter le server
+```
+symfony server:stop
+```
 
 ### Récupérer les routes
 ```
