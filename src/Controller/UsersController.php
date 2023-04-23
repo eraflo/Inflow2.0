@@ -23,7 +23,7 @@ class UsersController extends AbstractController
         if ($inscriptionForm->isSubmitted() && $inscriptionForm->isValid()) {
 
             $user->setPassword(password_hash($user->getPassword(), PASSWORD_BCRYPT));
-            
+
 
             $em->persist($user);
             $em->flush();

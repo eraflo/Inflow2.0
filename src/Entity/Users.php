@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+/**
+ * Summary of Users
+ */
+class Users implements UserInterface, \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,12 +41,51 @@ class Users
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $url = null;
 
+
     public function __construct()
     {
         $this->theme = 'light';
         $this->font = 'Roboto';
         $this->font_size = 16;
         $this->font_weight = 'normal';
+    }
+
+    public function getRoles() : array
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
     }
 
     public function getId(): ?int
