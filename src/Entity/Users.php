@@ -37,6 +37,14 @@ class Users
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $url = null;
 
+    public function __construct()
+    {
+        $this->theme = 'light';
+        $this->font = 'Roboto';
+        $this->font_size = 16;
+        $this->font_weight = 'normal';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

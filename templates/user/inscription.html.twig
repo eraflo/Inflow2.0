@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body%}
+
+    <article class="column-left">
+        <section>
+            <span>Inflow</span>
+        </section>
+
+        <section>
+            <h1>Titre accrocheur</h1>
+            <h2>Commentaire accrocheur</h2>
+        </section>
+
+        <section>
+            <img src="http://placehold.it/300x300" alt="Image accrocheuse">
+        </section>
+    </article>
+
+    <article class="column-right">
+        <section>
+            <h3> S'inscrire </h3>
+            <p>Possède déjà un compte ? <a href="#">C'est par ici</a></p>
+        </section>
+
+        <section>
+            {{ form(inscriptionForm) }}
+        </section>
+
+    </article>
+
+{% endblock %}
