@@ -44,6 +44,12 @@ cd my-project/
 composer install
 ```
 
+Besoin de :
+- Webpack Encore bundle : ```composer require symfony/webpack-encore-bundle```
+- Maker Bundle : ```composer require --dev symfony/maker-bundle```
+- Form Validator : ```composer require form validator```
+
+
 Si composer n'est pas installé, voici le lien de l'exécutable : [Composer.exe](https://getcomposer.org/Composer-Setup.exe)
 
 ## Utile
@@ -76,4 +82,20 @@ del \chemin\fichierasupprimer
 - Renommer
 ```
 ren ancienNom nouveauNom
+```
+
+### Tester une requête SQL
+```
+php bin/console dbal:run-sql 'SELECT * FROM users'
+```
+
+### Création d'un formulaire
+```
+symfony console make:form InscriptionFormType Users
+```
+avec InscriptionFormType le nom de la classe du formulaire (créée dans le dossier src/Form) et Users le nom de la classe Entity que l'on va remplir avec les données du formulaire
+
+### Création du login
+```
+php bin/console make:auth 
 ```
