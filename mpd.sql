@@ -6,6 +6,8 @@ CREATE TABLE USERS(
    theme VARCHAR(20) ,
    font VARCHAR(40) ,
    font_size INT,
+   font_weight VARCHAR(30) ,
+   url VARCHAR(200) ,
    PRIMARY KEY(user_id)
 );
 
@@ -39,15 +41,10 @@ CREATE TABLE OPINIONS(
 CREATE TABLE CATEGORIES(
    category_id INT AUTO_INCREMENT,
    name VARCHAR(30) ,
-   PRIMARY KEY(category_id)
-);
-
-CREATE TABLE LINKS(
-   link_id INT AUTO_INCREMENT,
-   url VARCHAR(200) ,
-   user_id INT NOT NULL,
-   PRIMARY KEY(link_id),
-   FOREIGN KEY(user_id) REFERENCES USERS(user_id)
+   url_img VARCHAR(255) ,
+   category_id_1 INT NOT NULL,
+   PRIMARY KEY(category_id),
+   FOREIGN KEY(category_id_1) REFERENCES CATEGORIES(category_id)
 );
 
 CREATE TABLE NOTIFICATIONS(
@@ -56,6 +53,21 @@ CREATE TABLE NOTIFICATIONS(
    content VARCHAR(200) ,
    expireDate DATETIME,
    PRIMARY KEY(notif_id)
+);
+
+CREATE TABLE Tags(
+   id INT AUTO_INCREMENT,
+   name VARCHAR(30) ,
+   PRIMARY KEY(id)
+);
+
+CREATE TABLE Social_Media(
+   id INT AUTO_INCREMENT,
+   network VARCHAR(20) ,
+   url VARCHAR(255) ,
+   user_id INT NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(user_id) REFERENCES USERS(user_id)
 );
 
 CREATE TABLE has(
@@ -112,4 +124,12 @@ CREATE TABLE mentions(
    PRIMARY KEY(user_id, article_id),
    FOREIGN KEY(user_id) REFERENCES USERS(user_id),
    FOREIGN KEY(article_id) REFERENCES ARTICLES(article_id)
+);
+
+CREATE TABLE concern(
+   article_id INT,
+   id INT,
+   PRIMARY KEY(article_id, id),
+   FOREIGN KEY(article_id) REFERENCES ARTICLES(article_id),
+   FOREIGN KEY(id) REFERENCES Tags(id)
 );
