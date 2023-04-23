@@ -44,13 +44,13 @@ cd my-project/
 composer install
 ```
 
+Si composer n'est pas installé, voici le lien de l'exécutable : [Composer.exe](https://getcomposer.org/Composer-Setup.exe)
+
 Besoin de :
 - Webpack Encore bundle : ```composer require symfony/webpack-encore-bundle```
 - Maker Bundle : ```composer require --dev symfony/maker-bundle```
 - Form Validator : ```composer require form validator```
 
-
-Si composer n'est pas installé, voici le lien de l'exécutable : [Composer.exe](https://getcomposer.org/Composer-Setup.exe)
 
 ## Utile
 ### Lancement du server via Symfony
