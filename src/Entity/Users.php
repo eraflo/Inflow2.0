@@ -41,7 +41,6 @@ class Users implements UserInterface, \Serializable
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $url = null;
 
-
     public function __construct()
     {
         $this->theme = 'light';
@@ -87,7 +86,6 @@ class Users implements UserInterface, \Serializable
     {
         return $this->username;
     }
-
     public function getId(): ?int
     {
         return $this->id;
