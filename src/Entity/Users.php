@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Summary of Users
  */
-class Users implements UserInterface, PasswordAuthenticatedUserInterface
+class Users implements UserInterface, \Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -104,9 +103,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
