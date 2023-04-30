@@ -39,6 +39,20 @@ class UsersRepository extends ServiceEntityRepository
         }
     }
 
+    public function loadUserByIdentifier(string $usernameOrEmail): ?Users
+    {
+        $entityManager = $this->getEntityManager();
+
+        return $entityManager->createQuery(
+                'SELECT u
+                FROM App\Entity\Users u
+                WHERE u.username = :query
+                OR u.email = :query'
+            )
+            ->setParameter('query', $usernameOrEmail)
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Users[] Returns an array of Users objects
 //     */
