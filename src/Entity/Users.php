@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Summary of Users
  */
-class Users implements UserInterface, \Serializable
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,25 +29,12 @@ class Users implements UserInterface, \Serializable
 
     #[ORM\Column(length: 20)]
     private ?string $theme = null;
-
-    #[ORM\Column(length: 40)]
-    private ?string $font = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $font_size = null;
-
-    #[ORM\Column(length: 30)]
-    private ?string $font_weight = null;
-
     #[ORM\Column(length: 200, nullable: true)]
     private ?string $url = null;
 
     public function __construct()
     {
         $this->theme = 'light';
-        $this->font = 'Roboto';
-        $this->font_size = 16;
-        $this->font_weight = 'normal';
     }
 
     public function getRoles() : array
@@ -135,42 +123,6 @@ class Users implements UserInterface, \Serializable
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
-
-        return $this;
-    }
-
-    public function getFont(): ?string
-    {
-        return $this->font;
-    }
-
-    public function setFont(string $font): self
-    {
-        $this->font = $font;
-
-        return $this;
-    }
-
-    public function getFontSize(): ?int
-    {
-        return $this->font_size;
-    }
-
-    public function setFontSize(?int $font_size): self
-    {
-        $this->font_size = $font_size;
-
-        return $this;
-    }
-
-    public function getFontWeight(): ?string
-    {
-        return $this->font_weight;
-    }
-
-    public function setFontWeight(string $font_weight): self
-    {
-        $this->font_weight = $font_weight;
 
         return $this;
     }
