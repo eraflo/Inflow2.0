@@ -14,27 +14,6 @@ CREATE TABLE RANKS(
    PRIMARY KEY(rank_id)
 );
 
-CREATE TABLE ARTICLES(
-   article_id INT AUTO_INCREMENT,
-   title VARCHAR(30) ,
-   content VARCHAR(2000) ,
-   release_date DATE,
-   description VARCHAR(100) ,
-   user_id INT NOT NULL,
-   PRIMARY KEY(article_id),
-   FOREIGN KEY(user_id) REFERENCES USERS(user_id)
-);
-
-CREATE TABLE OPINIONS(
-   opinion_id INT AUTO_INCREMENT,
-   opinion_value DOUBLE,
-   user_id INT NOT NULL,
-   article_id INT NOT NULL,
-   PRIMARY KEY(opinion_id),
-   FOREIGN KEY(user_id) REFERENCES USERS(user_id),
-   FOREIGN KEY(article_id) REFERENCES ARTICLES(article_id)
-);
-
 CREATE TABLE CATEGORIES(
    category_id INT AUTO_INCREMENT,
    name VARCHAR(30) ,
@@ -64,6 +43,38 @@ CREATE TABLE SOCIALS(
    user_id INT NOT NULL,
    PRIMARY KEY(id),
    FOREIGN KEY(user_id) REFERENCES USERS(user_id)
+);
+
+CREATE TABLE COMMENTS(
+   article_id INT AUTO_INCREMENT,
+   content VARCHAR(2000) ,
+   posted_on DATE,
+   PRIMARY KEY(article_id)
+);
+
+CREATE TABLE ARTICLES(
+   article_id INT AUTO_INCREMENT,
+   title VARCHAR(30) ,
+   content VARCHAR(2000) ,
+   release_date DATE,
+   description VARCHAR(100) ,
+   user_id INT NOT NULL,
+   article_id_1 INT NOT NULL,
+   PRIMARY KEY(article_id),
+   FOREIGN KEY(user_id) REFERENCES USERS(user_id),
+   FOREIGN KEY(article_id_1) REFERENCES COMMENTS(article_id)
+);
+
+CREATE TABLE OPINIONS(
+   opinion_id INT AUTO_INCREMENT,
+   opinion_value DOUBLE,
+   user_id INT NOT NULL,
+   article_id INT NOT NULL,
+   article_id_1 INT NOT NULL,
+   PRIMARY KEY(opinion_id),
+   FOREIGN KEY(user_id) REFERENCES USERS(user_id),
+   FOREIGN KEY(article_id) REFERENCES ARTICLES(article_id),
+   FOREIGN KEY(article_id_1) REFERENCES COMMENTS(article_id)
 );
 
 CREATE TABLE has(
