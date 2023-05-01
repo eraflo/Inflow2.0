@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+}
+
+/* Header */
+
+header {
+    height: 60px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 100%;
+}
+
+
+header nav #logo img {
+    height: 40px;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #000000;
+}
+
+header nav #main-header a {
+    padding: 0 10px;
+}
+
+
+/* Dropdown */
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style for dropdown content */
+.dropdown-content {
+    display: none; /* Hidden by default */
+    right: 20px;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 85px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  /* place a element on the left */
+.dropdown-content a {
+    display: block;
+    text-align: left;
+    padding: 10px;
+    justify-content: start;
+    color: #000000;
+}
+  
+  
+  /* Highlight dropdown options on hover */
+  .dropdown-content a:hover {
+    background-color: #eaeaea;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Highlight dropdown button when dropdown menu is open */
+  .dropdown:hover .dropbtn {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+
+
+
+
