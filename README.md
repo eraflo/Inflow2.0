@@ -99,3 +99,21 @@ avec InscriptionFormType le nom de la classe du formulaire (créée dans le doss
 ```
 php bin/console make:auth 
 ```
+
+## Webpack
+
+### Installation
+```
+composer require symfony/webpack-encore-bundle
+composer require encore
+npm install
+```
+
+### Génération du dossier build
+
+```
+npm run watch
+npm run dev-server
+npm run dev
+npm run build
+```
