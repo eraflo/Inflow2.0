@@ -111,9 +111,7 @@ npm install
 
 ### Génération du dossier build
 
-```
-npm run watch
-npm run dev-server
-npm run dev
-npm run build
-```
+- #### compile les assets + auto recompile quand changement des fichiers : ````npm run watch```
+- #### dev-server pour update le code sans rafraichir : ```npm run dev-server```
+- #### compile les assets 1 fois : ```npm run dev```
+- #### production build : ```npm run build```
