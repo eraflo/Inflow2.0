@@ -107,6 +107,7 @@ php bin/console make:auth
 composer require symfony/webpack-encore-bundle
 composer require encore
 npm install
+npm install file-loader@^6.0.0 --save-dev
 ```
 
 ### Génération du dossier build
