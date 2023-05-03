@@ -14,6 +14,7 @@
         {% endblock %}
     </head>
     <body>
+        {% if app.request.attributes.get('_route') not in ['app_login', 'app_registration'] %}
         <header>
             <nav>
                 <div id="logo">
@@ -26,9 +27,9 @@
                     <a href="#">Playlists</a>
                 </div>
                 <div id="member">
+                    <i class="fa-regular fa-user dropbtn" style="color: #ffffff;"></i>
                     {% if not is_granted('ROLE_USER') %}
                         <div class="dropdown">
-                            <button class="dropbtn">A</button>
                             <div class="dropdown-content">
                                 <a href="{{path('app_login')}}">Connexion</a>
                                 <a href="{{path('app_registration')}}">Inscription</a>
@@ -37,7 +38,6 @@
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <div class="dropdown">
-                            <button class="dropbtn">A</button>
                             <div class="dropdown-content">
                                 <a href="#">Mon compte</a>
                                 <a href="{{path('app_logout')}}">Déconnexion</a>
@@ -47,6 +47,7 @@
                 </div>
             </nav>
         </header>
+        {%endif%}
         {% block body %}{% endblock %}
     </body>
 </html>
