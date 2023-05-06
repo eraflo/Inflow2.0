@@ -34,10 +34,12 @@ class SpotifyController extends AbstractController
         $playlist = $search->playlists->items[0];
 
         //voir à rajouter la liste des sons
-
+        $music = $api->getPlaylistTracks($playlist->id);
+        $music = $music->items;
 
         return $this->render('spotify/playlist.html.twig', [
             'resultat' => $playlist,
+            'music' => $music,
         ]);
     }
 
