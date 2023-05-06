@@ -35,9 +35,11 @@
             <h3>{{track.track.name}}</h3>
             <p>{{track.track.artists[0].name}}</p>
             <img src="{{track.track.album.images[0].url}}" alt="">
-            <audio controls>
-                <source src="{{track.track.preview_url}}" type="audio/mpeg">
-            </audio>
+            {% if track.track.preview_url != null %}
+                <audio controls>
+                    <source src="{{track.track.preview_url}}" type="audio/mpeg">
+                </audio>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
