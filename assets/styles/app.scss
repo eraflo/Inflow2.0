@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 body {
@@ -13,6 +13,7 @@ body {
 /* Header */
 
 header {
+    overflow: hidden;
     background-image: url("../img/all/banner.png");
     background-size: cover;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 2vw));
