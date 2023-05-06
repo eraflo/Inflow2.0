@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inflow{% endblock %}
+
+{% block body %}
+    {%for album in albums%}
+
+        <div class="card">
+            <a href="{{path('app_spotify_album', {'name': album.name})}}">
+                <img class="card-img-top" src="{{album.images[0].url}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{album.name}}</h5>
+                </div>
+            </a>
+        </div>
+
+    {%endfor%}
+
+
+
+{% endblock %}

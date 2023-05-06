@@ -7,7 +7,7 @@
     {%for playlist in playlists%}
 
         <div class="card">
-            <a href="{{path('app_spotify', {'name': playlist.name})}}">
+            <a href="{{path('app_spotify_playlist', {'name': playlist.name})}}">
                 <img class="card-img-top" src="{{playlist.images[0].url}}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{playlist.name}}</h5>
