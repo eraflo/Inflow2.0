@@ -116,3 +116,10 @@ npm install file-loader@^6.0.0 --save-dev
 - #### dev-server pour update le code sans rafraichir : ```npm run dev-server```
 - #### compile les assets 1 fois : ```npm run dev```
 - #### production build : ```npm run build```
+
+## Spotify
+
+### Installation
+```
+composer require calliostro/spotify-web-api-bundle
+```
