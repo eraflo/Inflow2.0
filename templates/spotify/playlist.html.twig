@@ -23,6 +23,26 @@
     </div>
 </a>
 
+<div class="music">
+    <div class="row">
+        <div class="col-12">
+            <h2> Musiques </h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for track in music %}
+        <div class="col-12">
+            <h3>{{track.track.name}}</h3>
+            <p>{{track.track.artists[0].name}}</p>
+            <img src="{{track.track.album.images[0].url}}" alt="">
+            <audio controls>
+                <source src="{{track.track.preview_url}}" type="audio/mpeg">
+            </audio>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 
 
 
