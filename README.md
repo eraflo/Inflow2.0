@@ -124,6 +124,15 @@ npm install file-loader@^6.0.0 --save-dev
 composer require calliostro/spotify-web-api-bundle
 ```
 
+## Twitch
+
+### Installation
+```
+composer require league/oauth2-client
+```
+
 ## In case of packages / dependencies issues :
 
 try deleting package-lock.json and then run ```npm install``` again
+
+
