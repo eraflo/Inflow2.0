@@ -16,6 +16,9 @@ class RegistrationController extends AbstractController
     #[Route('/inscription', name: 'app_registration', methods: ['GET', 'POST'])]
     public function index(UserPasswordHasherInterface $passwordHasher, Request $request, EntityManagerInterface $em)
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
         // ... e.g. get the user data from a registration form
         $user = new Users();
         

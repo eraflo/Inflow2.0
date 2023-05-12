@@ -3,12 +3,10 @@
 {% block title %}Log in!{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/login.css') }}">
 {% endblock %}
 
 {% block body %}
-<form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -18,24 +16,30 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-    
-    <article class="column-left">
-        <section>
-            <h1>Connexion</h1>
-            {{form(form)}}
-        </section>
-        <section>
-            <p>Pas encore de compte ?
-            <a href="/inscription" class="btn btn-primary">Créer un compte</a>
-            </p>
-        </section>
-    </article>
+    <div class="container">
+        <article class="column-left">
+            <btn class="return-btn"><a href="/" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a></btn>
+            <section id="main-content">
+                <h1 class="title">Connexion</h1>
+                {{form_start(form)}}
+                {{form(form)}}
+                {{form_end(form)}}
+            </section>
+            <section id="not_registered">
+                <p>Pas encore de compte ?
+                <a href="/inscription" class="btn btn-primary">Créer un compte</a>
+                </p>
+            </section>
+        </article>
 
-    <article class="column-right">
-        <section>
-            <h1>Inflow</h1>
-        </section>
-    </article>
+        <article class="column-right">
+            <section>
+                <div id="logo">
+                    <a href="#"><img src="{{asset('build/images/logo.png')}}" alt="logo"></a>
+                </div>
+            </section>
+        </article>
+    </div>
 
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -48,5 +52,4 @@
         </div>
     #}
 
-</form>
 {% endblock %}

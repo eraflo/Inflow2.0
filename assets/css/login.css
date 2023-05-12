@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+}
+
+/* Séparer la page en partie gauche et partie droite */
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* Partie gauche */
+.column-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(180deg, #0454fc 0%, #04b0fc 100%);
+}
+
+/* Partie droite */
+.column-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* flèche de retour */
+.return-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+
+    border-radius: 50%;
+    padding: 5px;
+    color: #fff;
+    cursor: pointer;
+    animation: return 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.return-btn a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Emplacement avec le formulaire + titre */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+/* Titre */
+.title {
+    font-size: 50px;
+    font-weight: 900;
+
+    color: #fff;
+
+    margin-bottom: 15%;
+    text-align: center;
+    animation: title 0.5s ease-in-out;
+}
+
+
+/* Formulaire */
+#connexion_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-width: 400px;
+    height: 250px;
+    gap: 30px;
+    animation: form 0.5s ease-in-out;
+}
+
+/* Champs de saisie */
+/* les inputs prennent toutes la largeur du formulaire */
+input {
+    font-size: 14px;
+    font-weight: 200;
+
+    width: 100%;
+    height: 30px;
+
+    padding: 0 10px;
+    margin-top: 5px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
+}
+
+
+/* Label */
+label {
+    font-size: 16px;
+    font-weight: 200;
+
+    margin-left: 2px;
+}
+
+/* Bouton de connexion */
+#connexion_form_submit {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-align: center;
+
+    width: 50%;
+    height: 40px;
+
+    margin-left: 25%;
+
+    border: none;
+    border-radius: 5px;
+    outline: none;
+
+    background-color: #fff;
+    color: #000000c5;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+
+/* 
+
+/* Lien vers la page d'inscription */
+#not_registered {
+    font-size: 18px;
+    font-weight: 600;
+
+    color: #fff;
+
+    /* text-shadow: var(--border-letters); */
+
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 50px;
+    animation: link 0.5s ease-in-out;
+}
+
+#not_registered a {
+    color: #fff;
+
+    /* text-shadow: var(--border-letters); */
+
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    transition: all 0.5s ease-in-out;
+}
+
+/* partie droite titre en haut à droite */
+#logo img {
+    position: absolute;
+
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    top: 20px;
+    right: 60px;
+
+    animation: logo 0.5s ease-in-out;
+}
+
+/* --------HOVER-------- */
+
+/* transition du bouton de connexion */
+#connexion_form_submit:hover {
+    background-color: #000000c5;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+}
+
+/* transition du lien vers la page d'inscription */
+#not_registered a:hover {
+    font-size: large;
+    font-weight: 200;
+    transition: all 0.5s ease-in-out;
+}
+
+/* transition de la flèche de retour */
+.return-btn:hover {
+    background: #fff;
+    rotate: 360deg;
+    transition: all 0.5s ease-in-out;
+}
+
+.return-btn a:hover {
+    color: #0454fc;
+    transition: all 0.5s ease-in-out;
+}
+
+
+/* --------TRANSITIONS-------- */
+
+/* transition du titre */
+@keyframes title {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* transition du formulaire */
+@keyframes form {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* transition du lien vers la page d'inscription en fondu qui dézoom */
+@keyframes link {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* transition de la flèche de retour depuis la droite de la div */
+@keyframes return {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* transition du logo */
+@keyframes logo {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
