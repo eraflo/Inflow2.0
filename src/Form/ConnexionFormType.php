@@ -17,13 +17,13 @@ class ConnexionFormType extends AbstractType
     {
         $builder
         ->add('email', EmailType::class, [
-            'label' => 'Adresse email'
+            'label' => 'Adresse email',
         ])
         ->add('password', PasswordType::class, [
             'label' => 'Mot de passe'
         ])
         ->add('submit', SubmitType::class, [
-            'label' => 'Connexion',
+            'label' => 'Se connecter',
             'attr' => [
                 'class' => 'btn btn-primary'
             ]
