@@ -99,3 +99,40 @@ avec InscriptionFormType le nom de la classe du formulaire (créée dans le doss
 ```
 php bin/console make:auth 
 ```
+
+## Webpack
+
+### Installation
+```
+composer require symfony/webpack-encore-bundle
+composer require encore
+npm install
+npm install file-loader@^6.0.0 --save-dev
+```
+
+### Génération du dossier build
+
+- #### compile les assets + auto recompile quand changement des fichiers : ```npm run watch```
+- #### dev-server pour update le code sans rafraichir : ```npm run dev-server```
+- #### compile les assets 1 fois : ```npm run dev```
+- #### production build : ```npm run build```
+
+## Spotify
+
+### Installation
+```
+composer require calliostro/spotify-web-api-bundle
+```
+
+## Twitch
+
+### Installation
+```
+composer require league/oauth2-client
+```
+
+## In case of packages / dependencies issues :
+
+try deleting package-lock.json and then run ```npm install``` again
+
+

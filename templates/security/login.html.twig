@@ -22,18 +22,7 @@
     <article class="column-left">
         <section>
             <h1>Connexion</h1>
-            <form method="post">
-                <label for="username">Email:</label>
-                <input type="email" id="username" name="_username"/>
-            
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="_password"/>
-            
-
-                <input type="hidden" name="_csrf_token" value="{{csrf_token('authenticate')}}"/>
-            
-                <button type="submit">login</button>
-            </form>
+            {{form(form)}}
         </section>
         <section>
             <p>Pas encore de compte ?
@@ -47,10 +36,6 @@
             <h1>Inflow</h1>
         </section>
     </article>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
