@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CreateArticleFormType extends AbstractType
 {
@@ -17,6 +18,12 @@ class CreateArticleFormType extends AbstractType
             ->add('content', CKEditorType::class)
             ->add('release_date')
             ->add('description')
+            ->add('submit', SubmitType::class, [
+                'label' => 'Créer',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ])
         ;
     }
 
