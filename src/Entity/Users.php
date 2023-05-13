@@ -60,7 +60,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $owns;
 
     #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'users'), ORM\JoinTable(name: 'suscribed')]
-    private Collection $suscribed;
+    private Collection $subscribed;
 
     public function __construct()
     {
@@ -73,7 +73,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->set_ = new ArrayCollection();
         $this->has = new ArrayCollection();
         $this->owns = new ArrayCollection();
-        $this->suscribed = new ArrayCollection();
+        $this->subscribed = new ArrayCollection();
     }
 
     public function getRoles() : array
@@ -381,7 +381,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->owns;
     }
 
-    public function addOwn(Socials $own): self
+    public function addOwns(Socials $own): self
     {
         if (!$this->owns->contains($own)) {
             $this->owns->add($own);
@@ -391,7 +391,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeOwn(Socials $own): self
+    public function removeOwns(Socials $own): self
     {
         if ($this->owns->removeElement($own)) {
             // set the owning side to null (unless already changed)
@@ -406,15 +406,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Categories>
      */
-    public function getSuscribed(): Collection
+    public function getSubscribed(): Collection
     {
-        return $this->suscribed;
+        return $this->subscribed;
     }
 
-    public function addSuscribed(Categories $suscribed): self
+    public function addSubscribed(Categories $suscribed): self
     {
-        if (!$this->suscribed->contains($suscribed)) {
-            $this->suscribed->add($suscribed);
+        if (!$this->subscribed->contains($suscribed)) {
+            $this->subscribed->add($suscribed);
         }
 
         return $this;
@@ -422,7 +422,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeSuscribed(Categories $suscribed): self
     {
-        $this->suscribed->removeElement($suscribed);
+        $this->subscribed->removeElement($suscribed);
 
         return $this;
     }

@@ -19,6 +19,7 @@ header {
     height: 120px;
     padding-bottom: 20px;
     z-index: 1;
+    overflow: visible;
 }
 
 header:before {
@@ -42,7 +43,8 @@ header:after {
     left:0;
     right:0;
     bottom:0;
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% + 2px), 0 calc(100% - 2vw + 2px));
+    height: calc(102%);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100%), 0 calc(100% - 2vw));
     background-color: #000000;
     z-index: -2;
 }

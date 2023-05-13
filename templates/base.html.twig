@@ -21,10 +21,10 @@
                         <a href="#"><img src="{{asset('build/images/logo.png')}}" alt="logo"></a>
                     </div>
                     <div id="main-header">
-                        <a href="/">Accueil</a>
-                        <a href="#">Article</a>
-                        <a href="#">Vidéos</a>
-                        <a href="/playlists">Playlists</a>
+                        <a href="{{path('app_home')}}">Accueil</a>
+                        <a href="{{path('app_articles')}}">Article</a>
+                        <a href="{#path('app_videos')#}">Vidéos</a>
+                        <a href="{{path('app_spotify_list')}}">Playlists</a>
                     </div>
                     <div id="member">
                         <i class="fa-regular fa-user dropbtn" style="color: #ffffff;"></i>
@@ -35,11 +35,12 @@
                                     <a href="{{path('app_registration')}}">Inscription</a>
                                 </div>
                             </div>
-                        {% endif %}
-                        {% if is_granted('ROLE_USER') %}
+                        {% else %}
                             <div class="dropdown">
                                 <div class="dropdown-content">
-                                    <a href="#">Mon compte</a>
+                                {% if app.request.attributes.get('_route') not in ['app_account'] %}
+                                    <a href="{{path('app_account', {id: app.user.id})}}">Mon compte</a>
+                                {% endif %}
                                     <a href="{{path('app_logout')}}">Déconnexion</a>
                                 </div>
                             </div>
@@ -47,7 +48,7 @@
                     </div>
                 </nav>
             </header>
-        {%endif%}
+        {% endif %}
         <div class="main">
             {% block body %}{% endblock %}
         </div>

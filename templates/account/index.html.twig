@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% block body %}
+<div>
+{% for article in user.getArticles %}
+    article
+{% endfor %}
+</div>
+{% endblock %}

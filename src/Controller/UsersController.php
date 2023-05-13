@@ -12,5 +12,5 @@ use App\Form\InscriptionFormType;
 class UsersController extends AbstractController
 {
 
-
+    
 }
