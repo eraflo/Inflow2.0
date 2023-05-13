@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* Partie gauche */
+.column-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: -2;
+    background: linear-gradient(180deg, #0454fc 0%, #04b0fc 100%);
+}
+
+/* Partie droite */
+.column-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #0454fc 0%, #04b0fc 100%);
+}
+
+/* background de la partie gauche */
+/* il doit passer sous les autres éléments de la partie gauche */
+#background {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+
+    background: #00000080;
+    width: 95%;
+    height: 98%;
+    padding: 20px;
+
+    margin-left: 10px;
+   
+
+    border: none;
+    border-radius: 20px;
+}
+
+/* partie droite titre en haut à gauche */
+#logo {
+    flex: 0.1;
+}
+
+#logo img {
+    width: 100px;
+    height: 100px;
+    animation: logo 0.5s ease-in-out;
+}
+
+/* title */
+#title {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+
+    color: #fff;
+
+    margin-top: 20%;
+    margin-left: 20%;
+}
+
+#title h1 {
+    font-size: 48px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+#title h2 {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+/* img-main */
+#img-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 5%;
+
+    border: none;
+    border-radius: 5px;
+
+}
+
+/* flèche de retour */
+.return-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+
+    border-radius: 50%;
+    padding: 5px;
+    color: #fff;
+    cursor: pointer;
+    animation: return 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.return-btn a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Déjà inscrit + titre */
+#registered {
+    flex: 1;
+    width: 100%;
+    height: 80%;
+
+    padding: 10%;
+    animation: link 0.5s ease-in-out;
+}
+
+#registered h3 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+#registered p {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+#registered a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    transition: all 0.5s ease-in-out;
+}
+
+/* formulaire */
+#form {
+    flex: 20;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 50px;
+
+    width: 80%;
+    height: 100%;
+}
+
+#form form #inscription_form div {
+    margin: 20px;
+}
+
+#form form input[type="text"], #form form input[type="password"], #form form input[type="email"] {
+    font-size: 14px;
+    font-weight: 200;
+
+    width: 100%;
+    height: 30px;
+
+    padding: 0 10px;
+    margin-top: 5px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
+    animation: form 0.5s ease-in-out;
+}
+
+#form form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    margin-left: 10px;
+    transform: translateY(4px);
+    cursor: pointer;
+    animation: form 0.5s ease-in-out;
+}
+
+/* label du checkbox uniquement */
+#form form label[for="checkbox"] {
+    font-size: 16px !important;
+    font-weight: 400;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    animation: form 0.5s ease-in-out;
+}
+
+
+#form form button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    
+    font-size: 16px;
+    font-weight: 400;
+    
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+
+    background: #fff;
+    cursor: pointer;
+}
+
+#form form label {
+    font-size: 16px;
+    font-weight: 200;
+
+    margin-left: 2px;
+    animation: form 0.5s ease-in-out;
+}
+
+
+
+/* --------Trasition-------- */
+
+/* transition de la flèche de retour */
+.return-btn:hover {
+    background: #fff;
+    rotate: 360deg;
+    transition: all 0.5s ease-in-out;
+}
+
+.return-btn a:hover {
+    color: #0454fc;
+    transition: all 0.5s ease-in-out;
+}
+
+/* transition du lien vers la page de connexion */
+#registered a:hover {
+    font-size: large;
+    font-weight: 200;
+    transition: all 0.5s ease-in-out;
+}
+
+
+/* --------TRANSITIONS-------- */
+
+/* transition du titre */
+@keyframes title {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* transition du formulaire */
+@keyframes form {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* transition du lien vers la page d'inscription en fondu qui dézoom */
+@keyframes link {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* transition de la flèche de retour depuis la droite de la div */
+@keyframes return {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* transition du logo */
+@keyframes logo {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

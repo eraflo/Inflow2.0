@@ -95,7 +95,6 @@ body {
 }
 
 /* Champs de saisie */
-/* les inputs prennent toutes la largeur du formulaire */
 input {
     font-size: 14px;
     font-weight: 200;
@@ -151,8 +150,6 @@ label {
 
     color: #fff;
 
-    /* text-shadow: var(--border-letters); */
-
     position: fixed;
     bottom: 0;
     margin-bottom: 50px;
@@ -162,7 +159,6 @@ label {
 #not_registered a {
     color: #fff;
 
-    /* text-shadow: var(--border-letters); */
 
     text-decoration: none;
     font-size: 16px;
