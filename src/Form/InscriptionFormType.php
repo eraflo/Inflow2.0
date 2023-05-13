@@ -35,6 +35,7 @@ class InscriptionFormType extends AbstractType
             ->add('termsAccepted', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => new IsTrue(),
+                'label' => 'J\'accepte les conditions générales d\'utilisation'
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer mon compte',

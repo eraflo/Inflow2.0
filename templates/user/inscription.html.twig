@@ -1,32 +1,42 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/register.css') }}">
+{% endblock %}
+
 {% block body%}
 
-    <article class="column-left">
-        <section>
-            <span>Inflow</span>
-        </section>
+    <div class="container">
+        <article class="column-left">
+            <div id="background">
+                <section>
+                    <div id="logo">
+                        <a href="#"><img src="{{asset('build/images/logo.png')}}" alt="logo"></a>
+                    </div>
+                </section>
 
-        <section>
-            <h1>Titre accrocheur</h1>
-            <h2>Commentaire accrocheur</h2>
-        </section>
+                <section id="title">
+                    <h1>Titre accrocheur</h1>
+                    <h2>Commentaire accrocheur</h2>
+                </section>
 
-        <section>
-            <img src="http://placehold.it/300x300" alt="Image accrocheuse">
-        </section>
-    </article>
+                <section id="img-main">
+                    <img src="http://placehold.it/300x300" alt="Image accrocheuse">
+                </section>
+            </article>
 
-    <article class="column-right">
-        <section>
-            <h3> S'inscrire </h3>
-            <p>Possède déjà un compte ? <a href="/login">C'est par ici</a></p>
-        </section>
+            <article class="column-right">
+                <btn class="return-btn"><a href="/" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i></a></btn>
+                <section id="registered">
+                    <h3> S'inscrire </h3>
+                    <p>Possède déjà un compte ? <a href="/login">C'est par ici</a></p>
+                </section>
 
-        <section>
-            {{ form(inscriptionForm) }}
-        </section>
-
-    </article>
+                <section id="form">
+                    {{ form(inscriptionForm) }}
+                </section>
+            </div>
+        </article>
+    </div>
 
 {% endblock %}
