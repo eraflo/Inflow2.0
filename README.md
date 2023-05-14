@@ -131,6 +131,15 @@ composer require calliostro/spotify-web-api-bundle
 composer require league/oauth2-client
 ```
 
+## CKEditor
+
+### Installation
+```
+composer require friendsofsymfony/ckeditor-bundle
+php bin/console ckeditor:install
+php bin/console assets:install public 
+```
+
 ## In case of packages / dependencies issues :
 
 try deleting package-lock.json and then run ```npm install``` again
