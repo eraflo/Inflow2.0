@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello YoutubeController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {%for video in videos%}
+            <div class="card">
+                <div class="card-header">
+                    <h1>{{video.snippet.title}}</h1>
+                </div>
+                <div class="card-body">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{video.id.videoId}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <p>{{video.snippet.description}}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_home') }}" class="btn btn-primary">Back to homepage</a>
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="btn btn-primary">Watch on Youtube</a>
+
+                </div>
+            </div>
+        {% endfor %}
+        {#Pagination#}
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ path('app_youtube', {'page': page - 1}) }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+            <span>{{ page }}</span>
+            {% if nbVideos == 10 %}
+                <a href="{{ path('app_youtube', {'page': page + 1}) }}" class="btn btn-primary">Next</a>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

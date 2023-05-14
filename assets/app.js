@@ -11,10 +11,6 @@ import './styles/app.scss';
 // start the Stimulus application
 import './bootstrap';
 
-//img
-import './img/all/logo.png';
-import './img/all/banner.png';
-
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
