@@ -17,10 +17,6 @@ class YoutubeController extends AbstractController
     #[Route('/videos/youtube/{page}', name: 'app_youtube')]
     public function index($page = 1): Response
     {
-        //$url = self::baseURL . 'search?part=snippet&channelId=' . self::CHANNEL_ID . '&order=date&type=video&key=' . self::KEY;
-        //$url = file_get_contents($url);
-
-        //$videos = json_decode($url);
 
         $youtube = new Youtube(['key' => self::KEY]);
 
