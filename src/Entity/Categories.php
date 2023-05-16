@@ -21,7 +21,7 @@ class Categories
     #[ORM\Column(length: 255)]
     private ?string $img_path = null;
 
-    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'suscribed')]
+    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'subscribed')]
     private Collection $users;
 
     #[ORM\ManyToMany(targetEntity: Articles::class, mappedBy: 'includes')]
@@ -81,7 +81,7 @@ class Categories
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->addSuscribed($this);
+            $user->addSubscribed($this);
         }
 
         return $this;
@@ -108,7 +108,7 @@ class Categories
     {
         if (!$this->articles->contains($article)) {
             $this->articles->add($article);
-            $article->addInclude($this);
+            $article->addIncludes($this);
         }
 
         return $this;
@@ -117,7 +117,7 @@ class Categories
     public function removeArticle(Articles $article): self
     {
         if ($this->articles->removeElement($article)) {
-            $article->removeInclude($this);
+            $article->removeIncludes($this);
         }
 
         return $this;

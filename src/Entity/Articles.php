@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
 class Articles
@@ -17,15 +18,18 @@ class Articles
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotNull]
     private ?string $title = null;
 
     #[ORM\Column(length: 5000)]
+    #[Assert\NotNull]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $release_date = null;
 
     #[ORM\Column(length: 200)]
+    #[Assert\NotNull]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
@@ -39,6 +43,7 @@ class Articles
     private Collection $read_by;
 
     #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'articles'), ORM\JoinTable(name: 'includes')]
+    #[Assert\NotNull]
     private Collection $includes;
 
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'articles'), ORM\JoinTable(name: 'concerns')]
@@ -178,23 +183,32 @@ class Articles
     /**
      * @return Collection<int, Categories>
      */
+    public function setIncludes(Categories $includes): self
+    {
+        if (!$this->includes->contains($includes)) {
+            $this->includes->add($includes);
+        }
+        
+        return $this;
+    }
+
     public function getIncludes(): Collection
     {
         return $this->includes;
     }
 
-    public function addInclude(Categories $include): self
+    public function addIncludes(Categories $includes): self
     {
-        if (!$this->includes->contains($include)) {
-            $this->includes->add($include);
+        if (!$this->includes->contains($includes)) {
+            $this->includes->add($includes);
         }
 
         return $this;
     }
 
-    public function removeInclude(Categories $include): self
+    public function removeIncludes(Categories $includes): self
     {
-        $this->includes->removeElement($include);
+        $this->includes->removeElement($includes);
 
         return $this;
     }
@@ -207,18 +221,18 @@ class Articles
         return $this->concerns;
     }
 
-    public function addConcern(Tags $concern): self
+    public function addConcerns(Tags $concerns): self
     {
-        if (!$this->concerns->contains($concern)) {
-            $this->concerns->add($concern);
+        if (!$this->concerns->contains($concerns)) {
+            $this->concerns->add($concerns);
         }
 
         return $this;
     }
 
-    public function removeConcern(Tags $concern): self
+    public function removeConcerns(Tags $concerns): self
     {
-        $this->concerns->removeElement($concern);
+        $this->concerns->removeElement($concerns);
 
         return $this;
     }
