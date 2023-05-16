@@ -30,7 +30,7 @@ class Categories
     #[ORM\ManyToOne(inversedBy: 'supervises')]
     private ?Categories $sub = null;
 
-    #[ORM\OneToMany(mappedBy: 'sub', targetEntity: Categories::class)]
+    #[ORM\OneToMany(mappedBy: 'subscribed', targetEntity: Categories::class)]
     private Collection $supervises;
 
     public function __construct()
@@ -81,7 +81,7 @@ class Categories
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->addSubscribed($this);
+            $user->addSuscribed($this);
         }
 
         return $this;
