@@ -17,6 +17,7 @@ Encore
     // img
     .copyFiles({
         from: './assets/img/all',
+        from: './assets/img/all',
         to: 'img/[path][name].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
