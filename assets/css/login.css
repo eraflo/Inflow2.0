@@ -16,7 +16,33 @@ body {
     display: flex;
     flex-direction: row;
     height: 100vh;
+    background: url("../img/all/fond_connexion.png"), url("../img/all/test.png");
+    background-position: left, right;
+    background-repeat: no-repeat, no-repeat;
+    background-blend-mode: overlay;
+    background-size: 110vw 100vh, 52vw  100vh;
 }
+
+.container::before, .container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: calc((100vw - 55vw) / 2);
+    height: 100vh;
+    pointer-events: none;
+}
+
+.container::before {
+    left: 0;
+    background: linear-gradient(to right, #000000c5, transparent);
+}
+
+.container::after {
+    right: 0;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+}
+
+
 
 /* Partie gauche */
 .column-left {
@@ -26,9 +52,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* background: linear-gradient(180deg, #0454fc 0%, #04b0fc 100%); */
-    background: url("../img/all/fond_connexion.png");
-    background-position-x: 15%;
 }
 
 /* Partie droite */
