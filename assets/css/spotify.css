@@ -1,0 +1,255 @@
+/* ====================== Liste Playlist ====================== */
+
+.container-fluid {
+    padding: 0;
+}
+
+.page-title {
+    /* Centre le titre */
+    text-align: center;
+
+    /* Ajoute une ombre portée */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+
+    /* Box plus petite */
+    padding: 10px 20px;
+
+    /* div plus petite */
+    width: 50%;
+
+    /* centre la div */
+    margin: auto;
+
+    /* Ajoute une transition sur la propriété "all" */
+    transition: all 0.3s ease;
+
+    /* Grossit le texte */
+    font-size: 4em;
+
+    /* arrondi les coins */
+    border-radius: 10px;
+
+    /* Couleur de fond */
+    /* couleur de spotify */
+    background-color: #1DB954;
+
+    /* espace en bas */
+    margin-bottom: 50px;
+
+    /* espace en haut */
+    margin-top: 50px;
+
+    /* espacement du texte très rapproché */
+    letter-spacing: -2px;
+
+    /* ombre texte */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    
+}
+
+#spotify-logo {
+    /* C'est un logo, donc on le rend plus petit */
+    width: 50px;
+    height: 50px;
+
+    /* On le centre */
+    margin: auto;
+
+    /* On le rend rond */
+    border-radius: 50%;
+
+    /* On le rend plus visible */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.page-title h1 {
+    /* On enlève les marges */
+    margin: 0;
+
+    /* On enlève le soulignement */
+    text-decoration: none;
+}
+
+.content {
+    /* On centre le contenu */
+    text-align: center;
+
+    /* On ajoute une ombre portée */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+
+    /* On arrondi les coins */
+    border-radius: 10px;
+
+    /* On ajoute une transition sur la propriété "all" */
+    transition: all 0.3s ease;
+
+
+    /* On ajoute un espacement en haut */
+    margin-top: 50px;
+
+    /* On ajoute un espacement en bas */
+    margin-bottom: 50px;
+
+    /* On ajoute un petit espacement à gauche et à droite */
+    margin-left: 5%;
+    margin-right: 5%;
+
+    /* On ajoute un espacement en haut et en bas */
+    padding: 50px 0;
+
+    /* On ajoute un espacement à gauche et à droite */
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.card {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* taille de la carte */
+    width: 80%;
+    height: 100%;
+
+    /* On centre la carte */
+    margin: auto;
+
+    /* On ajoute une ombre portée */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+
+    /* On arrondi les coins */
+    border-radius: 10px;
+
+    /* marges */
+    margin-bottom: 50px;
+
+    animation: card-inverse-size 0.5s ease forwards;
+    animation-delay: 0s;
+}
+
+.card::after {
+    content: '';
+    animation: card-inverse-pos 0.5s ease forwards;
+    animation-delay: 0.5s;
+    display: none;
+}
+
+.card:hover {
+
+    background-size: 70% auto;
+    background-position: left center;
+    /* animation card */
+    animation: card 0.5s ease forwards;
+}
+
+
+.card a {
+    /* On enlève le soulignement */
+    text-decoration: none;
+
+
+}
+
+.card-body {
+    display: hidden;
+
+    /* cache le texte */
+    opacity: 0;
+
+    /* taille du texte */
+    font-size: 150%;
+
+    /* couleur du texte */
+    color: black;
+
+    /* taille de la div */
+    width: 30%;
+    height: 100%;
+
+    margin-left: 70%;
+
+    /* arrondi les bords à droite */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    /* background glass effect */
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+
+}
+
+.card:hover .card-body {
+    display: block;
+
+    /* affiche le texte */
+    opacity: 1;
+
+    /* animation card */
+    animation: card-title 0.5s ease forwards;
+}
+
+.card-body h5 {
+
+    z-index: 1;
+    /* style du texte */
+    font-weight: bold;
+
+    /* espacement du texte */
+    letter-spacing: -1px;
+
+    /* centre le texte verticalement */
+    line-height: 300px;
+
+    /* effet lumineux */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+
+}
+
+/* animations */
+
+@keyframes card-inverse-size {
+    0% {
+        background-size: 70% auto;
+        background-position: left center;
+    }
+    
+    10% {
+        background-size: 100% auto;
+    }
+}
+
+@keyframes card-inverse-pos {
+    0% {
+        background-size: 100% auto;
+        background-position: left center;
+    }
+
+    100% {
+        background-position: center;
+    }
+}
+
+@keyframes card {
+    0% {
+        background-size: 100% auto;
+    }
+
+    100% {
+        background-size: 70% auto;
+    }
+}
+
+@keyframes card-title {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+

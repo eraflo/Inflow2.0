@@ -2,20 +2,30 @@
 
 {% block title %}Inflow{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/css/spotify.css') }}">
+{% endblock %}
+
 {% block body %}
 
-    {%for playlist in playlists%}
-
-        <div class="card">
-            <a href="{{path('app_spotify_playlist', {'name': playlist.name})}}">
-                <img class="card-img-top" src="{{playlist.images[0].url}}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{playlist.name}}</h5>
-                </div>
-            </a>
+    <div class="container-fluid">
+        <div class="page-title">
+            <img src="{{ asset('build/img/spotify_image1.png') }}" alt="spotify" id="spotify-logo">
+            <h1>Spotify</h1>
         </div>
+        <div class="content">
+            {%for playlist in playlists%}
+                <div class="card" style="background-image: url('{{playlist.images[0].url}}')">
+                    <a href="{{path('app_spotify_playlist', {'name': playlist.name})}}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{playlist.name}}</h5>
+                        </div>
+                    </a>
+                </div>
 
-    {%endfor%}
+            {%endfor%}
+        </div>
+    </div>
 
 
 
