@@ -117,6 +117,12 @@ npm install file-loader@^6.0.0 --save-dev
 - #### compile les assets 1 fois : ```npm run dev```
 - #### production build : ```npm run build```
 
+### Bootstrap avec WebpackEncore
+
+- ```npm install sass-loader node-sass --save-dev```
+- Puis : ```npm install bootstrap ```
+- Et pour fix les erreurs : ```npm audit fix```
+
 ## Spotify
 
 ### Installation
