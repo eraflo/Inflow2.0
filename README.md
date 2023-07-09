@@ -123,6 +123,12 @@ npm install file-loader@^6.0.0 --save-dev
 - Puis : ```npm install bootstrap ```
 - Et pour fix les erreurs : ```npm audit fix```
 
+### JQuery avec WebpackEncore
+
+```
+npm install jquery @popperjs/core --save-dev
+```
+
 ## Spotify
 
 ### Installation
