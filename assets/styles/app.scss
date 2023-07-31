@@ -1,3 +1,6 @@
+@import "~bootstrap/scss/bootstrap";
+@import "custom";
+
 * {
     margin: 0;
     padding: 0;
@@ -12,10 +15,10 @@ body::-webkit-scrollbar {
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-image: url("../img/all/background-resized.png");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    // background-image: url("../img/all/background-resized.png");
+    // background-position: center;
+    // background-size: cover;
+    // background-repeat: no-repeat;
 }
 
 /* Header */
@@ -178,5 +181,8 @@ header nav #main-header a {
 }
 
 
-
+/* Carousel */
+// .background-text {
+//     background-color: white;
+// }
 

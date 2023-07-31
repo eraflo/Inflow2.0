@@ -18,6 +18,7 @@ class ConnexionFormType extends AbstractType
         $builder
         ->add('email', EmailType::class, [
             'label' => 'Adresse email',
+            'autocomplete' => true,
         ])
         ->add('password', PasswordType::class, [
             'label' => 'Mot de passe'

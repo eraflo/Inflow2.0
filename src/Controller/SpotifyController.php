@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Google\Service\YouTube\Playlist;
 use SpotifyWebAPI\SpotifyWebAPI;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,7 @@ class SpotifyController extends AbstractController
     #[Route('/playlists', name: 'app_spotify_list', methods: ['GET'])]
     public function index(SpotifyWebAPI $api): Response
     {
-        $playlists = $api->getUserPlaylists(self::UserId);
-        $playlists = $playlists->items;
+        $playlists = $this->Playlists($api);
 
         return $this->render('spotify/index.html.twig', [
             'playlists' => $playlists,
@@ -90,6 +90,14 @@ class SpotifyController extends AbstractController
             'resultat' => $albumFin,
         ]);
 
+    }
+
+    // Playlists liste
+    public function Playlists(SpotifyWebAPI $api) {
+        $playlists = $api->getUserPlaylists(self::UserId);
+        $playlists = $playlists->items;
+
+        return $playlists;
     }
 
     // Test si correspond à un artiste particulier

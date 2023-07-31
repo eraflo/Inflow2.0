@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/home.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -11,5 +12,34 @@
 {% endblock %}
 
 {% block body %}
-
+    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+        <div class="carousel-indicators">
+            {%for playlist in playlists%}
+                {%if playlist.id == playlists[0].id%}
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{loop.index - 1}}" class="active" aria-current="true" aria-label="Slide 1"></button>
+                {%else%}
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="{{loop.index - 1}}" aria-label="Slide {{loop.index - 1}}"></button>
+                {%endif%}
+            {%endfor%}
+        </div>
+        <div class="carousel-inner">
+            {%for playlist in playlists%}
+                <div class="carousel-item  {%if loop.index - 1 == 0%} active {%endif%}">
+                    <img src="{{playlist.images[0].url}}" class="d-block w-100 img-carousel" alt="{{playlist.name}}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{playlist.name}}</h5>
+                        <p>{{playlist.description}}</p>
+                    </div>
+                </div>
+            {%endfor%}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 {% endblock %}

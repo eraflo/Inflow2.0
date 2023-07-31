@@ -14,3 +14,10 @@ import './bootstrap';
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
+/* JQuery */
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+/* Bootstrap */
+require('bootstrap');
+

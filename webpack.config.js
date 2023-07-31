@@ -30,11 +30,12 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addStyleEntry('css/login', './assets/css/login.css')
+    .addStyleEntry('css/home', './assets/css/home.css')
     .addStyleEntry('css/register', './assets/css/register.css')
     .addStyleEntry('css/youtube', './assets/css/youtube.css')
     .addStyleEntry('css/pagination', './assets/css/pagination.css')
     .addStyleEntry('css/spotify', './assets/css/spotify.css')
-    .addStyleEntry('css/spotify', './assets/css/spotify-musics.css')
+    .addStyleEntry('css/spotify-musics', './assets/css/spotify-musics.css')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

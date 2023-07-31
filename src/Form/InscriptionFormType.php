@@ -19,10 +19,12 @@ class InscriptionFormType extends AbstractType
     {
         $builder
             ->add('username', null, [
-                'label' => 'Nom d\'utilisateur'
+                'label' => 'Nom d\'utilisateur',
+                'autocomplete' => true,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse email'
+                'label' => 'Adresse email',
+                'autocomplete' => true,
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
