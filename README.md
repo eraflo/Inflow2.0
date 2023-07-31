@@ -166,6 +166,13 @@ php bin/console assets:install public
 composer require symfony/stimulus-bundle
 ```
 
+### AutoComplete
+```
+npm install auto-complete
+composer require symfony/ux-autocomplete
+```
+
+
 ## In case of packages / dependencies issues :
 
 try deleting package-lock.json and then run ```npm install``` again
