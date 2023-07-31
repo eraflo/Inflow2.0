@@ -159,6 +159,13 @@ php bin/console ckeditor:install
 php bin/console assets:install public 
 ```
 
+## Stimulus-Bundle
+
+### Installation
+```
+composer require symfony/stimulus-bundle
+```
+
 ## In case of packages / dependencies issues :
 
 try deleting package-lock.json and then run ```npm install``` again
