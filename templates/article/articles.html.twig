@@ -1,9 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inflow{% endblock %}
-
 {% block body %}
- 
-
-
+<div>
+{% for article in articles %}
+	<div class="articleShow">
+		<div class="articleTitle">{{article.title}}</div>
+		<div class="articleWithMD">
+			<div class="articleMetaData">
+				<div class="articleAuthor">
+					Brought to you by
+					<a href="{{ path('app_users_show', {id: article.user.id}) }}">@{{article.user.username}}</a>
+				</div>
+				<div class="writtenAt">
+					le
+					{{ article.releaseDate|date('d/m/Y') }}
+				</div>
+				<div class="categoriesDisplay">
+					{% for category in article.includes %}
+						{{ category.name }}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="articleContent">{{article.content|raw}}<a class="read" href="{{ path('app_article', {id: article.id}) }}">Lire...</a></div>
+		</div>
+	</div>
+{% endfor %}
+</div>
 {% endblock %}

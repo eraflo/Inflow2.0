@@ -1,44 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inflow{% endblock %}
+{% block title %}Inflow
+{% endblock %}
 
 {% block body %}
-    <p>Article</p>
-    {{ form_start(articleForm) }}
-        {{ form_errors(articleForm) }}
-        {# form_widget(articleForm.concerns) #}
-        {# form_row(articleForm.concerns.vars.prototype) #}
-        {# the data-index attribute is required for the JavaScript code below #}
-<ul class="tags"
-    data-index="{{ articleForm.concerns|length > 0 ? articleForm.concerns|last.vars.name + 1 : 0 }}"
-    data-prototype="{{ form_widget(articleForm.concerns.vars.prototype)|e('html_attr') }}"
-></ul>
-<button type="button" class="add_item_link" data-collection-holder-class="tags">Add a tag</button>
-    {{ form_end(articleForm) }}
-<script>
-const addFormToCollection = (e) => {
-  const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
-  const item = document.createElement('li');
+	{{ form_start(articleForm) }}
+	{{ form_errors(articleForm) }}
 
-  item.innerHTML = collectionHolder
-    .dataset
-    .prototype
-    .replace(
-      /__name__/g,
-      collectionHolder.dataset.index
-    );
+	{{ form_row(articleForm.title) }}
+	{{ form_row(articleForm.content) }}
+	{{ form_row(articleForm.release_date) }}
+	{{ form_row(articleForm.description) }}
+	{{ form_row(articleForm.categories) }}
+	<button id="categoryAdder">Ajouter</button>
+	<div id='addedCategoriesContainer'>
+		{% for category in article.includes %}
+		<div class="addedCategoryDisplay" value="{{ category.id }}">
+			<p>
+				{{ category.name }}
+			</p>
+			<button>
+				x
+			</button>
+		</div>
+		{% endfor %}
+	</div>
+	{# {{dump(article.includes)}} #}
 
-  collectionHolder.appendChild(item);
+	</select>
+	{# form_choices() is also available but it's more convenient to handle choices with the extension formview_prop()
+		(https://stackoverflow.com/questions/47864052/twig-iterating-over-form-fields)
+	to select categories the article already has (when checking if option.data in article.includes.toArray()) #}
 
-  collectionHolder.dataset.index++;
-};
+	{{ form_errors(articleForm.includes) }}
+	{# Adding the form name with field_name() to avoid automatic re-rendering (try with articleForm.includes.vars.full_name instead to understand) #}
+		<select name="{{ field_name(articleForm.includes) }}" id="{{ articleForm.includes.vars.id }}" class="{{ articleForm.includes.vars.attr.class }}" multiple> 
+		{% for option in formview_prop(articleForm.includes, 'vars').choices %}
+			<option value="{{ option.value }}" {% if option.data in article.includes.toArray() %} selected {% endif %}>
+				{{ option.label }}
+			</option>
+		{% endfor %}
+	</select>
 
-document
-  .querySelectorAll('.add_item_link')
-  .forEach(btn => {
-      btn.addEventListener("click", addFormToCollection)
-  });
-</script>
+	{# form_widget(articleForm.concerns) #}
+	{# form_row(articleForm.concerns.vars.prototype) #}
+	{# <ul
+		class="includes" data-index="{{ articleForm.includes|length > 0 ? articleForm.includes|last.vars.name + 1 : 0 }}" data-prototype="{{ form_label(articleForm.includes.vars.prototype.name)|e('html_attr') }} {{ form_widget(articleForm.includes.vars.prototype.name)|e('html_attr') }}">
+		{% for category in articleForm.includes %}
+			<li>{{ form_row(category.name) }}</li>
+		{% endfor %}
+	</ul> #}
+	{# <button type="button" class="add_item_link" data-collection-holder-class="includes">Ajouter</button> #}
+
+	{{ form_end(articleForm) }}
+	{{ encore_entry_script_tags('article') }}
 
 {% endblock %}

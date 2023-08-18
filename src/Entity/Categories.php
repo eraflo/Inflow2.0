@@ -21,7 +21,7 @@ class Categories
     #[ORM\Column(length: 255)]
     private ?string $img_path = null;
 
-    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'subscribed')]
+    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'subscriptions')]
     private Collection $users;
 
     #[ORM\ManyToMany(targetEntity: Articles::class, mappedBy: 'includes')]
@@ -30,7 +30,7 @@ class Categories
     #[ORM\ManyToOne(inversedBy: 'supervises')]
     private ?Categories $sub = null;
 
-    #[ORM\OneToMany(mappedBy: 'subscribed', targetEntity: Categories::class)]
+    #[ORM\OneToMany(mappedBy: 'sub', targetEntity: Categories::class)]
     private Collection $supervises;
 
     public function __construct()

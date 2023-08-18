@@ -12,5 +12,12 @@ use App\Form\InscriptionFormType;
 class UsersController extends AbstractController
 {
 
+    #[Route('users/{id}', name: 'app_users_show', methods: ['GET'])]
+    public function show($id, EntityManagerInterface $em) {
+        $user = $em->getRepository(Users::class)->find($id);
+        return $this->render('users/user.html.twig', [
+            'user' => $user,
+        ]);
+    }
 
 }
