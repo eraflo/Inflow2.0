@@ -5,6 +5,14 @@ let loadingAnimation = require('./modules/loadingAnimation.js');
 document.addEventListener('DOMContentLoaded', () => {
 
     let articleId = document.querySelector('.articleShow').getAttribute('data-article-id');
+
+    let commentAdderUrl = '/articles/' + articleId + '/comments/add';
+    let commentEditionUrl = '/articles/' + articleId + '/comments/{comment_id}/edit';
+    let opinionAdderUrl = '/articles/' + articleId + '/comments/{comment_id}/opinions/add';
+    let commentDeletionUrl = '/articles/' + articleId + '/comments/{comment_id}/delete';
+    let userProfilePath = '/users/{user_id}';
+    let getRepliesUrl = '/articles/' + articleId + '/comments/{comment_id}/replies';
+
     let commentsDiv = document.querySelector('div.comments');
 
     let commentTemplate = document.querySelector('.comment.template').cloneNode(true);
@@ -78,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Main Thread Comments
 
             mainThreadCommentId = comment.getAttribute('data-comment-id');
+        } else {
+            mainThreadCommentId = comment.closest('.replies').closest('.comment').getAttribute('data-comment-id');
         }
 
         //let replies = comment.closest('div.comment-with-replies').querySelector('.replies');
@@ -102,19 +112,27 @@ document.addEventListener('DOMContentLoaded', () => {
             '/users/{user_id}',
             commentTemplate
         );
-    }
 
+        // handling showing replies to a comment
 
+        let linksWithReplies = comment.nextElementSibling;
+        let showRepliesLink = linksWithReplies.querySelector('a.show-replies');
+        let hideRepliesLink = linksWithReplies.querySelector('a.hide-replies');
+        let repliesDiv = linksWithReplies.querySelector('div.replies');
 
-    // handling showing replies to a comment
-
-    let showRepliesLinks = document.querySelectorAll('a.show-replies');
-    for (let showRepliesLink of showRepliesLinks) {
-        commentManager.addShowRepliesClickEvent(showRepliesLink);
-    }
-    let hideRepliesLinks = document.querySelectorAll('a.hide-replies');
-    for (let hideRepliesLink of hideRepliesLinks) {
-        commentManager.addHideRepliesClickEvent(hideRepliesLink);
+        commentManager.getRepliesClickEvent(showRepliesLink, '/articles/' + articleId + '/comments/' + mainThreadCommentId + '/replies');
+        
+        showReplies(repliesDiv, showRepliesLink, hideRepliesLink, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl,  opinionAdderUrl, commentDeletionUrl, userProfilePath);
+        
+        
+        hideRepliesLink.addEventListener('click', (e) => {
+            repliesDiv.style.display = 'none';
+            //  TEMPORARY: clearing all previous replies
+            //  TO DO: add cache system and a reload button
+            repliesDiv.innerHTML = "";
+            hideRepliesLink.style.display = 'none';
+            showRepliesLink.style.display = 'flex';
+        });
     }
     
     /* commentsDiv.addEventListener('showRepliesRequested', (e) => {
@@ -123,5 +141,24 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsDiv.addEventListener('repliesShown', (e) => {
         loadingAnimation.remove(e.target.closest('.replies'));
     }); */
+
+    // DO NOT DELETE THE showReplies() FUNCTION: it makes it possible to avoid the "closure over the loop" issue due to shallow copies
+    // https://stackoverflow.com/questions/750486/javascript-closure-inside-loops-simple-practical-example
+
+    function showReplies(repliesDiv, showRepliesLink, hideRepliesLink, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl,  opinionAdderUrl, commentDeletionUrl, userProfilePath) {
+        showRepliesLink.addEventListener('repliesRetrieval', (e) => {
+            //console.log(mainThreadCommentId);
+            showRepliesLink.style.display = 'none';
+            repliesDiv.style.display = 'flex';
+            hideRepliesLink.style.display = 'flex';
+            //  clearing responses that have been added to avoid duplicate replies
+            repliesDiv.innerHTML = "";
+            for (let reply of e.detail.replies) {
+                let replyElement = commentManager.initializeComment(reply, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl,  opinionAdderUrl, commentDeletionUrl, userProfilePath);
+                replyElement.classList.add('reply');
+                repliesDiv.appendChild(replyElement);
+            }
+        });
+    }
 
 });

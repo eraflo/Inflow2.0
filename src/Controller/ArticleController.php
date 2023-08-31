@@ -61,6 +61,10 @@ class ArticleController extends AbstractController
         }, ['likes' => 0, 'dislikes' => 0]);
 
         $comments = $this->em->getRepository(Comments::class)->findBy(['from_article' => $article, 'replies_to' => NULL]);
+        //dd($comments);
+        $article = $this->em->getRepository(Articles::class)->find($id);
+        $numberOfRepliesPerComment = $this->em->getRepository(Comments::class)->getNumberOfReplies($article);
+        //dd($numberOfRepliesPerComment);
 
         $is_admin = $this->isGranted('ROLE_ADMIN');
         $user_id = $this->getUser()?->getId();
@@ -102,12 +106,13 @@ class ArticleController extends AbstractController
             $commentDeletionForm = $formFactory->createNamedBuilder('commentDeletion')
                 ->add('deleteButton', SubmitType::class, ['label' => 'Supprimer le commentaire'])
                 ->getForm()
-                ;
+            ;
 
             $opinionAdderForm = $formFactory->createNamedBuilder('opinionAdder')
                 ->add('likeButton', SubmitType::class, ['label' => 'J\'aime'])
                 ->add('dislikeButton', SubmitType::class, ['label' => 'Je n\'aime pas'])
-                ->getForm();
+                ->getForm()
+            ;
 
             $mentionedUsers = $article->getMentions();
             //dd($article->getMentions()->getValues());
@@ -135,6 +140,7 @@ class ArticleController extends AbstractController
                 'articleDeletionForm' => $articleDeletionForm,
                 'commentForm' => $commentForm,
                 'comments' => $comments ?? null,
+                'numberOfRepliesPerComment' => $numberOfRepliesPerComment,
                 'commentDeletionForm' => $commentDeletionForm,
                 'opinionAdderForm' => $opinionAdderForm,
                 //comments ids that the user can edit or delete (his own or all if he's an admin (deletion only in this case))

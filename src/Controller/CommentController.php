@@ -22,8 +22,75 @@ class CommentController extends AbstractController
 
     }
 
-    //in fact, it also handles comment editing since doctrine determines if the comment should be added or updated
-    //because the id is also set if it is an edition 
+    private function convertCommentObj(Comments $comment): object {
+
+        $commentToSerialize = new class {
+
+            public ?int $id = null;
+
+            public ?string $content = null;
+
+            public ?object $author = null;
+
+            public ?int $from_article_id = null;
+
+            public ?array $opinionSum = [];
+
+            public ?int $replies_to = null;
+        };
+
+        $author = new class {
+
+            public ?int $id = null;
+
+            public ?string $email = null;
+
+            public ?string $username = null;
+
+            public ?string $url = null;
+
+            public ?int $follows;
+
+            public ?int $followers;
+
+            public $roles = [];
+            
+        };
+
+        $author->id = $comment->getAuthor()->getId();
+        $author->email = $comment->getAuthor()->getEmail();
+        $author->username = $comment->getAuthor()->getUsername();
+        $author->url = $comment->getAuthor()->getUrl();
+        $author->follows = $comment->getAuthor()?->getFollowsCount();
+        $author->followers = $comment->getAuthor()?->getFollowersCount();
+        $author->roles = $comment->getAuthor()->getRoles();
+
+        $commentToSerialize->id = $comment->getId();
+        $commentToSerialize->content = $comment->getContent();
+        $commentToSerialize->from_article_id = $comment->getFromArticle()->getId();
+        $commentToSerialize->replies_to = $comment->getRepliesTo()?->getId();
+        $commentToSerialize->author = $author;
+
+        return $commentToSerialize;
+    }
+
+    #[Route('articles/{article_id}/comments/{comment_id}/replies', name: 'app_comment_replies', methods: ['GET'])]
+    public function replies($article_id, $comment_id) {
+        $replies = $this->em->getRepository(Comments::class)->findBy(['replies_to' => $comment_id]);
+        $convertedReplies = [];
+
+        foreach ($replies as $reply) {
+            $reply = $this->convertCommentObj($reply);
+            $convertedReplies[] = $reply;
+        }
+
+        /* $serializedResponse = $serializer->serialize(['replies' => $replies], 'json', [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
+                return $object->getId();
+            },
+        ]); */
+        return $this->json($convertedReplies);
+    }
 
     #[Route('articles/{article_id}/comments/add', name: 'app_comment_create', methods: ['POST'])]
     public function index(Request $request, SerializerInterface $serializer, $article_id): JsonResponse
@@ -35,7 +102,6 @@ class CommentController extends AbstractController
             if ($article) {
                 
                 $comment = new Comments();
-                $responseText = 'comment added';    
                 $comment->setAuthor($this->getUser());
                 $comment->setFromArticle($article);
                 $type = 'addition';
@@ -46,29 +112,30 @@ class CommentController extends AbstractController
                             $comment->setRepliesTo($this->em->getRepository(Comments::class)->find((int)$request->request->all()['comment']['repliesTo']));
                             $type = 'reply';
                         } else {
-                            return $this->json(['message' => 'chaining replies isn\'t allowed']);
+                            return $this->json(['status' => 'error', 'message' => 'chaining replies isn\'t allowed']);
                         }
                     } else {
-                        return $this->json(['message' => 'cannot reply to a non-existing comment']);
+                        return $this->json(['status' => 'error', 'message' => 'cannot reply to a non-existing comment']);
                     }
                 }
 
                 $comment->setContent($request->request->all()['comment']['content'] ?? "");
                 $this->em->persist($comment);
                 $this->em->flush();
-                $serializedResponse = $serializer->serialize(['message' => $responseText, 'comment' => $comment, 'type' => $type], 'json', [
+                /* $serializedResponse = $serializer->serialize(['message' => $responseText, 'comment' => $comment, 'type' => $type], 'json', [
                     AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
-                        return $object->getId(); // Replace this with a suitable way to identify the object
+                        return $object->getId();
                     },
-                ]);
-                return $this->json($serializedResponse);
+                ]); */
+                $convertedComment = $this->convertCommentObj($comment);
+                return $this->json(['status' => 'success', 'message' => 'comment added', 'comment' => $convertedComment, 'type' => $type]);
             } else {
                 $message = $request->request->all();
                 
-                return $this->json(['message' => 'article not found']);
+                return $this->json(['status' => 'error', 'message' => 'article not found']);
             }
         } else {
-            return $this->json(['message' => 'authentication needed']);
+            return $this->json(['status' => 'error', 'message' => 'authentication needed']);
         }
     }
 
@@ -83,19 +150,20 @@ class CommentController extends AbstractController
             if ($comment->getAuthor() === $this->getUser()) {
                 $this->em->persist($comment);
                 $this->em->flush();
-                $serializedResponse = $serializer->serialize(['message' => 'comment edited', 'comment' => $comment, 'type' => 'edition'], 'json', [
+                /* $serializedResponse = $serializer->serialize(['message' => 'comment edited', 'comment' => $comment, 'type' => 'edition'], 'json', [
                     AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
                         return $object->getId(); // Replace this with a suitable way to identify the object
                     },
-                ]);
-                return $this->json($serializedResponse);
+                ]); */
+                $convertedComment = $this->convertCommentObj($comment);
+                return $this->json(['status' => 'success', 'message' => 'comment edited', 'comment' => $convertedComment, 'type' => 'edition']);
             } else {
                 //$message = $request->request->all();
                 
-                $response = $this->json(['message' => 'you\'re not the original author of this comment!']);
+                $response = $this->json(['status' => 'error', 'message' => 'you\'re not the original author of this comment!']);
             }
         } else {
-            $response = $this->json(['message' => 'authentication needed']);
+            $response = $this->json(['status' => 'error', 'message' => 'authentication needed']);
         }
         return $response;
     }
@@ -112,15 +180,15 @@ class CommentController extends AbstractController
                     //$dependentComments = $this->em->getRepository(Comments::class)->findBy(['replies_to' => $comment->getId()]);
                     $this->em->remove($comment);
                     $this->em->flush();
-                    $response = $this->json(['message' => 'comment deleted', 'type' => 'deletion']);
+                    $response = $this->json(['status' => 'success', 'message' => 'comment deleted', 'type' => 'deletion']);
                 } else {
-                    $response = $this->json(['message' => 'this comment isn\'t linked to this article']);
+                    $response = $this->json(['status' => 'error', 'message' => 'this comment isn\'t linked to this article']);
                 }
             } else {
-                $response = $this->json(['message' => 'either the comment does not exist or it\'s not your article']);
+                $response = $this->json(['status' => 'error', 'message' => 'either the comment does not exist or it\'s not your article']);
             }
         } else {
-            $response = $this->json(['message' => 'authentication needed']);
+            $response = $this->json(['status' => 'error', 'message' => 'authentication needed']);
         }
         return $response;
     }

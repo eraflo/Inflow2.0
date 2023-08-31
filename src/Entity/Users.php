@@ -68,11 +68,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?int $follows_count = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $followers_count = null;
+
     /* #[ORM\ManyToMany(targetEntity: Ranks::class, inversedBy: 'users')]
     private Collection $ranks; */
 
     public function __construct()
     {
+        $this->follows_count = 0;
+        $this->followers_count = 0;
+
         $this->articles = new ArrayCollection();
         $this->mentions = new ArrayCollection();
         $this->consults = new ArrayCollection();
@@ -507,6 +516,30 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFollowsCount(): ?int
+    {
+        return $this->follows_count;
+    }
+
+    public function setFollowsCount(?int $follows_count): self
+    {
+        $this->follows_count = $follows_count;
+
+        return $this;
+    }
+
+    public function getFollowersCount(): ?int
+    {
+        return $this->followers_count;
+    }
+
+    public function setFollowersCount(?int $followers_count): self
+    {
+        $this->followers_count = $followers_count;
 
         return $this;
     }

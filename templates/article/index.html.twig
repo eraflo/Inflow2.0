@@ -172,7 +172,7 @@
 
 		<div class="comment template" data-comment-id="">
 			<div class="comment-edition-deletion">
-			{% if commentDeletionForm %}
+			{% if commentDeletionForm is defined and commentDeletionForm is not null  %}
 				{{ form_start(commentDeletionForm) }}
 					<input type="submit" name="{{ field_name(commentDeletionForm.deleteButton) }}" value="Supprimer" class="commentDeletion">
 				{{ form_end(commentDeletionForm) }}
@@ -288,13 +288,13 @@
 							<div>
 								Likes :
 								<div>
-									{{ comment.likes }}
+									{{ comment.opinionSum['likes'] }}
 								</div>
 							</div>
 							<div>
 								Dislikes :
 								<div>
-									{{ comment.dislikes }}
+									{{ comment.opinionSum['dislikes'] }}
 								</div>
 							</div>
 						{% endif %}
@@ -305,7 +305,19 @@
 						{{comment.content}}
 					</div>
 				</div>
-				<div class='replies'>
+				<div class="links-and-replies">
+				{% if numberOfRepliesPerComment[comment.id] is defined and numberOfRepliesPerComment[comment.id] is not null %}
+					<a href="#" class="show-replies">Afficher {{numberOfRepliesPerComment[comment.id]}} réponse{% if numberOfRepliesPerComment[comment.id] > 1 %}s{% endif %}</a>
+				{% else %}
+					<a href="#" class="show-replies" style="display: none;"></a>
+				{% endif %}
+					<div class='replies'>
+					</div>
+				{% if numberOfRepliesPerComment[comment.id] is defined and numberOfRepliesPerComment[comment.id] is not null %}
+					<a href="#" class="hide-replies" style="display: none;">Masquer {% if numberOfRepliesPerComment[comment.id] > 1 %}les{% else %}la{% endif %} réponse{% if numberOfRepliesPerComment[comment.id] > 1 %}s{% endif %}</a>
+				{% else %}
+					<a href="#" class="hide-replies" style="display: none;"></a>
+				{% endif %}
 				</div>
 			</div>
 
