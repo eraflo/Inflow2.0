@@ -1,4 +1,5 @@
 let opinionManager = require('./opinionAdder.js');
+let tagsAndMentionsHandler = require('./tagsAndMentionsHandler.js');
 
 let articleId = document.querySelector('.articleShow').getAttribute('data-article-id');
 
@@ -47,8 +48,11 @@ export function addEditionClickEvent(commentEditionLink, commentForm, commentEdi
                     authorDiv.querySelector('a').remove();
                     authorDiv.appendChild(authorLink);
     
-                    commentContent.style.display = 'flex';
-                    commentContent.innerHTML = e.detail.comment.content;
+                    commentContent.style.display = 'block';
+                    let content = tagsAndMentionsHandler.addTagLinks(e.detail.comment.content);
+                    //console.log(content);
+                    content = tagsAndMentionsHandler.addMentionLinks(content, e.detail.comment.mentions);
+                    commentContent.innerHTML = content;
                     comment.querySelector(".comment-edition-deletion").style.display = 'flex';
                     break;
                 
@@ -65,7 +69,7 @@ export function addEditionClickEvent(commentEditionLink, commentForm, commentEdi
 
                 default:
                     console.error('Unknown event detail status: ' + e.detail.status);
-                    
+
             }
 
         });
@@ -91,7 +95,11 @@ export function initializeComment(commentObject, commentTemplate, commentForm, m
     let opinionForm = comment.querySelector('.opinions form');
     opinionManager.addOpinion(opinionAdderUrl, opinionForm, commentObject.id);
     comment.setAttribute('data-comment-id', commentObject.id);
-    comment.querySelector('div.comment-content').innerHTML = commentObject.content;
+
+    commentObject.content = tagsAndMentionsHandler.addTagLinks(commentObject.content);
+    commentObject.content = tagsAndMentionsHandler.addMentionLinks(commentObject.content, commentObject.mentions);
+
+    comment.querySelector('.comment-content').innerHTML = commentObject.content;
     userProfilePath = userProfilePath.replaceAll('{user_id}', commentObject.author.id);
     let authorLink = document.createElement('a');
     authorLink.href = userProfilePath;
@@ -143,18 +151,15 @@ export function handleCommentAddition(commentForm, commentTemplate, commentAdder
 
                 let comment;
                 let repliesDiv;
+                let mainThreadCommentId;
                 let commentsDiv = document.querySelector('div.comments');
 
                 //console.log(e.detail);
-
-                // (1)
-                if (e.detail.type === 'reply' || e.detail.type === 'addition') {
-                    let mainThreadCommentId = e.detail.comment.replies_to /* reply case */ || e.detail.comment.id /* addition case */;
-                    comment = initializeComment(e.detail.comment, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl, opinionAdderUrl, commentDeletionUrl, userProfilePath);
-                }
                 
                 switch (e.detail.type) {
                     case 'reply':
+                        mainThreadCommentId = e.detail.comment.replies_to;
+                        comment = initializeComment(e.detail.comment, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl, opinionAdderUrl, commentDeletionUrl, userProfilePath);
                         comment.classList.add('reply');
                         let repliesTo = commentsDiv.querySelector('.comment[data-comment-id="' + e.detail.comment.replies_to + '"]');
 
@@ -167,6 +172,8 @@ export function handleCommentAddition(commentForm, commentTemplate, commentAdder
                         break;
 
                     case 'addition':
+                        mainThreadCommentId = e.detail.comment.id;
+                        comment = initializeComment(e.detail.comment, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl, opinionAdderUrl, commentDeletionUrl, userProfilePath);
                         let commentWithRepliesDiv = document.createElement('div');
                         commentWithRepliesDiv.classList.add('comment-with-replies');
                         let linksAndRepliesDiv = document.createElement('div');
@@ -182,11 +189,6 @@ export function handleCommentAddition(commentForm, commentTemplate, commentAdder
                     case 'edition':
                         // (2)
                         comment = commentsDiv.querySelector('.comment[data-comment-id="' + e.detail.comment.id + '"]');
-                        let commentContent = comment.querySelector('.comment-content');
-                        let commentEditionDeletion = comment.querySelector('.comment-edition-deletion');
-                        commentContent.innerHTML = e.detail.comment.content;
-                        commentContent.style.display = 'flex';
-                        commentEditionDeletion.style.display = 'flex';
                         comment.querySelector('form#commentEdition')?.remove();
                         break;
                 

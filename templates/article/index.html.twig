@@ -127,7 +127,8 @@
 					{% endif %}
 					#}
 
-						<div id='addedCategoriesContainer'> {% for category in article.includes %}
+						<div id='addedCategoriesContainer'>
+						{% for category in article.includes %}
 							{{ category.name }}
 						{% endfor %}
 					</div>
@@ -210,8 +211,8 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="comment-content">
-			</div>
+			<p class="comment-content">
+			</p>
 		</div>
 
 		{# Form to add comments #}
@@ -301,9 +302,9 @@
 						</div>
 					</div>
 
-					<div class="comment-content">
-						{{comment.content}}
-					</div>
+					<p class="comment-content">
+						{{comment.content|raw}}
+					</p>
 				</div>
 				<div class="links-and-replies">
 				{% if numberOfRepliesPerComment[comment.id] is defined and numberOfRepliesPerComment[comment.id] is not null %}

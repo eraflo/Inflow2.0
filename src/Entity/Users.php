@@ -74,6 +74,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $followers_count = null;
 
+    #[ORM\ManyToMany(targetEntity: Comments::class, mappedBy: 'mentions')]
+    private Collection $comment_mentions;
+
     /* #[ORM\ManyToMany(targetEntity: Ranks::class, inversedBy: 'users')]
     private Collection $ranks; */
 
@@ -93,6 +96,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->owns = new ArrayCollection();
         $this->subscriptions = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->comment_mentions = new ArrayCollection();
     }
 
     public function getRoles(): array
@@ -540,6 +544,33 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFollowersCount(?int $followers_count): self
     {
         $this->followers_count = $followers_count;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getCommentMentions(): Collection
+    {
+        return $this->comment_mentions;
+    }
+
+    public function addCommentMention(Comments $commentMention): self
+    {
+        if (!$this->comment_mentions->contains($commentMention)) {
+            $this->comment_mentions->add($commentMention);
+            $commentMention->addMention($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentMention(Comments $commentMention): self
+    {
+        if ($this->comment_mentions->removeElement($commentMention)) {
+            $commentMention->removeMention($this);
+        }
 
         return $this;
     }

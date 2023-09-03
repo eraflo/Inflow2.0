@@ -1,6 +1,7 @@
 let opinionManager = require('./modules/opinionAdder.js');
 let commentManager = require('./modules/commentManager.js');
 let loadingAnimation = require('./modules/loadingAnimation.js');
+let tagsAndMentionsHandler = require('./modules/tagsAndMentionsHandler.js');
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -123,7 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
         commentManager.getRepliesClickEvent(showRepliesLink, '/articles/' + articleId + '/comments/' + mainThreadCommentId + '/replies');
         
         showReplies(repliesDiv, showRepliesLink, hideRepliesLink, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl,  opinionAdderUrl, commentDeletionUrl, userProfilePath);
-        
+        showRepliesLink.addEventListener('repliesRetrieval', (e) => {
+            //  using e.target to avoid the "closure over the loop" issue
+            tagsAndMentionsHandler.addTagLink(e.target.closest('.comment').querySelector('.comment-content').innerHTML);
+        });
         
         hideRepliesLink.addEventListener('click', (e) => {
             repliesDiv.style.display = 'none';
@@ -133,6 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hideRepliesLink.style.display = 'none';
             showRepliesLink.style.display = 'flex';
         });
+
+        //comment.querySelector('.comment-content').innerHTML = tagsAndMentionsHandler.addTagLink(comment.querySelector('.comment-content').innerHTML);
+
     }
     
     /* commentsDiv.addEventListener('showRepliesRequested', (e) => {

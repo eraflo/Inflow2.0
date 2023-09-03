@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Articles;
 use App\Entity\Comments;
+use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use App\Service\MentionsReplacer;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CommentController extends AbstractController
 {
@@ -36,6 +39,8 @@ class CommentController extends AbstractController
 
             public ?array $opinionSum = [];
 
+            public ?array $mentions = [];
+
             public ?int $replies_to = null;
         };
 
@@ -56,6 +61,38 @@ class CommentController extends AbstractController
             public $roles = [];
             
         };
+
+        foreach ($comment->getMentions() as $mention) {
+
+            $mentionToSerialize = new class {
+
+                public ?int $id = null;
+    
+                public ?string $email = null;
+    
+                public ?string $username = null;
+    
+                public ?string $url = null;
+    
+                public ?int $follows;
+    
+                public ?int $followers;
+    
+                public $roles = [];
+                
+            };
+
+            $mentionToSerialize->id = $mention->getId();
+            $mentionToSerialize->email = $mention->getEmail();
+            $mentionToSerialize->username = $mention->getUsername();
+            $mentionToSerialize->url = $mention->getUrl();
+            $mentionToSerialize->follows = $mention->getFollowsCount();
+            $mentionToSerialize->followers = $mention->getFollowersCount();
+            $mentionToSerialize->roles = $mention->getRoles();
+
+            $commentToSerialize->mentions[] = $mentionToSerialize;
+
+        }
 
         $author->id = $comment->getAuthor()->getId();
         $author->email = $comment->getAuthor()->getEmail();
@@ -104,6 +141,7 @@ class CommentController extends AbstractController
                 $comment = new Comments();
                 $comment->setAuthor($this->getUser());
                 $comment->setFromArticle($article);
+                $comment->setContent($request->request->all()['comment']['content'] ?? "");
                 $type = 'addition';
 
                 if (!empty($repliesToId = $request->request->all()['comment']['repliesTo'] ?? NULL)) {
@@ -119,7 +157,17 @@ class CommentController extends AbstractController
                     }
                 }
 
-                $comment->setContent($request->request->all()['comment']['content'] ?? "");
+                $mentionedUsers = [];
+                preg_match_all("/@\w+/", $comment->getContent(), $mentionedUsers);
+                //var_dump($mentionedUsers);
+
+                //removing the @ with substr()
+                //also $mentionedUsers[0] because $mentionedUsers looks like [ [ 'username1', 'username2', ... ] ]
+
+                $mentionedUsers = array_map( function ($mentionedUser) {return substr((string)$mentionedUser, 1);}, $mentionedUsers[0]);
+                $mentionedUsers = $this->em->getRepository(Users::class)->findBy(['username' => $mentionedUsers]);
+                $comment->setMentions(new ArrayCollection($mentionedUsers));
+
                 $this->em->persist($comment);
                 $this->em->flush();
                 /* $serializedResponse = $serializer->serialize(['message' => $responseText, 'comment' => $comment, 'type' => $type], 'json', [
@@ -148,6 +196,16 @@ class CommentController extends AbstractController
             $comment = $this->em->getRepository(Comments::class)->find($comment_id ?? 0);
             $comment->setContent($request->request->all()['comment']['content']);
             if ($comment->getAuthor() === $this->getUser()) {
+
+                preg_match_all("/@\w+/", $comment->getContent(), $mentionedUsers);
+
+                //removing the @ with substr()
+                //also $mentionedUsers[0] because $mentionedUsers looks like [ [ 'username1', 'username2', ... ] ]
+
+                $mentionedUsers = array_map( function ($mentionedUser) {return substr((string)$mentionedUser, 1);}, $mentionedUsers[0]);
+                $mentionedUsers = $this->em->getRepository(Users::class)->findBy(['username' => $mentionedUsers]);
+                $comment->setMentions(new ArrayCollection($mentionedUsers));
+
                 $this->em->persist($comment);
                 $this->em->flush();
                 /* $serializedResponse = $serializer->serialize(['message' => 'comment edited', 'comment' => $comment, 'type' => 'edition'], 'json', [

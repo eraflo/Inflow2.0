@@ -12,6 +12,7 @@ use App\Form\CommentType;
 use App\Form\CreateArticleFormType;
 use App\Repository\ArticlesRepository;
 use App\Service\ArrayFlattener;
+use App\Service\MentionsAndTagsReplacer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,7 @@ class ArticleController extends AbstractController
 
     public function __construct(
         private EntityManagerInterface $em,
+        private MentionsAndTagsReplacer $mentionsAndTagsReplacer,
     ) {
     }
 
@@ -49,6 +51,13 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $article->setContent(
+            $this->mentionsAndTagsReplacer->replaceMentions($article->getContent(), $article->getMentions()->toArray())
+        );
+        $article->setContent(
+            $this->mentionsAndTagsReplacer->replaceTags($article->getContent())
+        );
+
         $opinions = $article->getOpinions()->toArray();
         $opinionsAggregation = array_reduce($opinions, function ($opinions, $opinion) {
             if ((int) $opinion->getOpinionValue() === 1) {
@@ -61,8 +70,11 @@ class ArticleController extends AbstractController
         }, ['likes' => 0, 'dislikes' => 0]);
 
         $comments = $this->em->getRepository(Comments::class)->findBy(['from_article' => $article, 'replies_to' => NULL]);
+        foreach ($comments as $comment) {
+            $comment->setContent($this->mentionsAndTagsReplacer->replaceMentions($comment->getContent(), $comment->getMentions()->toArray()));
+            $comment->setContent($this->mentionsAndTagsReplacer->replaceTags($comment->getContent()));
+        }
         //dd($comments);
-        $article = $this->em->getRepository(Articles::class)->find($id);
         $numberOfRepliesPerComment = $this->em->getRepository(Comments::class)->getNumberOfReplies($article);
         //dd($numberOfRepliesPerComment);
 
@@ -113,25 +125,6 @@ class ArticleController extends AbstractController
                 ->add('dislikeButton', SubmitType::class, ['label' => 'Je n\'aime pas'])
                 ->getForm()
             ;
-
-            $mentionedUsers = $article->getMentions();
-            //dd($article->getMentions()->getValues());
-            //dd($mentionedUsers[0]->getUsername());
-            $i = 0;
-            $article->setContent(preg_replace_callback(
-                "/@\w+/",
-                function ($matches) use ($mentionedUsers, $i) {
-                    if ("@".$mentionedUsers[$i]?->getUsername() === $matches[0]) {
-                        $id = $mentionedUsers[$i]->getId();
-                        $i++;
-                        return "<a href='/users/" . $id . "'>" . $matches[0] . "</a>";
-                    } else {
-                        return $matches[0];
-                    }
-                },
-                $article->getContent()
-            ));
-            //$article->setContent();
 
             return $this->render('article/index.html.twig', [
                 'article' => $article,

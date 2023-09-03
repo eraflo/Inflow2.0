@@ -37,9 +37,13 @@ class Comments
     #[ORM\OneToMany(mappedBy: 'replies_to', targetEntity: self::class, orphanRemoval: true)]
     private Collection $replies;
 
+    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'comment_mentions')]
+    private Collection $mentions;
+
     public function __construct()
     {
         $this->replies = new ArrayCollection();
+        $this->mentions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +170,41 @@ class Comments
             // set the owning side to null (unless already changed)
             if ($reply->getRepliesTo() === $this) {
                 $reply->setRepliesTo(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getMentions(): Collection
+    {
+        return $this->mentions;
+    }
+
+    public function addMention(Users $mention): self
+    {
+        if (!$this->mentions->contains($mention)) {
+            $this->mentions->add($mention);
+        }
+
+        return $this;
+    }
+
+    public function removeMention(Users $mention): self
+    {
+        $this->mentions->removeElement($mention);
+
+        return $this;
+    }
+
+    public function setMentions(ArrayCollection $mentions): self
+    {
+        foreach($mentions as $mention) {
+            if (!$this->mentions->contains($mention)) {
+                $this->mentions->add($mention);
             }
         }
 

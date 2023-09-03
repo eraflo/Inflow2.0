@@ -2,6 +2,7 @@
 // the idea is to get its value when sent and adding it to the form that has the multiple property ("multipleChoicesForm")
 
 class customMultipleFormDisplayHandler {
+
     constructor(
         multipleChoicesForm,
         singleChoiceForm,
@@ -16,28 +17,28 @@ class customMultipleFormDisplayHandler {
 
     handle() {
         // all the categories that the article already has (when editing it)
-        let addedChoicesDisplays = addedChoicesDislpayContainer.querySelectorAll('.addedCategoryDisplay');
-        for (addedChoiceDisplay of addedChoicesDisplays) {
+        let addedChoicesDisplays = this.addedChoicesDislpayContainer.querySelectorAll('.addedCategoryDisplay');
+        for (let addedChoiceDisplay of addedChoicesDisplays) {
             //console.log(addedChoiceDisplay);
             let deleteCategoryButton = addedChoiceDisplay.querySelector('button');
-            addDeleteCategoryEvent(deleteCategoryButton);
+            this.addDeleteCategoryEvent(deleteCategoryButton);
         }
 
-        let multipleChoicesFormOptions = multipleChoicesForm.querySelectorAll('option');
+        let multipleChoicesFormOptions = this.multipleChoicesForm.querySelectorAll('option');
 
         // handling the singleChoiceForm submission
-        choiceAdder.addEventListener('click', (e) => {
+        this.choiceAdder.addEventListener('click', (e) => {
             e.preventDefault();
             //console.log('singleChoiceForm.value: ' + singleChoiceForm.value);
             for (let i = 0; i < multipleChoicesFormOptions.length; i++) {
-                if (multipleChoicesFormOptions[i].value === singleChoiceForm.value && multipleChoicesFormOptions[i].selected === false) {
+                if (multipleChoicesFormOptions[i].value === this.singleChoiceForm.value && multipleChoicesFormOptions[i].selected === false) {
                     multipleChoicesFormOptions[i].selected = true;
-                    let addedCategoryDisplay = createAddedCategoryDisplay().cloneNode(true);
+                    let addedCategoryDisplay = this.createAddedCategoryDisplay().cloneNode(true);
                     //console.log(addedCategoryDisplay);
                     addedCategoryDisplay.setAttribute('value', multipleChoicesFormOptions[i].value);
-                    addDeleteCategoryEvent(addedCategoryDisplay.querySelector('button'));
-                    addedCategoryDisplay.querySelector('p').textContent = singleChoiceForm.multipleChoicesFormOptions[singleChoiceForm.selectedIndex].textContent;
-                    addedChoicesDislpayContainer.appendChild(addedCategoryDisplay);
+                    this.addDeleteCategoryEvent(addedCategoryDisplay.querySelector('button'));
+                    addedCategoryDisplay.querySelector('p').textContent = multipleChoicesFormOptions[this.singleChoiceForm.selectedIndex].textContent;
+                    this.addedChoicesDislpayContainer.appendChild(addedCategoryDisplay);
                     break;
                 }
             }
