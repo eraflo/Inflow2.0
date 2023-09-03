@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
-use App\Service\MentionsReplacer;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class CommentController extends AbstractController
