@@ -1,8 +1,345 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inflow{% endblock %}
-
 {% block body %}
-    
-aa
+
+	{# Displaying the article #}
+
+	<div class="articleShow" data-article-id="{{ article.id }}">
+
+		{% if (articleDeletionForm is defined and articleDeletionForm is not null) %}
+
+			{# explicitly rendering it (instead of form()) in order to add the method and not to display its name #}
+
+			{{ form_start(articleDeletionForm, {'action': path('app_article_delete', {id: article.id}), 'method': 'DELETE'}) }}
+			{{ form_widget(articleDeletionForm) }}
+			{{ form_end(articleDeletionForm) }}
+
+			<a href="/articles/{{ article.id }}/edit">Modifier</a>
+
+		{% endif %}
+
+		{#
+		{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+			<div class="editionFormComponent">
+			{{ form_start(articleEditionForm) }}
+			</div>
+		{% endif %}
+		#}
+
+		<div class="articleTitle">
+			{{article.title}}
+			{#
+			{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+				<div class="editionFormComponent">
+					{{ form_row(articleEditionForm.title, { attr: { value: article.title } }) }}
+				</div>
+			{% endif %}
+			#}
+		</div>
+
+		<div class="articleWithMD">
+			<div class="articleMetaData">
+				<div class="author">
+					Brought to you by
+					<a href="{{ path('app_users_show', {id: article.user.id}) }}">@{{article.user.username}}</a>
+				</div>
+				<div id="articleId">
+					{{ article.id }}
+				</div>
+				<div class="writtenAt">
+					le
+					{{ article.releaseDate|date('d/m/Y') }}
+				</div>
+				<div class="opinions">
+					{% if opinionAdderForm is defined and opinionAdderForm is not null %}
+						{{ form_start(opinionAdderForm) }}
+						<div>
+							<div>
+								Likes :
+								<input type="submit" name="{{ field_name(opinionAdderForm.likeButton) }}" value="{{likes}}" class="opinionAdderFormButton articleLikes" data-opinion="1">
+							</div>
+							<div>
+								Dislikes :
+								<input type="submit" name="{{ field_name(opinionAdderForm.dislikeButton) }}" value="{{dislikes}}" class="opinionAdderFormButton articleDislikes" data-opinion="-1">
+							</div>
+						</div>
+						{{ form_end(opinionAdderForm) }}
+					{% else %}
+						<div>
+							Likes :
+							<div>
+								{{ likes }}
+							</div>
+						</div>
+						<div>
+							Dislikes :
+							<div>
+								{{ dislikes }}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+				<div class="categoriesDisplay">
+
+					{#
+					{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+						<div class="editionFormComponent">
+							{{ form_row(articleEditionForm.categories) }}
+							<button id="categoryAdder">Ajouter</button>
+						</div>
+						<div class="editionFormComponent">
+					#}
+
+					{# Unsucceful tries #}
+					{# form_row(articleEditionForm.includes, { 'multiple': 'multiple', 'attr': { 'selected': 'true' } }) #}
+					{# form_widget(articleEditionForm.includes, { 'attr': { 'selected': selectedValues|join(',') } }) #}
+					{#
+					<select name="my_field[]" multiple>
+						{% for option in article.includes %}
+							<option value="{{ option.name }}" selected>
+								{{ option.name }}
+							</option>
+						{% endfor %}
+						<select id="create_article_form_includes" name="create_article_form[includes][]" required="required" class="includes" selected="true" multiple="multiple"><option value="1">first company</option><option value="2">second company</option></select>
+					</select>
+					#}
+
+					{#
+						form_choices() is also available but it's more convenient to handle choices with the extension formview_prop()
+						(https://stackoverflow.com/questions/47864052/twig-iterating-over-form-fields)
+						to select categories the article already has (when checking if option.data in article.includes.toArray())
+					#}
+
+					{#
+					{{ form_label(articleEditionForm.includes) }}
+					{{ form_errors(articleEditionForm.includes) }}
+					#}
+					{# Adding the form name with field_name() to avoid automatic re-rendering (try with articleEditionForm.includes.vars.full_name instead to understand) #}
+					{#
+							<select name="{{ field_name(articleEditionForm.includes) }}" id="{{ articleEditionForm.includes.vars.id }}" class="{{ articleEditionForm.includes.vars.attr.class }}" multiple> 
+								{% for option in formview_prop(articleEditionForm.includes, 'vars').choices %}
+									<option value="{{ option.value }}" {% if option.data in article.includes.toArray() %} selected {% endif %}>
+										{{ option.label }}
+									</option>
+								{% endfor %}
+							</select>
+						</div>
+					{% endif %}
+					#}
+
+						<div id='addedCategoriesContainer'>
+						{% for category in article.includes %}
+							{{ category.name }}
+						{% endfor %}
+					</div>
+
+				</div>
+			</div>
+			<div class="articleContent">
+				{{article.content|raw}}
+				{#
+				{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+					<div class="editionFormComponent">
+						{{ form_label(articleEditionForm.content) }}
+						{{ form_widget(articleEditionForm.content, { attr: { value: article.content|raw } }) }}
+					</div>
+				{% endif %}
+				#}
+			</div>
+		</div>
+		{#
+		{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+			<div class="editionFormComponent">
+				{{ form_label(articleEditionForm.description) }}
+				{{ form_widget(articleEditionForm.description, { attr: { value: article.description } }) }}
+			</div>
+		{% endif %}
+		<div class="editionFormComponent">
+			{{ form_widget(articleEditionForm.submit) }}
+		</div>
+		<div class="editionFormComponent">
+			{{ form_errors(articleEditionForm) }}
+			{{ form_end(articleEditionForm) }}
+		</div>
+		#}
+
+	</div>
+
+	{# Comment form + comments + replies to comments #}
+
+	<div class="commentSection">
+
+		{# Template cloned when adding a new comment since it's made asynchronously #}
+
+		<div class="comment template" data-comment-id="">
+			<div class="comment-edition-deletion">
+			{% if commentDeletionForm is defined and commentDeletionForm is not null  %}
+				{{ form_start(commentDeletionForm) }}
+					<input type="submit" name="{{ field_name(commentDeletionForm.deleteButton) }}" value="Supprimer" class="commentDeletion">
+				{{ form_end(commentDeletionForm) }}
+			{% endif %}
+					<a href="#" class="commentEdition">Éditer</a>
+					<a href="#" class="add-reply">Répondre</a>
+			</div>
+			<div class="comment-MD">
+				<div class="author"></div>
+				<div class="opinions">
+					{% if opinionAdderForm is defined and opinionAdderForm is not null %}
+					{{ form_start(opinionAdderForm) }}
+					<div>
+						<div>
+							Likes :
+							<input type="submit" name="{{ field_name(opinionAdderForm.likeButton) }}" value="0" class="opinionAdderFormButton articleLikes" data-opinion="1">
+						</div>
+						<div>
+							Dislikes :
+							<input type="submit" name="{{ field_name(opinionAdderForm.dislikeButton) }}" value="0" class="opinionAdderFormButton articleDislikes" data-opinion="-1">
+						</div>
+					</div>
+					{{ form_end(opinionAdderForm) }}
+					{% else %}
+					<div>
+						Likes :
+						<div>
+						</div>
+					</div>
+					<div>
+						Dislikes :
+						<div>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<p class="comment-content">
+			</p>
+		</div>
+
+		{# Form to add comments #}
+
+		{% if commentForm is defined and commentForm is not null %}
+			<div class="commentFormContainer">
+				{{ form_start(commentForm, {attr: {id: 'commentAddition'}}) }}
+				{{ form_widget(commentForm.content, {attr: {placeholder: 'Laissez un commentaire...'}}) }}
+				<div class="commentSubmission">
+					{{ form_widget(commentForm.cancel) }}
+					{{ form_widget(commentForm.submit) }}
+				</div>
+				{{ form_end(commentForm) }}
+			</div>
+		{% endif %}
+
+		{# Displaying comments with their replies #}
+
+		<div class="comments">
+
+		{# make the previous non-reply comment id accessible in the next iteration of the for loop #}
+		{# {% set replyDisplayHandling = {
+			'lastNonReplyCommentId': 0,
+			'numberOfReplies': 0 
+		} %} #}
+
+		{% for comment in comments %}
+
+			{# {% if comment.getRepliesTo() is null %}
+				{% set replyDisplayHandling = {
+					'lastNonReplyCommentId': comment.id,
+					'numberOfReplies': 0 
+				} %}
+			{% else %}
+				{% set replyDisplayHandling = replyDisplayHandling | merge({ 'numberOfReplies': replyDisplayHandling['numberOfReplies'] + 1 }) %}
+			{% endif %} #}
+			<div class='comment-with-replies'>
+				<div class="comment {# {% if comment.getRepliesTo() is not null and comment.getRepliesTo().id > 0 and (comment.getRepliesTo().id is same as(replyDisplayHandling['lastNonReplyCommentId']) or replyDisplayHandling['numberOfReplies'] >= 2) %}reply{% endif %} #}" data-comment-id="{{ comment.id }}">
+
+					{# Edition and Deletion links/forms #}
+
+					{% if userId is defined and userId is not null and (comment.author.id is same as(userId) or isAdmin) %}
+						<div class="comment-edition-deletion">
+							{{ form_start(commentDeletionForm) }}
+								<input type="submit" name="{{ field_name(commentDeletionForm.deleteButton) }}" value="Supprimer" data-comment-id="{{ comment.id }}" class="commentDeletion">
+							{{ form_end(commentDeletionForm) }}
+							{% if comment.author.id is same as(userId) %}
+								<a href="#" class="commentEdition">Éditer</a>
+							{% endif %}
+							<a href="#" class="add-reply">Répondre</a>
+						</div>
+					{% endif %}
+
+					<div class="comment-MD">
+						<div class="author"><a href="/users/{{comment.author.id}}">@{{comment.author.username}}</a></div>
+						<div class="opinions">
+
+						{# Likes and dislikes section #}
+
+						{% if opinionAdderForm is defined and opinionAdderForm is not null %}
+							{{ form_start(opinionAdderForm) }}
+							<div>
+								<div>
+									Likes :
+									<input type="submit" name="{{ field_name(opinionAdderForm.likeButton) }}" value="{{ comment.opinionSum['likes'] }}" class="opinionAdderFormButton articleLikes" data-opinion="1">
+								</div>
+								<div>
+									Dislikes :
+									<input type="submit" name="{{ field_name(opinionAdderForm.dislikeButton) }}" value="{{ comment.opinionSum['dislikes'] }}" class="opinionAdderFormButton articleDislikes" data-opinion="-1">
+								</div>
+							</div>
+							{{ form_end(opinionAdderForm) }}
+						{% else %}
+							<div>
+								Likes :
+								<div>
+									{{ comment.opinionSum['likes'] }}
+								</div>
+							</div>
+							<div>
+								Dislikes :
+								<div>
+									{{ comment.opinionSum['dislikes'] }}
+								</div>
+							</div>
+						{% endif %}
+						</div>
+					</div>
+
+					<p class="comment-content">
+						{{comment.content|raw}}
+					</p>
+				</div>
+				<div class="links-and-replies">
+				{% if numberOfRepliesPerComment[comment.id] is defined and numberOfRepliesPerComment[comment.id] is not null %}
+					<a href="#" class="show-replies">Afficher {{numberOfRepliesPerComment[comment.id]}} réponse{% if numberOfRepliesPerComment[comment.id] > 1 %}s{% endif %}</a>
+				{% else %}
+					<a href="#" class="show-replies" style="display: none;"></a>
+				{% endif %}
+					<div class='replies'>
+					</div>
+				{% if numberOfRepliesPerComment[comment.id] is defined and numberOfRepliesPerComment[comment.id] is not null %}
+					<a href="#" class="hide-replies" style="display: none;">Masquer {% if numberOfRepliesPerComment[comment.id] > 1 %}les{% else %}la{% endif %} réponse{% if numberOfRepliesPerComment[comment.id] > 1 %}s{% endif %}</a>
+				{% else %}
+					<a href="#" class="hide-replies" style="display: none;"></a>
+				{% endif %}
+				</div>
+			</div>
+
+		{% endfor %}
+
+		</div>
+	</div>
+
+	{% if userId is defined and userId is not null %}
+
+		{{ encore_entry_script_tags('article') }}
+		{{ encore_entry_script_tags('comments') }}
+
+	{% endif %}
+
+	{#
+	{% if (articleEditionForm is defined and articleEditionForm is not null) %}
+		{{ encore_entry_script_tags('handleMultipleForm') }}
+		{{ encore_entry_script_tags('CKEditorCurrentContentFiller') }}
+	{% endif %}
+	#}
+	{# {{dump(article)}} #}
+
 {% endblock %}

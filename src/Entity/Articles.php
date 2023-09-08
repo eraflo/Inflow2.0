@@ -26,7 +26,7 @@ class Articles
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $release_date = null;
+    private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(length: 200)]
     #[Assert\NotNull]
@@ -36,29 +36,35 @@ class Articles
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $user = null;
 
-    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'mentioned_in')]
-    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'articles', cascade: ['persist']), ORM\JoinTable(name: 'mentions')]
+    private Collection $mentions;
 
     #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'consults')]
     private Collection $read_by;
 
-    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'articles'), ORM\JoinTable(name: 'includes')]
-    #[Assert\NotNull]
+    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'articles', cascade: ['persist']), ORM\JoinTable(name: 'includes')]
     private Collection $includes;
 
-    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'articles'), ORM\JoinTable(name: 'concerns')]
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'articles', cascade: ['persist']), ORM\JoinTable(name: 'concerns')]
     private Collection $concerns;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Opinions::class, orphanRemoval: true)]
-    private Collection $refers_to;
+    private Collection $opinions;
+
+    #[ORM\OneToMany(mappedBy: 'from_article', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $version = null;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->mentions = new ArrayCollection();
         $this->read_by = new ArrayCollection();
         $this->includes = new ArrayCollection();
         $this->concerns = new ArrayCollection();
-        $this->refers_to = new ArrayCollection();
+        $this->opinions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,12 +98,12 @@ class Articles
 
     public function getReleaseDate(): ?\DateTimeInterface
     {
-        return $this->release_date;
+        return $this->releaseDate;
     }
 
-    public function setReleaseDate(\DateTimeInterface $release_date): self
+    public function setReleaseDate(\DateTimeInterface $releaseDate): self
     {
-        $this->release_date = $release_date;
+        $this->releaseDate = $releaseDate;
 
         return $this;
     }
@@ -129,24 +135,31 @@ class Articles
     /**
      * @return Collection<int, Users>
      */
-    public function getUsers(): Collection
+    public function setMentions(ArrayCollection $mentions): self
     {
-        return $this->users;
+        $this->mentions = $mentions;
+        return $this;
+    }
+    
+    public function getMentions(): Collection
+    {
+        return $this->mentions;
     }
 
-    public function addUser(Users $user): self
+    public function addMention(Users $user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
+        //dd($this);
+        if (!$this->mentions->contains($user)) {
+            $this->mentions->add($user);
             $user->addMentionedIn($this);
         }
 
         return $this;
     }
 
-    public function removeUser(Users $user): self
+    public function removeMention(Users $user): self
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->mentions->removeElement($user)) {
             $user->removeMentionedIn($this);
         }
 
@@ -183,18 +196,15 @@ class Articles
     /**
      * @return Collection<int, Categories>
      */
-    public function setIncludes(Categories $includes): self
-    {
-        if (!$this->includes->contains($includes)) {
-            $this->includes->add($includes);
-        }
-        
-        return $this;
-    }
 
     public function getIncludes(): Collection
     {
         return $this->includes;
+    }
+
+    public function setIncludes(ArrayCollection $includes): Collection
+    {
+        return $this->includes = $includes;
     }
 
     public function addIncludes(Categories $includes): self
@@ -216,6 +226,12 @@ class Articles
     /**
      * @return Collection<int, Tags>
      */
+    public function setConcerns(ArrayCollection $tags): self
+    {
+        $this->concerns = $tags;
+        return $this;
+    }
+    
     public function getConcerns(): Collection
     {
         return $this->concerns;
@@ -240,29 +256,71 @@ class Articles
     /**
      * @return Collection<int, Opinions>
      */
-    public function getRefersTo(): Collection
+    public function getOpinions(): Collection
     {
-        return $this->refers_to;
+        return $this->opinions;
     }
 
-    public function addRefersTo(Opinions $refersTo): self
+    public function addOpinion(Opinions $refersTo): self
     {
-        if (!$this->refers_to->contains($refersTo)) {
-            $this->refers_to->add($refersTo);
+        if (!$this->opinions->contains($refersTo)) {
+            $this->opinions->add($refersTo);
             $refersTo->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeRefersTo(Opinions $refersTo): self
+    public function removeOpinion(Opinions $refersTo): self
     {
-        if ($this->refers_to->removeElement($refersTo)) {
+        if ($this->opinions->removeElement($refersTo)) {
             // set the owning side to null (unless already changed)
             if ($refersTo->getArticle() === $this) {
                 $refersTo->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setFromArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getFromArticle() === $this) {
+                $comment->setFromArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVersion(): ?float
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?float $version): self
+    {
+        $this->version = $version;
 
         return $this;
     }

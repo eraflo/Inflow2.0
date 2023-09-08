@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\RanksRepository;
+use App\Repository\RolesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RanksRepository::class)]
-class Ranks
+#[ORM\Entity(repositoryClass: RolesRepository::class)]
+class Roles
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,9 +21,13 @@ class Ranks
     #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'has')]
     private Collection $user;
 
+    #[ORM\ManyToMany(targetEntity: Users::class, mappedBy: 'roles')]
+    private Collection $users;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,5 +72,13 @@ class Ranks
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

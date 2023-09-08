@@ -55,7 +55,7 @@ class Tags
     {
         if (!$this->articles->contains($article)) {
             $this->articles->add($article);
-            $article->addConcern($this);
+            $article->addConcerns($this);
         }
 
         return $this;
@@ -64,7 +64,7 @@ class Tags
     public function removeArticle(Articles $article): self
     {
         if ($this->articles->removeElement($article)) {
-            $article->removeConcern($this);
+            $article->removeConcerns($this);
         }
 
         return $this;

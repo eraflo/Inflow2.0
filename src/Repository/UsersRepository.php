@@ -53,6 +53,20 @@ class UsersRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /* public function countFollows(Users $user) {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery('
+            SELECT COUNT(u.id)
+            FROM App\Entity\Users u
+            WHERE 
+        ');
+        
+        $query->setParameter('user_id', $user->getId());
+
+        return $query->getSingleScalarResult();
+    } */
+
 //    /**
 //     * @return Users[] Returns an array of Users objects
 //     */

@@ -16,8 +16,7 @@ Encore
 
     // img
     .copyFiles({
-        from: './assets/img/all',
-        from: './assets/img/all',
+        from: './assets/img',
         to: 'img/[path][name].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
@@ -29,10 +28,9 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addStyleEntry('css/login', './assets/css/login.css')
-    .addStyleEntry('css/register', './assets/css/register.css')
-    .addStyleEntry('css/youtube', './assets/css/youtube.css')
-    .addStyleEntry('css/pagination', './assets/css/pagination.css')
+
+    .addEntry('article', './assets/js/article.js')
+    .addEntry('comments', './assets/js/comments.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

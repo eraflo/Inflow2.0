@@ -35,8 +35,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Articles::class, orphanRemoval: true)]
     private Collection $articles;
 
-    #[ORM\ManyToMany(targetEntity: Articles::class, inversedBy: 'users'), ORM\JoinTable(name: 'mentioned_in')]
-    private Collection $mentioned_in;
+    #[ORM\ManyToMany(targetEntity: Articles::class, mappedBy: 'mentions')]
+    private Collection $mentions;
 
     #[ORM\ManyToMany(targetEntity: Articles::class, inversedBy: 'read_by'), ORM\JoinTable(name: 'consults')]
     private Collection $consults;
@@ -53,19 +53,40 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Preferences::class, inversedBy: 'user'), ORM\JoinTable(name: 'set_')]
     private Collection $set_;
 
-    #[ORM\ManyToMany(targetEntity: Ranks::class, inversedBy: 'user'), ORM\JoinTable(name: 'has')]
+    #[ORM\ManyToMany(targetEntity: Roles::class, inversedBy: 'user'), ORM\JoinTable(name: 'has')]
     private Collection $has;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Socials::class, orphanRemoval: true)]
     private Collection $owns;
 
-    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'users'), ORM\JoinTable(name: 'suscribed')]
-    private Collection $suscribed;
+    #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'users'), ORM\JoinTable(name: 'subscriptions')]
+    private Collection $subscriptions;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
+
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
+
+    #[ORM\Column(nullable: true)]
+    private ?int $follows_count = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $followers_count = null;
+
+    #[ORM\ManyToMany(targetEntity: Comments::class, mappedBy: 'mentions')]
+    private Collection $comment_mentions;
+
+    /* #[ORM\ManyToMany(targetEntity: Ranks::class, inversedBy: 'users')]
+    private Collection $ranks; */
 
     public function __construct()
     {
+        $this->follows_count = 0;
+        $this->followers_count = 0;
+
         $this->articles = new ArrayCollection();
-        $this->mentioned_in = new ArrayCollection();
+        $this->mentions = new ArrayCollection();
         $this->consults = new ArrayCollection();
         $this->rated = new ArrayCollection();
         $this->follows = new ArrayCollection();
@@ -73,13 +94,42 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->set_ = new ArrayCollection();
         $this->has = new ArrayCollection();
         $this->owns = new ArrayCollection();
-        $this->suscribed = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->comment_mentions = new ArrayCollection();
     }
 
-    public function getRoles() : array
+    public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        //from https://symfony.com/doc/current/security.html#roles
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
+
+/*     public function getRanks(): Collection
+    {
+        $this->ranks[] = 'ROLE_USER';
+        return $this->ranks;
+    }
+
+    public function addRank(Ranks $ranks): self
+    {
+        if (!$this->ranks->contains($ranks)) {
+            $this->ranks->add($ranks);
+        }
+
+        return $this;
+    }
+
+    public function removeRank(Ranks $ranks): self
+    {
+        $this->ranks->removeElement($ranks);
+
+        return $this;
+    } */
 
     public function getSalt()
     {
@@ -113,6 +163,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->username;
     }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -201,13 +252,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getMentionedIn(): Collection
     {
-        return $this->mentioned_in;
+        return $this->mentions;
     }
 
     public function addMentionedIn(Articles $mentionedIn): self
     {
-        if (!$this->mentioned_in->contains($mentionedIn)) {
-            $this->mentioned_in->add($mentionedIn);
+        if (!$this->mentions->contains($mentionedIn)) {
+            $this->mentions->add($mentionedIn);
         }
 
         return $this;
@@ -215,7 +266,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeMentionedIn(Articles $mentionedIn): self
     {
-        $this->mentioned_in->removeElement($mentionedIn);
+        $this->mentions->removeElement($mentionedIn);
 
         return $this;
     }
@@ -350,14 +401,14 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Ranks>
+     * @return Collection<int, Roles>
      */
     public function getHas(): Collection
     {
         return $this->has;
     }
 
-    public function addHas(Ranks $has): self
+    public function addHas(Roles $has): self
     {
         if (!$this->has->contains($has)) {
             $this->has->add($has);
@@ -366,7 +417,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeHas(Ranks $has): self
+    public function removeHas(Roles $has): self
     {
         $this->has->removeElement($has);
 
@@ -406,28 +457,28 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Categories>
      */
-    public function getSuscribed(): Collection
+    public function getSubscriptions(): Collection
     {
-        return $this->suscribed;
+        return $this->subscriptions;
     }
 
-    public function addSuscribed(Categories $suscribed): self
+    public function addSubscription(Categories $subscription): self
     {
-        if (!$this->suscribed->contains($suscribed)) {
-            $this->suscribed->add($suscribed);
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions->add($subscription);
         }
 
         return $this;
     }
 
-    public function removeSuscribed(Categories $suscribed): self
+    public function removeSubscription(Categories $subscription): self
     {
-        $this->suscribed->removeElement($suscribed);
+        $this->subscriptions->removeElement($subscription);
 
         return $this;
     }
 
-    public function addHa(Ranks $ha): self
+    public function addHa(Roles $ha): self
     {
         if (!$this->has->contains($ha)) {
             $this->has->add($ha);
@@ -436,10 +487,92 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeHa(Ranks $ha): self
+    public function removeHa(Roles $ha): self
     {
         $this->has->removeElement($ha);
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFollowsCount(): ?int
+    {
+        return $this->follows_count;
+    }
+
+    public function setFollowsCount(?int $follows_count): self
+    {
+        $this->follows_count = $follows_count;
+
+        return $this;
+    }
+
+    public function getFollowersCount(): ?int
+    {
+        return $this->followers_count;
+    }
+
+    public function setFollowersCount(?int $followers_count): self
+    {
+        $this->followers_count = $followers_count;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getCommentMentions(): Collection
+    {
+        return $this->comment_mentions;
+    }
+
+    public function addCommentMention(Comments $commentMention): self
+    {
+        if (!$this->comment_mentions->contains($commentMention)) {
+            $this->comment_mentions->add($commentMention);
+            $commentMention->addMention($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentMention(Comments $commentMention): self
+    {
+        if ($this->comment_mentions->removeElement($commentMention)) {
+            $commentMention->removeMention($this);
+        }
+
+        return $this;
+    }
+
 }
