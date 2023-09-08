@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showReplies(repliesDiv, showRepliesLink, hideRepliesLink, commentTemplate, commentForm, mainThreadCommentId, commentAdderUrl, commentEditionUrl,  opinionAdderUrl, commentDeletionUrl, userProfilePath);
         showRepliesLink.addEventListener('repliesRetrieval', (e) => {
             //  using e.target to avoid the "closure over the loop" issue
-            tagsAndMentionsHandler.addTagLink(e.target.closest('.comment').querySelector('.comment-content').innerHTML);
+            tagsAndMentionsHandler.addTagLinks(e.target.closest('.comment-with-replies').querySelector('.comment').querySelector('.comment-content').innerHTML);
         });
         
         hideRepliesLink.addEventListener('click', (e) => {

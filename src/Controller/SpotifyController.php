@@ -26,7 +26,7 @@ class SpotifyController extends AbstractController
     }
     
     // Affichage d'une Playlist
-    #[Route('/playlists/{name}', name: 'app_spotify_playlist', methods: ['GET'])]
+    #[Route('/playlists/{name}', name: 'app_spotify_playlist', methods: ['GET'], requirements: ['name' => '.+'])]
     public function search(SpotifyWebAPI $api, $name): Response
     {
         $search = $api->search($name, 'playlist');
