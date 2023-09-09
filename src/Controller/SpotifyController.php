@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Google\Service\CloudSearch\UserId;
 use SpotifyWebAPI\SpotifyWebAPI;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,15 @@ class SpotifyController extends AbstractController
     #[Route('/playlists', name: 'app_spotify_list', methods: ['GET'])]
     public function index(SpotifyWebAPI $api): Response
     {
+        
         $playlists = $api->getUserPlaylists(self::UserId);
         $playlists = $playlists->items;
+        $id = 0;
+        foreach($playlists as $playlist) {
+            if($playlist->owner->id != self::UserId)
+                unset($playlists[$id]);
+            $id++;
+        }
 
         return $this->render('spotify/index.html.twig', [
             'playlists' => $playlists,
