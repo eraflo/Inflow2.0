@@ -7,6 +7,7 @@
 /public/bundles/
 /var/
 /vendor/
+!/vendor/madcoda/php-youtube-api/src/Madcoda/Youtube.php
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
