@@ -292,6 +292,20 @@ main {
     margin-right: 12em;
 }
 
+/* Footer */
+#footer-part {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10em 0em;
+    background: rgba(0,212,255,1);
+}
+
+#contact {
+    margin-left: 10em;
+}
+
 
 /* Article */
 
