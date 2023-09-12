@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/login.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -39,7 +40,7 @@
         <article class="column-right">
             <section>
                 <div id="logo">
-                    <a href="#"><img src="{{asset('build/img/logo.png')}}" alt="logo"></a>
+                    <a href="#"><img src="{{asset('build/img/all/logo.png')}}" alt="logo"></a>
                 </div>
             </section>
         </article>

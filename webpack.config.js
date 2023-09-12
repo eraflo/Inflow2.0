@@ -32,6 +32,12 @@ Encore
     .addEntry('article', './assets/js/article.js')
     .addEntry('comments', './assets/js/comments.js')
 
+    // Css files
+    .addStyleEntry('login', './assets/css/login.css')
+    .addStyleEntry('pagination', './assets/css/pagination.css')
+    .addStyleEntry('register', './assets/css/register.css')
+    .addStyleEntry('youtube', './assets/css/youtube.css')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

@@ -27,7 +27,7 @@ body {
     align-items: center;
     height: 100vh;
     /* background: linear-gradient(180deg, #0454fc 0%, #04b0fc 100%); */
-    background: url("../img/all/fond_connexion.png");
+    /*background: url("../img/all/fond_connexion.png");*/
     background-position-x: 15%;
 }
 
