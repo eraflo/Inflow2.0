@@ -1,5 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Youtube{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/youtube.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/pagination.css') }}">
+{% endblock %}
+
+
 {% block body %}
     <div class="container">
         {% for video in videos %}
