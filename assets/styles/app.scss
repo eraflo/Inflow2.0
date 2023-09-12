@@ -1,3 +1,7 @@
+:root {
+    --background: linear-gradient(180deg, rgba(9,9,121,1) 1%, rgba(0,212,255,1) 100%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -163,10 +167,130 @@ header nav #main-header a {
 
 /* Main */
 main {
+    background: var(--background) !important;
+    // déplacer la div derrière le header
+    margin-top: -30px;
     
 }
 
 
+
+/* ==================================================== Accueil ============================================== */
+
+/* All */
+.line {
+    width: 40%;
+    height: 1px;
+    background-color: #000000;
+    margin: 0.5em 0;
+}
+
+.main-title {
+    font-size: 3rem;
+    font-weight: 1000;
+    margin: 0.5em 0;
+}
+
+.sub-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0.5em 0;
+}
+
+.title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0.5em 0;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5em 0em;
+    background: #ffffff;
+}
+
+.redirect {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0.5em 0;
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+    transition: all 0.3s ease-in-out;
+    margin-top: 5em;
+    color: inherit;
+}
+
+.band {
+    display: flex;
+    flex-flow: row nowrap;
+    overflow: hidden;
+    font-size: 2em;
+    line-height: 2em;
+    font-weight: 700;
+    background: rgba(9,9,121,0.7);
+}
+
+.band-group {
+    display: flex;
+    flex-flow: row nowrap;
+    white-space: nowrap;
+    padding: 0.5em 0em;
+    animation: defilement 10s linear infinite;
+}
+
+.band-group span {
+    display: block;
+    white-space: nowrap;
+    margin: 0 0.7em;
+    color: rgb(0, 174, 255);
+}
+
+// animation défilement mots bandeau
+@keyframes defilement {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Micro */
+
+#mic-part {
+    
+}
+
+#presentation-part, #staff-part {
+    display: flex;
+    flex-direction: row;
+    padding: 5em 0em;
+}
+
+#a-propos, #artistes {
+    margin-right: 10em;
+    margin-left: 16em;
+    margin-top: 6em;
+    
+    p {
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin: -3em;
+        line-height: 20%;
+    }
+}
+
+#a-propos-content, #staff-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    height: 100%;
+    margin-right: 12em;
+}
 
 
 /* Article */
