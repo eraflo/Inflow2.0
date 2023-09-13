@@ -2,14 +2,11 @@
 
 {% block title %}Homepage{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
-
 {% block body %}
 
+<div class='render'>
+
+</div>
+
+{{ encore_entry_script_tags('mic') }}
 {% endblock %}

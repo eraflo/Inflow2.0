@@ -20,6 +20,15 @@ Encore
         to: 'img/[path][name].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
+    .copyFiles({
+        from: './assets/models',
+        to: 'models/[path][name].[ext]',
+        pattern: /.(gltf|glb)$/
+    })
+    .addRule({
+        test: /\.glb$/,
+        type: 'asset'
+    })
 
     /*
      * ENTRY CONFIG
@@ -31,6 +40,7 @@ Encore
 
     .addEntry('article', './assets/js/article.js')
     .addEntry('comments', './assets/js/comments.js')
+    .addEntry('mic', './assets/js/mic.js')
 
     // Css files
     .addStyleEntry('login', './assets/css/login.css')
@@ -87,6 +97,6 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
-;
+    ;
 
 module.exports = Encore.getWebpackConfig();
