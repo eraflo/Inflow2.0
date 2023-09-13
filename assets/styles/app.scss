@@ -261,7 +261,15 @@ main {
 /* Micro */
 
 #mic-part {
-    
+    width: 100%;
+
+
+    .render {
+        // placer le micro vers la droite
+        margin-left: 50%;
+        background: inherit;
+    }
+
 }
 
 #presentation-part, #staff-part {

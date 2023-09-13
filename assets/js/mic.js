@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import microModel from '../models/micro.glb';
+import wireModel from '../models/wire.glb';
 
 function degToRad(degrees) {
   return degrees * Math.PI / 180;
@@ -10,9 +12,10 @@ function degToRad(degrees) {
 let rendererWidthSize = window.innerWidth / 2;
 let rendererHeightSize = window.innerHeight / 2;
 
+// get back
+
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true});
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let mic;
 let teta0;
@@ -21,12 +24,17 @@ let teta0;
 const loader = new GLTFLoader();
 
 renderer.setSize(rendererWidthSize, rendererHeightSize);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.querySelector('div.render').appendChild(renderer.domElement);
 
+
+// micro
 loader.load(microModel, function (gltf) {
 
   scene.add(gltf.scene);
   mic = gltf.scene;
+  mic.castShadow = true;
   teta0 = - 3 * Math.PI / 6;
   mic.rotation.z = teta0;
   intersectedObjects.push(mic);
@@ -40,11 +48,17 @@ loader.load(microModel, function (gltf) {
 
 });
 
-const light = new THREE.AmbientLight(0xffffff, 2); // soft white light
+// ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+// light
+const light = new THREE.DirectionalLight(0xffffff, 2); // soft white light
+light.position.set(0, 10, 0);
+light.castShadow = true;
 scene.add(light);
 
-
-
+// Positionnement caméra
 camera.position.x = -10;
 camera.position.y = -9;
 camera.position.z = 11;
@@ -52,6 +66,8 @@ camera.position.z = 11;
 camera.rotation.x = degToRad(40);
 camera.rotation.y = degToRad(-37);
 camera.rotation.z = degToRad(26);
+
+// Calcul du pendule
 let t = 0;
 let coef = 1;
 
@@ -136,3 +152,18 @@ function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
+
+
+// wire
+let wire;
+loader.load(wireModel, function (gltf) {
+
+  scene.add(gltf.scene);
+  wire = gltf.scene;
+  wire.scale.set(5, 7, 5);
+
+}, undefined, function (error) {
+
+  console.error(error);
+
+});
