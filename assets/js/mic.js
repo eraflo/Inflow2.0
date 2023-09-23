@@ -2,6 +2,7 @@ import * as THREE from 'three';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import microModel from '../models/micro.glb';
+import wireModel from '../models/wire.glb';
 
 function degToRad(degrees) {
   return degrees * Math.PI / 180;
@@ -15,6 +16,10 @@ const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let mic;
 let teta0;
+
+
+// Create an array to store intersected objects
+const intersectedObjects = [];
 
 //const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new GLTFLoader();
@@ -47,13 +52,13 @@ loader.load(microModel, function (gltf) {
 loader.load(wireModel, function (gltf) {
 
   scene.add(gltf.scene);
-  wire = gltf.scene;
-  wire.scale.set(0.6, 0.6, 0.6);
-  wire.rotation.y = Math.PI + Math.PI / 4;
-  wire.rotation.x = - Math.PI / 8;
-  wire.position.y = -2;
-  wire.position.z = -9.7;
-  wire.position.x = -10.2;
+  wireModel = gltf.scene;
+  wireModel.scale.set(0.6, 0.6, 0.6);
+  wireModel.rotation.y = Math.PI + Math.PI / 4;
+  wireModel.rotation.x = - Math.PI / 8;
+  wireModel.position.y = -2;
+  wireModel.position.z = -9.7;
+  wireModel.position.x = -10.2;
 
 }, undefined, function (error) {
 
@@ -88,9 +93,6 @@ const raycaster = new THREE.Raycaster();
 
 // Create a mouse vector
 const mouse = new THREE.Vector2();
-
-// Create an array to store intersected objects
-const intersectedObjects = [];
 
 let timeValues = [];
 
