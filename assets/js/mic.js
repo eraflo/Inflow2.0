@@ -18,11 +18,13 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true});
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let mic;
+let wire;
 let teta0;
 
 //const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new GLTFLoader();
 
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(rendererWidthSize, rendererHeightSize);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -103,10 +105,13 @@ function onMouseMove(event) {
   }
 }
 
+// resize windows
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
 
   camera.aspect = window.innerWidth / window.innerHeight;
+  camera.left = camera.aspect * 10 / - 2;
+  camera.right = camera.aspect * 10 / 2;
   camera.updateProjectionMatrix();
   renderer.setSize(rendererWidthSize, rendererHeightSize);
   renderer.render(scene, camera);
@@ -155,7 +160,6 @@ function animate() {
 
 
 // wire
-let wire;
 loader.load(wireModel, function (gltf) {
 
   scene.add(gltf.scene);

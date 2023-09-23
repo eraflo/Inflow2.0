@@ -82,6 +82,18 @@ Encore
         config.corejs = '3.23';
     })
 
+    // configure inlining images and fonts
+    .configureImageRule({
+        type: 'asset',
+        maxSize: 4 * 1024 // 4kb
+    })
+
+    .configureFontRule({
+        type: 'asset',
+        maxSize: 4 * 1024 // 4kb
+    })
+
+
     // enables Sass/SCSS support
     .enableSassLoader()
 
