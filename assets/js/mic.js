@@ -7,12 +7,11 @@ function degToRad(degrees) {
   return degrees * Math.PI / 180;
 }
 
-let rendererWidthSize = window.innerWidth / 2;
-let rendererHeightSize = window.innerHeight / 2;
+let rendererWidthSize = window.innerWidth;
+let rendererHeightSize = window.innerHeight;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 let mic;
 let teta0;
@@ -23,12 +22,16 @@ const loader = new GLTFLoader();
 renderer.setSize(rendererWidthSize, rendererHeightSize);
 document.body.querySelector('div.render').appendChild(renderer.domElement);
 
+let micBasePlacement = {x: -4, y:0, z:-4};
+
+// micro
 loader.load(microModel, function (gltf) {
 
   scene.add(gltf.scene);
   mic = gltf.scene;
   teta0 = - 3 * Math.PI / 6;
   mic.rotation.z = teta0;
+  mic.position.z = micBasePlacement.z;
   intersectedObjects.push(mic);
 
   animate();
@@ -40,7 +43,32 @@ loader.load(microModel, function (gltf) {
 
 });
 
-const light = new THREE.AmbientLight(0xffffff, 2); // soft white light
+// wire
+loader.load(wireModel, function (gltf) {
+
+  scene.add(gltf.scene);
+  wire = gltf.scene;
+  wire.scale.set(0.6, 0.6, 0.6);
+  wire.rotation.y = Math.PI + Math.PI / 4;
+  wire.rotation.x = - Math.PI / 8;
+  wire.position.y = -2;
+  wire.position.z = -9.7;
+  wire.position.x = -10.2;
+
+}, undefined, function (error) {
+
+  console.error(error);
+
+});
+
+// ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+// light
+const light = new THREE.DirectionalLight(0xffffff, 2); // soft white light
+light.position.set(0, 10, 0);
+light.castShadow = true;
 scene.add(light);
 
 
@@ -87,25 +115,30 @@ function onMouseMove(event) {
   }
 }
 
+// const axesHelper = new THREE.AxesHelper(4); // La valeur passée est la longueur des axes
+// scene.add(axesHelper);
+
+// resize windows
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
 
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(rendererWidthSize, rendererHeightSize);
-  renderer.render(scene, camera);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 let ZMicRotation;
 let valuesToEvict = [];
 
 function animate() {
-  // controls.update();
+  //controls.update();
   t += 1 / 60;
   coef = (coef > 0) ? Math.exp(-1 / 10 * t) * (1 + 1 / 10 * coef) : 0;
 
+  let add;
+
   for (let timeValue of timeValues) {
-    let add = (Math.exp(-1/(4*(t - timeValue)))+Math.log((-(t - timeValue)+20)/20));
+    let add = (Math.exp(-1 / (4 * (t - timeValue))) + Math.log((-(t - timeValue) + 20) / 20));
     if (add <= -0.01) {
       valuesToEvict.push(timeValue);
     } else {
@@ -113,25 +146,14 @@ function animate() {
     }
   }
 
-  /* let add;
-
-  for (let timeValue of timeValues) {
-    if (t - timeValue >= 10) {
-      add = (Math.exp(-1 / (4 * (t - timeValue))) + Math.log((-(t - timeValue) + 20) / 20));
-    } else {
-      add = (Math.exp(-1 / (4 * (t - timeValue))) + Math.log((-(t - timeValue) + 20) / 20));
-    }
-    coef += add;
-  } */
-
   for (let valueToEvict of valuesToEvict) {
     timeValues.splice(timeValues.indexOf(valueToEvict), 1);
   }
   valuesToEvict = [];
   ZMicRotation = - teta0 * Math.sin(Math.sqrt(9.81 / 2) * t) * (coef) + Math.PI;
   mic.rotation.z = ZMicRotation;
-  mic.position.x = - 4 * Math.sin(mic.rotation.z);
-  mic.position.y = 4 * Math.cos(mic.rotation.z);
+  mic.position.x = micBasePlacement.x - 4 * Math.sin(mic.rotation.z);
+  mic.position.y = micBasePlacement.y + 4 * Math.cos(mic.rotation.z);
 
   renderer.render(scene, camera);
   requestAnimationFrame(animate);

@@ -260,8 +260,11 @@ main {
 
 /* Micro */
 
-#mic-part {
-    
+.render {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 #presentation-part, #staff-part {
