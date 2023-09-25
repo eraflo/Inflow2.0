@@ -1,5 +1,6 @@
 :root {
     --background: linear-gradient(180deg, rgba(9,9,121,1) 1%, rgba(0,212,255,1) 100%);
+    --spotify-color: rgba(225, 225, 225, 0.46);
 }
 
 * {
@@ -295,6 +296,61 @@ main {
         padding: 0em 5em;
     }
 
+}
+
+/* Spotify */
+
+#playlist-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2em 0em;
+    background: #000;
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: white;
+        padding-left: 5em;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+    }
+
+    #playlists {
+
+    }
+
+    #album {
+        align-self: flex-end;
+        padding: 2em 0em;
+        h2 {
+        }
+    }
+
+    #new-playlists, #new-albums {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background: var(--spotify-color);
+        height: 200px;
+    }
+
+    #new-playlists {
+        width: 90%;
+        border-radius: 0px 6px 6px 0px;
+    }
+
+    #new-albums {
+        width: 100%;
+        border-radius: 6px 0px 0px 6px;
+    }
+
+    .line {
+        width: 30em;
+        height: 2px;
+        background: var(--spotify-color);
+        margin-bottom: 1em;
+    }
 }
 
 /* bandeau */
