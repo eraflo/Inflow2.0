@@ -36,8 +36,42 @@
 
     <article id="videos-part">
         <h2> NOS VIDEOS </h2>
-        <section id="new-videos">
-            aaa
+        <section id="new-videos" class="band">
+            <span class="band-group">
+                {% for video in videos %}
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="card-img">
+                        <img src="{{video.snippet.thumbnails.high.url}}">
+                    </a>
+                {% endfor %}
+            </span>
+            <span class="band-group">
+                {% for video in videos %}
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="card-img">
+                        <img src="{{video.snippet.thumbnails.high.url}}">
+                    </a>
+                {% endfor %}
+            </span>
+            <span class="band-group">
+                {% for video in videos %}
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="card-img">
+                        <img src="{{video.snippet.thumbnails.high.url}}">
+                    </a>
+                {% endfor %}
+            </span>
+            <span class="band-group">
+                {% for video in videos %}
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="card-img">
+                        <img src="{{video.snippet.thumbnails.high.url}}">
+                    </a>
+                {% endfor %}
+            </span>
+            <span class="band-group">
+                {% for video in videos %}
+                    <a href="https://www.youtube.com/watch?v={{video.id.videoId}}" class="card-img">
+                        <img src="{{video.snippet.thumbnails.high.url}}">
+                    </a>
+                {% endfor %}
+            </span>
         </section>
     </article>
 
@@ -87,7 +121,7 @@
     <article id="live-part">
         <h2> Nous sommes aussi en LIVE </h2>
         <section id="new-lives">
-
+            test
         </section>
     </article>
 
@@ -140,15 +174,22 @@
             <h2> Les playlists Inflow </h2>
             <div class="line"></div>
             <div id="new-playlists">
-                <span>Test</span>
-                <span>Test</span>
+                {% for playlist in playlists %}
+                    <a href="{{playlist.uri}}">
+                        <img src="{{playlist.images[0].url}}">
+                    </a>
+                {% endfor %}
             </div>
         </section>
         <section id="album">
             <h2> Nos Albums </h2>
             <div class="line"></div>
             <div id="new-albums">
-
+                {% for album in albums %}
+                    <a href="{{album.uri}}">
+                        <img src="{{album.images[0].url}}">
+                    </a>
+                {% endfor %}
             </div>
         </section>
     </article>

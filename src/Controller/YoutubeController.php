@@ -55,7 +55,7 @@ class YoutubeController extends AbstractController
         $videos = $cache->getItem('youtube_videos_page_1');
         $previousVideoNumber = $cache->getItem('previous_video_number');
 
-        //dd($cache->getItem('youtube_videos_page_1')->get()['results'][0]);
+        // dd($cache->getItem('youtube_videos_page_1')->get()['results'][0]);
 
         if (
             !$videos->isHit() ||

@@ -5,6 +5,7 @@ namespace App\Controller;
 use Google\Service\CloudSearch\UserId;
 use SpotifyWebAPI\SpotifyWebAPI;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,18 +18,32 @@ class SpotifyController extends AbstractController
     #[Route('/playlists', name: 'app_spotify_list', methods: ['GET'])]
     public function index(SpotifyWebAPI $api): Response
     {
-        
-        $playlists = $api->getUserPlaylists(self::UserId);
-        $playlists = $playlists->items;
-        $id = 0;
-        foreach($playlists as $playlist) {
-            if($playlist->owner->id != self::UserId)
-                unset($playlists[$id]);
-            $id++;
+        // Mettre en cache les playlists
+        $cache = new FilesystemAdapter();
+
+        $playlists = $cache->getItem('spotify_playlists');
+        if( !$playlists->isHit() ){
+            // Récupérer les playlists
+            $playlistsTemp = $api->getUserPlaylists(self::UserId);
+            $playlistsTemp = $playlistsTemp->items;
+
+            // Supprimer les playlists qui ne sont pas de l'utilisateur
+            $id = 0;
+            foreach($playlistsTemp as $playlist) {
+                if($playlist->owner->id != self::UserId)
+                    unset($playlistsTemp[$id]);
+                $id++;
+            }
+
+            // Mettre en cache
+            $playlists->set($playlistsTemp);
+            $playlists->expiresAfter(1800);
+            $cache->save($playlists);
         }
+        
 
         return $this->render('spotify/index.html.twig', [
-            'playlists' => $playlists,
+            'playlists' => $playlists->get(),
         ]);
         
     }
@@ -64,12 +79,22 @@ class SpotifyController extends AbstractController
             }
         }
 
-        $albums = $api->getArtistAlbums($artist->id);
-        $albums = $albums->items;
+        // cache des albums
+        $cache = new FilesystemAdapter();
+
+        $albums = $cache->getItem('spotify_albums');
+        if(!$albums->isHit()) {
+            $albumsTemp = $api->getArtistAlbums($artist->id);
+            $albumsTemp = $albumsTemp->items;
+
+            $albums->set($albumsTemp);
+            $albums->expiresAfter(1800);
+            $cache->save($albums);
+        }
 
 
         return $this->render('spotify/albums.html.twig', [
-            'albums' => $albums,
+            'albums' => $albums->get(),
         ]);
     }
 

@@ -1,6 +1,7 @@
 :root {
     --background: linear-gradient(180deg, rgba(9,9,121,1) 1%, rgba(0,212,255,1) 100%);
     --spotify-color: rgba(225, 225, 225, 0.46);
+    --spotify-color-transparent: rgba(225, 225, 225, 0.2);
 }
 
 * {
@@ -171,7 +172,7 @@ main {
     background: var(--background) !important;
     // déplacer la div derrière le header
     margin-top: -35px;
-    
+
 }
 
 
@@ -262,13 +263,52 @@ main {
     }
 
     #new-videos {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 0em 5em;
+        background: white !important;
     }
+
+    a {
+        margin: 0em 0.5em;
+
+        // colle le bas de la div
+        margin-bottom: -0.4em;
+
+        margin-top: 0.5em;
+
+        // taille des images
+        width: 15em;
+        height: 10em;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0.1em;
+
+        // overlay
+        filter: brightness(30%);
+    }
+
+    // hover sur les images
+    a:hover img {
+        transform: scale(1.1);
+        transition: transform 0.5s;
+
+        // overlay
+        filter: brightness(100%);
+
+    }
+
+    // quitte le hover
+    a:hover:not(:hover) img {
+        transform: scale(1);
+        transition: transform 0.5s;
+    }
+
+    .band-group {
+        animation: defilementInverse 40s linear infinite !important;
+    }
+
 }
 
 /* LIVE */
@@ -293,7 +333,12 @@ main {
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
-        padding: 0em 5em;
+        padding: 10em 5em;
+
+        // photo de fond
+        background-image: url("../img/all/concert.png");
+        background-size: cover;
+        background-position: center;
     }
 
 }
@@ -305,7 +350,12 @@ main {
     flex-direction: column;
     justify-content: center;
     padding: 2em 0em;
-    background: #000;
+    // photo de fond
+    background-image: url("../img/all/playlists_background_2.png");
+    background-size: cover;
+
+    // léger assombrissement sur la photo de fond
+    background-color: rgb(0, 0, 0);
 
     h2 {
         font-size: 1.5rem;
@@ -332,17 +382,116 @@ main {
         flex-direction: row;
         flex-wrap: wrap;
         background: var(--spotify-color);
-        height: 200px;
+        height: 20em;
     }
 
     #new-playlists {
         width: 90%;
         border-radius: 0px 6px 6px 0px;
+
+        // centrage des images
+        justify-content: center;
+        align-items: center;
+
+        padding: 0em 5em;
+
+        overflow: hidden;
+    }
+
+    #new-playlists a {
+        width: 20%;
+        height: 80%;
+
+        padding: 0.5em;
+    }
+
+    #new-playlists a img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+
+        border: 1px solid var(--spotify-color);
+        border-radius: 0.5em 0.5em 0em 0em;
+
+        // ombre
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+        // lumière
+        -webkit-box-reflect: below 0px linear-gradient(transparent, rgba(0,0,0,0.2));
+
+        // overlay
+        filter: brightness(30%);
+    }
+
+    // hover sur les images
+    #new-playlists a:hover img {
+        transform: scale(1.1);
+        transition: transform 0.5s;
+
+        // ombre
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+        // lumière
+        -webkit-box-reflect: below 0px linear-gradient(transparent, rgba(0,0,0,0.2));
+
+        // overlay
+        filter: brightness(100%);
     }
 
     #new-albums {
-        width: 100%;
+        width: 220%;
         border-radius: 6px 0px 0px 6px;
+
+        // translater la div vers la gauche
+        transform: translateX(-38em);
+
+        // centrage des images
+        justify-content: center;
+        align-items: center;
+
+
+        overflow: hidden;
+        
+    }
+
+    #new-albums a {
+        width: 40%;
+        height: 80%;
+
+        padding: 0.5em;
+    }
+
+    #new-albums a img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+
+        border: 1px solid var(--spotify-color);
+        border-radius: 0.5em 0em 0em 0.5em;
+
+        // ombre
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+        // lumière
+        -webkit-box-reflect: below 0px linear-gradient(transparent, rgba(0,0,0,0.2));
+
+        // overlay
+        filter: brightness(30%);
+    }
+
+    // hover sur les images
+    #new-albums a:hover img {
+        transform: scale(1.1);
+        transition: transform 0.5s;
+
+        // ombre
+        filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.5));
+
+        // lumière
+        -webkit-box-reflect: below 0px linear-gradient(transparent, rgba(0,0,0,0.2));
+
+        // overlay
+        filter: brightness(100%);
     }
 
     .line {
@@ -399,7 +548,7 @@ main {
     filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5));
 
     -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,0.2));
-    
+
 }
 
 .twitch_text img {
@@ -424,6 +573,16 @@ main {
         transform: translateX(-100%);
     }
 }
+
+@keyframes defilementInverse {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
 
 /* Micro */
 
