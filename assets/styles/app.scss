@@ -4,6 +4,10 @@
     --spotify-color-transparent: rgba(225, 225, 225, 0.2);
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -185,7 +189,6 @@ main {
     width: 100%;
     height: 3px;
     background: linear-gradient(to bottom right, #000, #000);
-    margin: 0.5em 0;
 }
 
 .line-up {
@@ -199,12 +202,44 @@ main {
 
 /* top */
 #top-part {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 7em 0em;
+    // height: 100vh;
+    // overflow-y: auto;
+    // perspective: 10px;
 }
+
+#logo-and-mic > *, #articles > * {
+    // position: absolute;
+    // height: 100%;
+    // width: 100%;
+    // object-fit: cover;
+    // z-index: -1;
+}
+
+
+
+#logo-and-mic {
+    // width: 100%;
+    // height: 100%;
+    // position: relative;
+    // z-index: -1;
+    // transform-style: preserve-3d;
+
+    // penché la div
+    transform: skewY(2deg);
+
+    // photo de fond
+    background-image: url("../img/all/concert.png");
+    background-size: cover;
+    background-position: center;
+
+}
+
+// enfant de #logo-and-mic
+#logo-and-mic > * {
+    // penché la div
+    transform: skewY(-2deg) !important;
+}
+
 
 #slogan {
     display: flex;
@@ -222,11 +257,17 @@ main {
     }
 }
 
+
 #articles {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+
     margin-bottom: 5em;
     margin-top: 2em;
     transform: translateX(-50%);
@@ -334,11 +375,6 @@ main {
         align-items: center;
         flex-wrap: wrap;
         padding: 10em 5em;
-
-        // photo de fond
-        background-image: url("../img/all/concert.png");
-        background-size: cover;
-        background-position: center;
     }
 
 }
@@ -408,7 +444,7 @@ main {
     #new-playlists a img {
         width: 100%;
         height: 100%;
-        object-fit: cover; 
+        object-fit: cover;
 
         border: 1px solid var(--spotify-color);
         border-radius: 0.5em 0.5em 0em 0em;
@@ -451,7 +487,7 @@ main {
 
 
         overflow: hidden;
-        
+
     }
 
     #new-albums a {
@@ -464,7 +500,7 @@ main {
     #new-albums a img {
         width: 100%;
         height: 100%;
-        object-fit: cover; 
+        object-fit: cover;
 
         border: 1px solid var(--spotify-color);
         border-radius: 0.5em 0em 0em 0.5em;
