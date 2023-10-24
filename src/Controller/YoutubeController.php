@@ -27,6 +27,8 @@ class YoutubeController extends AbstractController
 
         $youtube = new Youtube(['key' => self::KEY]);
 
+
+        // Caching number of videos if none are cached
         $numberOfVideos = $cache->getItem('number_of_videos');
         if (!$numberOfVideos->isHit()) {
             $numberOfVideos->set((int) $youtube->getChannelById(self::CHANNEL_ID)->statistics->videoCount);
@@ -34,10 +36,9 @@ class YoutubeController extends AbstractController
             $cache->save($numberOfVideos);
         }
 
-        //dd($numberOfVideos);
-
         //$cache->deleteItem('last_video');
 
+        // Caching last video if none is cached
         $lastVideo = $cache->getItem('last_video');
         if (!$lastVideo->isHit()) {
             $lastVideo->set($youtube->searchChannelVideos([], self::CHANNEL_ID, 1, Youtube::ORDER_DATE));
@@ -45,36 +46,39 @@ class YoutubeController extends AbstractController
             $cache->save($lastVideo);
         }
 
-        //dd($lastVideo);
-
-        //$cache->deleteItem('youtube_videos_page_1');
 
         //  only the number of pages / resultset returned by the api
         $numberOfPages = ceil($numberOfVideos->get() / self::nbVideosPerRequest);
 
+        // Get the videos from page 1 from the cache if they are already cached
         $videos = $cache->getItem('youtube_videos_page_1');
         $previousVideoNumber = $cache->getItem('previous_video_number');
 
-        // dd($cache->getItem('youtube_videos_page_1')->get()['results'][0]);
-
+        // Check if the last video has changed
         if (
             !$videos->isHit() ||
             $cache->getItem('youtube_videos_page_1')->get()['results'][0]->id->videoId !== $lastVideo->get()['results'][0]->id->videoId ||
             !$previousVideoNumber->isHit() ||
             $previousVideoNumber->get() !== $numberOfVideos->get()
         ) {
-
+            // if the last video has changed, we need to refresh the cache
             $previousVideoNumber->set($numberOfVideos->get());
             $previousVideoNumber->expiresAfter(3600);
             $cache->save($previousVideoNumber);
 
+            // refreshing all the 'youtube_videos_page_1' from the cache to avoid inconsistancies if videos have been added on the youtube channel
             $videos->set($youtube->searchChannelVideos([], self::CHANNEL_ID, self::nbVideosPerRequest, Youtube::ORDER_DATE));
-            //$videos['info'];
             $videos->expiresAfter(3600);
             $cache->save($videos);
 
-            $nextPageToken = $videos->get()['info']['nextPageToken'];
+            // if there are more than 50 videos, we need to get the other pages
+            if($videos->get()['info']['nextPageToken']) {
+                $nextPageToken = $videos->get()['info']['nextPageToken'];
+            } else {
+                $nextPageToken = null;
+            }
             
+            // refreshing all the 'youtube_videos_page_x' from the cache to avoid inconsistancies if videos have been added on the youtube channel
             for ($i = 2; $i <= $numberOfPages; $i++) {
 
                 if (!$nextPageToken) {
@@ -84,7 +88,7 @@ class YoutubeController extends AbstractController
                 $videos = $cache->getItem('youtube_videos_page_'.$numberOfPages);
 
                 //if (!$videos->isHit()) {
-                //  refreshing all the 'youtube_videos_page_x' from the cache to avoid inconsistancies if videos have been added on the youtube channel 
+                    
                 $videos->set($youtube->searchAdvanced(['q' => [], 'pageToken' => $nextPageToken, 'channelId' => self::CHANNEL_ID, 'maxResults' => self::nbVideosPerRequest, 'order' => Youtube::ORDER_DATE], true));
                 $nextPageToken = $videos->get()['info']['nextPageToken'];
                 $videos->expiresAfter(3600);
@@ -105,16 +109,14 @@ class YoutubeController extends AbstractController
             }
         }
 
+        // Index of the page in the cache
         $youtubeVideosPageIndex = ceil(($page * self::nbVideosPerPage) / self::nbVideosPerRequest);
         $offset = (($page - 1) * self::nbVideosPerPage) % self::nbVideosPerRequest;
 
         $videos = $cache->getItem('youtube_videos_page_'.$youtubeVideosPageIndex);
 
-        //$videos = $youtube->searchChannelVideos([], self::CHANNEL_ID, $offset + self::nbVideosPerRequest, Youtube::ORDER_DATE);
-        
+        // Get the videos in the x page
         $videos = array_slice($videos->get()['results'], $offset, self::nbVideosPerPage);
-
-        //$nbVideos = count($videos);
 
         return $this->render('youtube/index.html.twig', [
             'videos' => $videos,
