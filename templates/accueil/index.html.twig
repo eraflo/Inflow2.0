@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/accueil.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -12,26 +13,38 @@
 
 {% block body %}
 
-
-    <article id="top-part">
-        <section id="logo-and-mic">
-            <section id="slogan">
-                <h1> Lorem ipsum dolor sit amet consectetur adipisicing elit. </h1>
-            </section>
-            <div id="logo">
-                <div class='render'> </div>
+            {# <div class='render'> </div>
                 {{ encore_entry_script_tags('mic') }}
-                <img src="{{asset('build/img/all/logo.png')}}">
+            <img src="{{asset('build/img/all/logo.png')}}"> #}
+
+    <div id="parallax-wrapper">
+        <div id="header-parallax">
+            <div id="header-parallax-mask">
+                <div id="header-parallax-content">
+                    <div id="header-parallax-content-text">
+                        <h1> INFLOW </h1>
+                        <h2> Le rap français en live </h2>
+                    </div>
+                    <div id="header-parallax-content-img">
+                        <img src="{{asset('build/img/all/logo.png')}}">
+                    </div>
+                </div>
             </div>
-        </section>
-        <div class="line-down"></div>
-        <section id="articles">
-            <h1> Derniers articles </h1>
-            <div id="new-articles">
-                aa
+        </div>
+        <div id="main-parallax">
+            <div id="container-parallax">
+                <h2 id="section-title"> Nos Articles </h2>
+                <div id="new-articles">
+                    {# {% for article in articles %}
+                        <a href="{{path('article', {'id': article.id})}}">
+                            <img src="{{article.image}}">
+                        </a>
+                    {% endfor %} #}
+                </div>
             </div>
-        </section>
-    </article>
+        </div>
+    </div>
+
 
     <article id="videos-part">
         <h2> NOS VIDEOS </h2>

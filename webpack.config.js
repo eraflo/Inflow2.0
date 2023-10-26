@@ -20,6 +20,14 @@ Encore
         to: 'img/[path][name].[ext]',
         pattern: /\.(png|jpg|jpeg)$/
     })
+
+    // svg
+    .copyFiles({
+        from: './assets/svg',
+        to: 'svg/[path][name].[ext]',
+        pattern: /\.(svg)$/
+    })
+
     .copyFiles({
         from: './assets/models',
         to: 'models/[path][name].[ext]',
@@ -43,10 +51,11 @@ Encore
     .addEntry('mic', './assets/js/mic.js')
 
     // Css files
-    .addStyleEntry('login', './assets/css/login.css')
-    .addStyleEntry('pagination', './assets/css/pagination.css')
-    .addStyleEntry('register', './assets/css/register.css')
-    .addStyleEntry('youtube', './assets/css/youtube.css')
+    .addStyleEntry('./css/login', './assets/css/login.css')
+    .addStyleEntry('./css/pagination', './assets/css/pagination.css')
+    .addStyleEntry('./css/register', './assets/css/register.css')
+    .addStyleEntry('./css/youtube', './assets/css/youtube.css')
+    .addStyleEntry('./css/accueil', './assets/styles/accueil.scss')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
