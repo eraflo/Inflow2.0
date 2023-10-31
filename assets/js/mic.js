@@ -61,13 +61,13 @@ light.castShadow = true;
 scene.add(light);
 
 // Positionnement caméra
-camera.position.x = -10;
-camera.position.y = -9;
-camera.position.z = 11;
+camera.position.x = 0;
+camera.position.y = 0;
+camera.position.z = 30;
 
-camera.rotation.x = degToRad(40);
-camera.rotation.y = degToRad(-37);
-camera.rotation.z = degToRad(26);
+camera.rotation.x = degToRad(0);
+camera.rotation.y = degToRad(0);
+camera.rotation.z = degToRad(0);
 
 // Calcul du pendule
 let t = 0;
@@ -164,7 +164,9 @@ loader.load(wireModel, function (gltf) {
 
   scene.add(gltf.scene);
   wire = gltf.scene;
-  wire.scale.set(5, 7, 5);
+  // wire.scale.set(5, 7, 5);
+  wire.rotation.set(0, 3*Math.PI / 2, 0);
+  wire.position.set(-14.5, -0.1, 0);
 
 }, undefined, function (error) {
 
