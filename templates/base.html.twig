@@ -1,90 +1,207 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>{% block title %}Inflow{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+		<title>
+			{% block title %}Inflow
+			{% endblock %}
+		</title>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% if app.request.attributes.get('_route') not in ['app_login', 'app_registration'] %}
-            <header>
-                <nav>
-                    <div id="logo">
-                        <a href="{{ path('app_home') }}"><img src="{{asset('build/img/all/logo.png')}}" alt="logo"></a>
-                    </div>
-                    <div id="main-header">
-                        <a href="/">Accueil</a>
-                        <a href="{{ path('app_articles') }}">Article</a>
-                        <a href="{{ path('app_youtube') }}">Vidéos</a>
-                        <a href="{{ path('app_spotify_list') }}">Playlists</a>
-                        <a href="{{ path('app_search') }}">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <div id="member">
-                        <i class="fa-regular fa-user dropbtn" style="color: #ffffff;"></i>
-                        {% if not is_granted('ROLE_USER') %}
-                            <div class="dropdown">
-                                <div class="dropdown-content">
-                                    <a href="{{path('app_login')}}">Connexion</a>
-                                    <a href="{{path('app_registration')}}">Inscription</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if is_granted('ROLE_USER') %}
-                            <div class="dropdown">
-                                <div class="dropdown-content">
-                                    <a href="/users/{{ app.user.id }}">Mon compte (<span class="username">{{ app.user.username }}</span>)</a>
-                                    <a href="{{path('app_logout')}}">Déconnexion</a>
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </nav>
-            </header>
-        {% endif %}
-        <main>
-            {% block body %}
-            {% endblock %}
-        </main>
-        <footer>
-            <article id="footer-part">
-                <section id="title-footer">
-                    <p id="contact"> Contact </p>
-                    <p id="social"> Nous suivre </p>
-                </section>
-                <section id="data-footer">
-                    <div id="email">
-                        <p>inflow@gmail.com</p>
-                    </div>
-                    <div id="social-link">
-                        <a href="https://www.facebook.com/">
-                            <p>Facebook</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://twitter.com/">
-                            <p>Twitter</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.instagram.com/">
-                            <p>Instagram</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.youtube.com/">
-                            <p>Youtube</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.twitch.tv/">
-                            <p>Twitch</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </section>
-            </article>
-        </footer>
-    </body>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{% if app.request.attributes.get('_route') not in ['app_login', 'app_registration'] %}
+			<header>
+				<nav>
+					<div id="logo">
+						<a href="{{ path('app_home') }}"><img src="{{asset('build/img/all/logo.png')}}" alt="logo"></a>
+					</div>
+					<div id="main-header">
+						<a href="/">Accueil</a>
+						<a href="{{ path('app_articles') }}">Article</a>
+						<a href="{{ path('app_youtube') }}">Vidéos</a>
+						<a href="{{ path('app_spotify_list') }}">Playlists</a>
+						<a href="{{ path('app_search') }}">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</a>
+					</div>
+					<div id="member">
+						<i class="fa-regular fa-user dropbtn" style="color: #ffffff;"></i>
+						{% if not is_granted('ROLE_USER') %}
+							<div class="dropdown">
+								<div class="dropdown-content">
+									<a href="{{path('app_login')}}">Connexion</a>
+									<a href="{{path('app_registration')}}">Inscription</a>
+								</div>
+							</div>
+						{% endif %}
+						{% if is_granted('ROLE_USER') %}
+							<div class="dropdown">
+								<div class="dropdown-content">
+									<a href="/users/{{ app.user.id }}">Mon compte (<span class="username">{{ app.user.username }}</span>)</a>
+									<a href="{{path('app_logout')}}">Déconnexion</a>
+								</a>
+							</div>
+						{% endif %}
+					</div>
+				</nav>
+			</header>
+		{% endif %}
+		<main>
+			{% block body %}{% endblock %}
+		</main>
+		<footer>
+			<div>
+				<section id="contacts">
+					<div>
+						<h1>
+							Contacts
+						</h1>
+						<ul>
+							<li>inflow@gmail.com</li>
+							<li>[phone number]</li>
+							<li>[...]</li>
+						</ul>
+					</div>
+				</section>
+				<section id="socials">
+					<div>
+						<canvas></canvas>
+						<div class="head">
+							<h1>
+							    Nous suivre
+						    </h1>
+						</div>
+						<ul class="tentacles">
+                            {# https://dev.to/jh3y/circular-text-with-css-57jf #}
+                            <li class="tentacle">
+								<a href="https://www.facebook.com/">
+									<img src="{{ asset('build/img/all/Facebook logo round.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Facebook&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+							<li class="tentacle">
+								<a href="https://x.com/InflowOfficiel">
+									<img src="{{ asset('build/img/all/X Twitter logo round.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Twitter - InflowOfficiel -&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+							<li class="tentacle">
+								<a href="https://www.instagram.com/inflow_officiel/">
+									<img src="{{ asset('build/img/all/Insta Logo.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Instagram - @inflow_officiel -&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+							<li class="tentacle">
+								<a href="https://www.youtube.com/@InflowOfficiel">
+									<img src="{{ asset('build/img/all/Youtube logo round.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Youtube - @InflowOfficiel -&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+							<li class="tentacle">
+								<a href="https://www.twitch.tv/inflowofficiel">
+									<img src="{{ asset('build/img/all/twitch logo round.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Twitch - Inflowofficiel -&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+							<li class="tentacle">
+								<a href="https://open.spotify.com/intl-fr/artist/7djLavCbgtvH6E9nYkHWUU">
+									<img src="{{ asset('build/img/all/spotify logo round.png') }}"/>
+									<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+										<path id="circlePath" d="
+                                            M 50,10
+                                            A 40,40 0 1,1 50,90
+                                            A 40,40 0 1,1 50,10
+                                            " fill="none" stroke="transparent"
+                                        />
+                                        <text>
+                                            <textPath href="#circlePath" textLength="251.2" startOffset="0">
+                                                Spotify - Inflow -&nbsp
+                                            </textPath>
+                                        </text>
+									</svg>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</div>
+			<section id="legal-notices">
+				<div>
+					<a href="#">
+						Mentions légales
+					</a>
+				</div>
+			</section>
+		</footer>
+	</body>
 </html>

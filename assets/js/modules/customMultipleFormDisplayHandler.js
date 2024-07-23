@@ -49,6 +49,7 @@ class customMultipleFormDisplayHandler {
     addDeleteCategoryEvent(deleteCategoryButton) {
         deleteCategoryButton.addEventListener('click', (e) => {
             e.preventDefault();
+            let multipleChoicesFormOptions = this.multipleChoicesForm.querySelectorAll('option');
             multipleChoicesFormOptions[e.target.parentNode.getAttribute('value') - 1].selected = false;
             //console.log(e.target.parentNode.getAttribute('value'));
             e.target.parentNode.remove();

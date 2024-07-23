@@ -47,7 +47,7 @@ class YoutubeController extends AbstractController
 
         //dd($lastVideo);
 
-        //$cache->deleteItem('youtube_videos_page_1');
+        $cache->deleteItem('youtube_videos_page_1');
 
         //  only the number of pages / resultset returned by the api
         $numberOfPages = ceil($numberOfVideos->get() / self::nbVideosPerRequest);
@@ -55,11 +55,12 @@ class YoutubeController extends AbstractController
         $videos = $cache->getItem('youtube_videos_page_1');
         $previousVideoNumber = $cache->getItem('previous_video_number');
 
-        //dd($cache->getItem('youtube_videos_page_1')->get()['results'][0]);
+        //dd($cache->getItem('youtube_videos_page_1')->get());
+        dd($cache->getItem('youtube_videos_page_1')->get());
 
         if (
             !$videos->isHit() ||
-            $cache->getItem('youtube_videos_page_1')->get()['results'][0]->id->videoId !== $lastVideo->get()['results'][0]->id->videoId ||
+            $videos->get()['results'][0]->id->videoId !== $lastVideo->get()['results'][0]->id->videoId ||
             !$previousVideoNumber->isHit() ||
             $previousVideoNumber->get() !== $numberOfVideos->get()
         ) {
@@ -69,7 +70,6 @@ class YoutubeController extends AbstractController
             $cache->save($previousVideoNumber);
 
             $videos->set($youtube->searchChannelVideos([], self::CHANNEL_ID, self::nbVideosPerRequest, Youtube::ORDER_DATE));
-            //$videos['info'];
             $videos->expiresAfter(3600);
             $cache->save($videos);
 

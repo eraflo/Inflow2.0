@@ -9,11 +9,11 @@ function degToRad(degrees) {
 }
 
 let rendererWidthSize = window.innerWidth;
-let rendererHeightSize = window.innerHeight;
+let rendererHeightSize = window.innerWidth / 2;
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, 2 , 0.1, 1000);
 let mic;
 let teta0;
 
@@ -53,12 +53,12 @@ loader.load(wireModel, function (gltf) {
 
   scene.add(gltf.scene);
   wireModel = gltf.scene;
-  wireModel.scale.set(0.6, 0.6, 0.6);
+  wireModel.scale.set(1, 1, 1);
   wireModel.rotation.y = Math.PI + Math.PI / 4;
   wireModel.rotation.x = - Math.PI / 8;
-  wireModel.position.y = -2;
-  wireModel.position.z = -9.7;
-  wireModel.position.x = -10.2;
+  wireModel.position.y = -3.6;
+  wireModel.position.z = -13.7;
+  wireModel.position.x = -14.2;
 
 }, undefined, function (error) {
 
@@ -121,12 +121,18 @@ function onMouseMove(event) {
 // scene.add(axesHelper);
 
 // resize windows
+console.log(renderer.domElement.parentElement.clientHeight);
+renderer.domElement.parentElement.style.top = (- renderer.domElement.parentElement.clientHeight / 2) + "px";
+let micbg = document.querySelector('.inflow-logo-container');
+micbg.style.height = micbg.clientWidth / 2 + "px";
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
 
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = 2;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerWidth / 2);
+  micbg.style.height = micbg.clientWidth / 2 + "px";
+  //console.log(micbg.style.height);
 }
 
 let ZMicRotation;

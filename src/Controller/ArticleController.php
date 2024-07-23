@@ -47,6 +47,7 @@ class ArticleController extends AbstractController
 
         $article = $this->em->getRepository(Articles::class)->find($id);
 
+        // To Do: redirect to error page
         if (empty($article)) {
             return $this->redirectToRoute('app_home');
         }
