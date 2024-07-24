@@ -35,7 +35,6 @@ class CreateArticleFormType extends AbstractType
                     'day' => date('d'),
                 ],
             ])
-            ->add('description', TextType::class)
             ->add('categories', ChoiceType::class, [
                 'choices' => $options['categories'],
                 'mapped' => false,

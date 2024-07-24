@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let opinionAdderUrl = '/articles/' + articleId + '/comments/{comment_id}/opinions/add';
     let commentDeletionUrl = '/articles/' + articleId + '/comments/{comment_id}/delete';
     let userProfilePath = '/users/{user_id}';
-    let getRepliesUrl = '/articles/' + articleId + '/comments/{comment_id}/replies';
-
-    let commentsDiv = document.querySelector('div.comments');
+    //let getRepliesUrl = '/articles/' + articleId + '/comments/{comment_id}/replies';
 
     let commentTemplate = document.querySelector('.comment.template').cloneNode(true);
     commentTemplate.classList.remove('template');

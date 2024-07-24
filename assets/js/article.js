@@ -1,4 +1,4 @@
-import CKEDITORCustomAddOns from './modules/CKEDITORCustomAddOns.js';
+//import CKEDITORCustomAddOns from './modules/CKEDITORCustomAddOns.js';
 import customMultipleFormDisplayHandler from './modules/customMultipleFormDisplayHandler.js';
 let opinionManager = require('./modules/opinionAdder.js');
 let tagsAndMentionsHandler = require('./modules/tagsAndMentionsHandler.js');
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (articleAdderFormAgrs.every(arg => arg !== null)) {
             let customMultipleFormDisplayHandlerObj = new customMultipleFormDisplayHandler(...articleAdderFormAgrs);
             customMultipleFormDisplayHandlerObj.handle();
-            CKEDITORCustomAddOns.test();
         }
     }
 

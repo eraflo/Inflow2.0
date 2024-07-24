@@ -4,7 +4,9 @@
 <div>
 {% for article in articles %}
 	<div class="articleShow">
-		<div class="articleTitle">{{article.title}}</div>
+		<div class="articleTitle">
+			{{article.title}}
+		</div>
 		<div class="articleWithMD">
 			<div class="articleMetaData">
 				<div class="articleAuthor">
@@ -21,7 +23,12 @@
 					{% endfor %}
 				</div>
 			</div>
-			<div class="articleContent">{{article.content|raw}}<a class="read" href="{{ path('app_article', {id: article.id}) }}">Lire...</a></div>
+			<div class="articleContent">
+				{{article.content|raw}}
+				<a class="read" href="{{ path('app_article', {id: article.id}) }}">
+					Lire...
+				</a>
+			</div>
 		</div>
 	</div>
 {% endfor %}
