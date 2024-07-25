@@ -6,39 +6,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use SpotifyWebAPI\SpotifyWebAPI;
 
 class AccueilController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(SpotifyWebAPI $api): Response
     {
         // Récupérer les vidéos de la chaine youtube qui sont en cache
         $cache = new FilesystemAdapter();
         
-        $videos = $cache->getItem('youtube_videos_page_1');
+        $videos = $cache->getItem('youtube_best_videos');
         if ($videos->isHit()) {
             // Prend les 10 premières vidéos
             $videos = array_slice($videos->get()['results'], 0, 10);
         } else {
-            $videos = [];
+            # Write "aa" at the top of the file
+            echo "aa";
+            $videos = YoutubeController::GetBestVideoInCache();
         }
-
         
 
         // playlists en cache
-        $playlists = $cache->getItem('spotify_playlists');
+        $playlists = $cache->getItem('spotify_best_albums');
         if ($playlists->isHit()) {
             $playlists = array_slice($playlists->get(), 0, 5);
         } else {
-            $playlists = [];
+            $playlists = SpotifyController::GetBestPlaylistInCache($api);
         }
 
         // albums en cache
-        $albums = $cache->getItem('spotify_albums');
+        $albums = $cache->getItem('spotify_best_playlists');
         if ($albums->isHit()) {
             $albums = array_slice($albums->get(), 0, 2);
         } else {
-            $albums = [];
+            $albums = SpotifyController::GetBestAlbumInCache($api);
         }
         
 

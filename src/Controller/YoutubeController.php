@@ -126,4 +126,19 @@ class YoutubeController extends AbstractController
             'nbOfVideos' => $numberOfVideos->get(),
         ]);
     }
+
+    public static function GetBestVideoInCache() {
+        $cache = new FilesystemAdapter();
+        $youtube = new Youtube(['key' => self::KEY]);
+
+        # Check if not already has cached the 10 videos with the highest number of views
+        $videos = $cache->getItem('youtube_best_videos');
+        if (!$videos->isHit()) {
+            $videos->set($youtube->searchChannelVideos([], self::CHANNEL_ID, 10, Youtube::ORDER_VIEWCOUNT), true);
+            $videos->expiresAfter(3600 * 24);
+            $cache->save($videos);
+        }
+        
+        return $videos;
+    }
 }

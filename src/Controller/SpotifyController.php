@@ -129,4 +129,60 @@ class SpotifyController extends AbstractController
     private function IsArtist($artist, string $name) {
         return $artist->name == $name;
     }
+
+    # Get the best albums in cache
+    public static function GetBestAlbumInCache(SpotifyWebAPI $api) {
+        $cache = new FilesystemAdapter();
+
+        $albums = $cache->getItem('spotify_best_albums');
+        if(!$albums->isHit()) {
+            $api->setAccessToken($_ENV['GOOGLE_API_KEY']);
+
+            $artist = $api->search('Inflow', 'artist');
+
+            foreach($artist->artists->items as $art) {
+                if($art->id == self::UserIdSearch) {
+                    $artist = $art;
+                    break;
+                }
+            }
+
+            $albumsTemp = $api->getArtistAlbums($artist->id);
+            $albumsTemp = $albumsTemp->items;
+
+            $albums->set($albumsTemp);
+            $albums->expiresAfter(1800);
+            $cache->save($albums);
+        }
+
+        return $albums->get();
+    }
+
+    # Get the best playlists in cache
+    public static function GetBestPlaylistInCache(SpotifyWebAPI $api) {
+        $cache = new FilesystemAdapter();
+
+        $playlists = $cache->getItem('spotify_best_playlists');
+        if(!$playlists->isHit()) {
+            # Use this : calliostro_spotify_web_api.token_provider
+            
+
+            $playlistsTemp = $api->getUserPlaylists(self::UserId);
+            $playlistsTemp = $playlistsTemp->items;
+
+            // Supprimer les playlists qui ne sont pas de l'utilisateur
+            $id = 0;
+            foreach($playlistsTemp as $playlist) {
+                if($playlist->owner->id != self::UserId)
+                    unset($playlistsTemp[$id]);
+                $id++;
+            }
+
+            $playlists->set($playlistsTemp);
+            $playlists->expiresAfter(1800);
+            $cache->save($playlists);
+        }
+
+        return $playlists->get();
+    }
 }
