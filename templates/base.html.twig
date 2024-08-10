@@ -15,79 +15,14 @@
         {% endblock %}
     </head>
     <body>
-        {% if app.request.attributes.get('_route') not in ['app_login', 'app_registration'] %}
-            <header>
-                <nav>
-                    <div id="logo">
-                        <a href="{{ path('app_home') }}"><img src="{{asset('build/img/all/logo.png')}}" alt="logo"></a>
-                    </div>
-                    <div id="main-header">
-                        <a href="/">Accueil</a>
-                        <a href="{{ path('app_articles') }}">Article</a>
-                        <a href="{{ path('app_youtube') }}">Vidéos</a>
-                        <a href="{{ path('app_spotify_list') }}">Playlists</a>
-                        <a href="{{ path('app_search') }}">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    <div id="member">
-                        <i class="fa-regular fa-user dropbtn" style="color: #ffffff;"></i>
-                        {% if not is_granted('ROLE_USER') %}
-                            <div class="dropdown">
-                                <div class="dropdown-content">
-                                    <a href="{{path('app_login')}}">Connexion</a>
-                                    <a href="{{path('app_registration')}}">Inscription</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if is_granted('ROLE_USER') %}
-                            <div class="dropdown">
-                                <div class="dropdown-content">
-                                    <a href="/users/{{ app.user.id }}">Mon compte (<span class="username">{{ app.user.username }}</span>)</a>
-                                    <a href="{{path('app_logout')}}">Déconnexion</a>
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </nav>
-            </header>
-        {% endif %}
+        <div {{ react_component('Header', { 
+            isAdmin: is_granted('ROLE_ADMIN'),  
+            isConnected: is_granted('ROLE_USER')
+        }) }}></div>
+        
         <main>
             {% block body %}
             {% endblock %}
         </main>
-        <footer>
-            <article id="footer-part">
-                <section id="title-footer">
-                    <p id="contact"> Contact </p>
-                    <p id="social"> Nous suivre </p>
-                </section>
-                <section id="data-footer">
-                    <div class="address">
-                        <p>85 impasse Mésangère</br> Isneauville 76230</p>
-                    </div>
-                    <div id="email">
-                        <p>inflow@gmail.com</p>
-                    </div>
-                    <div id="social-link">
-                        <a href="https://www.facebook.com/">
-                            <p>Facebook</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://twitter.com/">
-                            <p>Twitter</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.instagram.com/">
-                            <p>Instagram</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.youtube.com/">
-                            <p>Youtube</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                        <a href="https://www.twitch.tv/">
-                            <p>Twitch</p> <i class="fa-solid fa-square-arrow-up-right"></i>
-                        </a>
-                    </div>
-                </section>
-            </article>
-        </footer>
     </body>
 </html>
