@@ -27,24 +27,33 @@
 
 // ------- Global Styles -------
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--primary-blue);
     color: var(--white);
+    width: 100%;
 }
 
 header {
     backdrop-filter: blur(1.9rem);
+
     border-radius: 1.5rem;
-    border: 0.1rem solid var(--transparent-stroke, rgba(0, 0, 0, 0.13));
+    border: 0.1rem solid var(--transparent-stroke);
+
     background: var(--transparent-background, rgba(0, 0, 0, 0.03));
     color: var(--light-grey);
-    position: absolute;
-    left: 7rem;
-    top: 5.6rem;
+
     padding: 0.9rem 5.4rem;
-    width: 105.9rem;
-    box-sizing: border-box;
+    margin: 3rem 4.6rem;
+
+    // box-sizing: border-box;
 }
 
 header nav {
@@ -52,11 +61,38 @@ header nav {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
+
+
+// ------- End Global Styles -------
+
+// ------- Navbar -------
 
 .active {
     color: var(--white) !important;
 }
+
+.nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    height: fit-content;
+    box-sizing: border-box;
+}
+
+.account-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
 
 // ------- Fonts -------
 
@@ -139,9 +175,10 @@ header nav {
 .ui-label-semi-bold {
     font-family: 'Inter';
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.1rem;
     line-height: 1.5;
     text-transform: capitalize;
+    overflow-wrap: break-word;
 }
 
 // ------- End Fonts -------
@@ -149,11 +186,13 @@ header nav {
 // ------- Buttons -------
 
 .transparent-button {
+    border-radius: 1rem;
     background: var(--white-transparent-button);
-    border-radius: 16px;
-    padding: 24px 16px;
-    cursor: pointer;
-    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
 }
 
 // ------- End Buttons -------
