@@ -118,6 +118,11 @@ class YoutubeController extends AbstractController
         // Get the videos in the x page
         $videos = array_slice($videos->get()['results'], $offset, self::nbVideosPerPage);
 
+        $videos = array_map(function($video) {
+            $video->snippet->title = html_entity_decode($video->snippet->title);
+            return $video;
+        }, $videos);
+
         return $this->render('youtube/index.html.twig', [
             'videos' => $videos,
             'page' => $page,
