@@ -22,7 +22,7 @@
             isAdmin: is_granted('ROLE_ADMIN'),  
             isLoggedIn: is_granted('ROLE_USER'),
             id: app.user is null ? -1 : app.user.id,
-        }) }}></div>
+        }) }} style="position: sticky; top: 0; left: 0;"></div>
         
         <main>
             {% block body %}

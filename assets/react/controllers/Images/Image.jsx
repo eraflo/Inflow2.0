@@ -8,7 +8,8 @@ export default class Image extends React.Component {
             alt : props.alt,
             width : props.width,
             height : props.height,
-            margin : props.margin
+            margin : props.margin,
+            border : props.border
         };
     }
 
@@ -19,20 +20,20 @@ export default class Image extends React.Component {
         const width = this.state.width;
         const height = this.state.height;
         const margin = this.state.margin;
+        const border_radius = this.state.border;
+
+        let style = {
+            width: width,
+            height: height,
+            margin: margin,
+            borderRadius: border_radius,
+            objectFit: "fill"
+        };
 
         return (
-            <div style={
-                {
-                    width: width,
-                    height: height,
-                    margin: margin,
-                    backgroundImage: `url(${src})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center'
-                }
-            }>
-            </div>
+            
+            <img src={src} alt={alt} style={style} />
+            
         );
     }
 }

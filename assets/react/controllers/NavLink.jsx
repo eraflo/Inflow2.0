@@ -6,7 +6,8 @@ export default class NavLink extends React.Component {
         super(props);
         this.state = {
             location: window.location.pathname,
-            color: props.color
+            color: props.color,
+            isGradient: props.isGradient
         };
     }
 
@@ -19,7 +20,13 @@ export default class NavLink extends React.Component {
         let active = location === link ? 'active' : '';
 
         return (
-            <a href={link} className={active}> <UILabelSemiBold text={text} color={color}/> </a>
+            <a href={link} className={active}> 
+                <UILabelSemiBold 
+                    text={text} 
+                    color={color} 
+                    isGradient={this.state.isGradient} 
+                /> 
+            </a>
         );
     }
 }

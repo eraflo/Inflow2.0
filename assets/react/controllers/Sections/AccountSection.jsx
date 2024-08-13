@@ -10,7 +10,8 @@ export default class AccountSection extends React.Component {
             super(props);
             this.state = {
                 isLoggedIn: props.isLoggedIn,
-                id : props.id
+                id : props.id,
+                isGradient: props.isGradient
             };
         }
     
@@ -38,8 +39,19 @@ export default class AccountSection extends React.Component {
             } else {
                 accountSection =    (
                     <React.Fragment>
-                        <a href="/login"><UILabelSemiBold text="Connexion" color="var(--light-grey)" /></a>
-                        <TransparentButton text="S'inscrire" link="/inscription" />
+                        <a href="/login">
+                            <UILabelSemiBold 
+                                text="Connexion" 
+                                color="var(--light-grey)" 
+                                isGradient={this.state.isGradient}
+                            />
+                        </a>
+                        <TransparentButton 
+                            text="S'inscrire" 
+                            link="/inscription" 
+                            padding="1rem 1.5rem"
+                            margin="0rem"
+                        />
                     </React.Fragment>
                 )
             }

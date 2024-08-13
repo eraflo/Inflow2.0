@@ -10,6 +10,7 @@ export default class LinkedImage extends Image {
             width : props.width,
             height : props.height,
             margin : props.margin,
+            border : props.border,
             link : props.link
         };
     }
@@ -22,6 +23,7 @@ export default class LinkedImage extends Image {
         const height = this.state.height;
         const margin = this.state.margin;
         const link = this.state.link;
+        const border_radius = this.state.border;
 
         return (
             <a href={link}>
@@ -31,6 +33,7 @@ export default class LinkedImage extends Image {
                     width={width} 
                     height={height} 
                     margin={margin} 
+                    border={border_radius}
                 />
             </a>
         );

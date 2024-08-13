@@ -36,15 +36,30 @@ export default class Header extends React.Component {
                             src='/img/plain/logo_no_background.png' 
                             alt='logo'
                             width='7.1rem'
-                            height='2.3rem'
-                            margin='0.7rem 0'
+                            height='auto'
+                            margin='0'
                             link='/' 
                         />
                     </div>
                     <div className="nav-links">
-                        <NavLink link="/" text="Accueil" color="var(--light-grey)"/>
-                        <NavLink link="/playlists" text="Musiques" color="var(--light-grey)"/>
-                        <NavLink link="/videos/youtube/1" text="Vidéos" color="var(--light-grey)"/>
+                        <NavLink 
+                            link="/" 
+                            text="Accueil" 
+                            color="var(--light-grey)"
+                            isGradient={false}
+                        />
+                        <NavLink 
+                            link="/playlists" 
+                            text="Musiques" 
+                            color="var(--light-grey)"
+                            isGradient={false}
+                        />
+                        <NavLink 
+                            link="/videos/youtube/1" 
+                            text="Vidéos" 
+                            color="var(--light-grey)"
+                            isGradient={false}
+                        />
                         {adminLink}
                     </div>
                     {accountSection}

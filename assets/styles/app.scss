@@ -18,7 +18,7 @@
     --light-grey: #D8D8D8;
     --white: #FFFFFF;
 
-    --gradient-heading: linear-gradient(359.6deg, #FFFFFF 99.7%, rgba(255, 255, 255, 0.38) 222.8%);
+    --gradient-heading: -webkit-linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.38) 100%);
     --transparent-stroke: rgba(0, 0, 0, 0.13);
     --transparent-background: rgba(0, 0, 0, 0.03);
 
@@ -30,7 +30,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 
@@ -39,21 +38,29 @@ body {
     background-color: var(--primary-blue);
     color: var(--white);
     width: 100%;
+    height: 100%;
 }
 
+main {
+    margin: 0 12.5rem;
+    display: flex;
+    flex-direction: column;
+    z-index: -10;
+
+    gap: 12.5rem;
+}
+
+img {
+    max-width: fit-content;
+}
+
+
 header {
-    backdrop-filter: blur(1.9rem);
-
-    border-radius: 1.5rem;
-    border: 0.1rem solid var(--transparent-stroke);
-
-    background: var(--transparent-background, rgba(0, 0, 0, 0.03));
-    color: var(--light-grey);
-
-    padding: 0.9rem 5.4rem;
-    margin: 3rem 4.6rem;
-
-    // box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    z-index: 10;
 }
 
 header nav {
@@ -62,6 +69,21 @@ header nav {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    backdrop-filter: blur(1.9rem);
+
+    border-radius: 1.5rem;
+    border: 0.1rem solid var(--transparent-stroke);
+
+    background: var(--transparent-background, rgba(0, 0, 0, 0.03));
+    color: var(--light-grey);
+
+    padding: 0.1rem 8rem;
+    margin: 3rem 5rem;
+}
+
+.section-separator {
+    height: 2.5rem;
 }
 
 
@@ -93,13 +115,14 @@ header nav {
     box-sizing: border-box;
 }
 
+// ------- End Navbar -------
 
 // ------- Fonts -------
 
 .h1-heading {
     font-family: 'Inter';
     font-weight: 800;
-    font-size: 120px;
+    font-size: 7.5rem;
     line-height: 1;
     text-transform: capitalize;
 }
@@ -107,7 +130,7 @@ header nav {
 .h2-heading {
     font-family: 'Inter';
     font-weight: 800;
-    font-size: 92px;
+    font-size: 5.75rem;
     line-height: 1.1;
     text-transform: capitalize;
 }
@@ -115,7 +138,7 @@ header nav {
 .h3-heading {
     font-family: 'Inter';
     font-weight: 800;
-    font-size: 40px;
+    font-size: 2.5rem;
     line-height: 1.1;
     text-transform: capitalize;
 }
@@ -123,7 +146,7 @@ header nav {
 .h4-heading {
     font-family: 'Inter';
     font-weight: 700;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 1.1;
     text-transform: capitalize;
 }
@@ -131,7 +154,7 @@ header nav {
 .h6-heading {
     font-family: 'Inter';
     font-weight: 500;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1;
     text-transform: capitalize;
 }
@@ -139,21 +162,21 @@ header nav {
 .p1-paragraph {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 1.5;
 }
 
 .p2-paragraph {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 1.5;
 }
 
 .p3-paragraph {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.5;
     text-transform: capitalize;
 }
@@ -161,14 +184,14 @@ header nav {
 .ui-label-regular {
     font-family: 'Inter';
     font-weight: 400;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.5;
 }
 
 .ui-label-medium {
     font-family: 'Inter';
     font-weight: 500;
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.5;
 }
 
@@ -191,8 +214,161 @@ header nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    width: 100%;
+}
+
+.classic-button {
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
 // ------- End Buttons -------
+
+// ------- Blur -------
+.blur-width {
+    filter: blur(5.1rem);
+    background: var(--primary-blue);
+    width: 100rem;
+    height: 40rem;
+}
+
+#blur1 {
+    filter: blur(6rem);
+    background: conic-gradient(from 131.38deg at 50% 50%, #164DE5 0deg, #164DE5 63.53deg, #1A54F5 110.12deg, #5CDFFB 177.67deg, #02187B 189.32deg, rgba(1, 13, 66, 0.53) 238.83deg, #164DE5 360deg);
+    transform: rotate(45deg);
+    width: 77.5rem;
+    height: 83.8rem;
+
+    position: absolute;
+    top: 15rem;
+    left: 10rem;
+
+    z-index: -1;
+}
+
+// ------- End Blur -------
+
+// ------- Shadow -------
+
+.text-shadow {
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.91);
+}
+
+.image-shadow {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.47), rgba(0, 0, 0, 1));
+}
+
+// ------- Home -------
+
+.home-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10rem 0;
+
+    gap: 7.5rem;
+}
+
+.home-title {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    word-wrap: break-word;
+    gap: 3.5rem;
+
+}
+
+.home-section-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
+}
+
+.title-home {
+    display: inline-block;
+    overflow-wrap: break-word;
+    background: var(--gradient-heading);
+    color: var(--gradient-heading, transparent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-home {
+    color: var(--light-grey);
+}
+
+// Main
+
+#main-image {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+
+    position: relative;
+    top: -10rem;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -10;
+}
+
+#main-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#band-blur1 {
+    position: absolute;
+    top: 60rem;
+    left: 25rem;
+}
+
+// News
+#news-image-frame {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    align-items: center;
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -10;
+}
+
+
+#news-image-frame h3 {
+    position: absolute;
+    top: 20rem;
+    z-index: 0;
+}
+
+#news-image-frame p {
+    position: absolute;
+    top: 44rem;
+    z-index: 0;
+}
+
+#shadow-news-image {
+    position: absolute;
+    top: 42.1rem;
+}
+
+
+// ------- End Home -------
+
