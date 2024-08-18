@@ -5,8 +5,10 @@
     "@babel/preset-react": "^7.24.7",
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@hotwired/stimulus": "^3.0.0",
+    "@hotwired/turbo": "^7.1.1 || ^8.0",
     "@symfony/stimulus-bridge": "^3.2.0",
     "@symfony/ux-react": "file:vendor/symfony/ux-react/assets",
+    "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
     "@symfony/webpack-encore": "^4.0.0",
     "autoprefixer": "^10.4.20",
     "core-js": "^3.23.0",
@@ -40,8 +42,11 @@
   },
   "author": "",
   "dependencies": {
+    "color-thief-browser": "^2.0.2",
     "react-router-dom": "^6.26.0",
+    "react-slick": "^0.30.2",
     "sass": "^1.66.1",
+    "slick-carousel": "^1.8.1",
     "three": "^0.156.1"
   }
 }

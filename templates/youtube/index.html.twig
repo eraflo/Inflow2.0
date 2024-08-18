@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Youtube{% endblock %}
+{% block title %}Inflow - Youtube{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -16,7 +16,7 @@
             {# {{dump(video)}} #}
             <div {{
                 react_component(
-                    'videoCard',
+                    'VideoCard',
                     {
                         videoThumbnail: video.snippet.thumbnails.high.url|raw,
                         videoTitle: video.snippet.title,

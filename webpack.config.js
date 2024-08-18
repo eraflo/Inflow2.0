@@ -53,9 +53,11 @@ Encore
     .addEntry('comments', './assets/js/comments.js')
     .addEntry('mic', './assets/js/mic.js')
     .addEntry('youtube', './assets/js/youtube.js')
+    .addEntry('spotify', './assets/js/spotify.js')
 
     // Css files
     .addStyleEntry('./styles/youtube', './assets/styles/youtube.scss')
+    .addStyleEntry('./styles/spotify', './assets/styles/spotify.scss')
 
     .addStyleEntry('./css/login', './assets/css/login.css')
     .addStyleEntry('./css/pagination', './assets/css/pagination.css')

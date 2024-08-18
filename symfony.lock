@@ -290,6 +290,9 @@
             "ref": "fee05066d80fef87f20023aa637f96ca8cd415c7"
         }
     },
+    "symfony/ux-turbo": {
+        "version": "v2.19.3"
+    },
     "symfony/validator": {
         "version": "6.2",
         "recipe": {
