@@ -29,13 +29,13 @@ export default class Header extends React.Component {
         }
 
         return (
-            <header>
-                <nav>
+            <header className="container-lg">
+                <nav className="nav nav-pills flex-column flex-sm-row">
                     <div className='nav-logo'>
                         <LinkedImage 
                             src='/img/plain/logo_no_background.png' 
                             alt='logo'
-                            width='7.1rem'
+                            width='6rem'
                             height='auto'
                             margin='0'
                             link='/' 

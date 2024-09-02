@@ -17,14 +17,14 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="container-fluid">
         <div {{ react_component('Header', { 
             isAdmin: is_granted('ROLE_ADMIN'),  
             isLoggedIn: is_granted('ROLE_USER'),
             id: app.user is null ? -1 : app.user.id,
-        }) }} style="position: sticky; top: 0; left: 0;"></div>
+        }) }} class="row"></div>
         
-        <main>
+        <main class="container row">
             {% block body %}
             {% endblock %}
         </main>

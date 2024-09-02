@@ -18,8 +18,8 @@ class AccueilController extends AbstractController
         
         $videos = $cache->getItem('youtube_best_videos');
         if ($videos->isHit()) {
-            // Prend les 10 premières vidéos
-            $videos = array_slice($videos->get()['results'], 0, 10);
+            // Prend les 10 premières vidéos ['results']
+            $videos = array_slice($videos->get(), 0, 10);
         } else {
             # Write "aa" at the top of the file
             echo "aa";

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "~bootstrap/scss/bootstrap";
+
 :root {
     --primary-blue: #164DE5;
     --secondary-deep-blue: #02187B;
@@ -35,10 +37,11 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--primary-blue);
-    color: var(--white);
+    background-color: var(--primary-blue) !important;
+    color: var(--white) !important;
     width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 
 main {
@@ -48,10 +51,17 @@ main {
     z-index: -10;
 
     gap: 12.5rem;
+
+    
 }
 
 img {
     max-width: fit-content;
+}
+
+a {
+    text-decoration: none;
+    color: var(--light-grey);
 }
 
 
@@ -59,8 +69,10 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100%;
+    width: fit-content;
     z-index: 10;
+
+    margin-bottom: 4rem;
 }
 
 header nav {
@@ -78,7 +90,7 @@ header nav {
     background: var(--transparent-background, rgba(0, 0, 0, 0.03));
     color: var(--light-grey);
 
-    padding: 0.1rem 8rem;
+    padding: 0.1rem 4rem !important;
     margin: 3rem 5rem;
 }
 
@@ -201,7 +213,6 @@ header nav {
     font-size: 1.1rem;
     line-height: 1.5;
     text-transform: capitalize;
-    overflow-wrap: break-word;
 }
 
 // ------- End Fonts -------
@@ -263,37 +274,6 @@ header nav {
 
 // ------- Home -------
 
-.home-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    width: 100%;
-    height: 100%;
-
-    box-sizing: border-box;
-
-    padding: 10rem 0;
-
-    gap: 7.5rem;
-}
-
-.home-title {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    word-wrap: break-word;
-    gap: 3.5rem;
-
-}
-
-.home-section-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    width: 100%;
-}
-
 .title-home {
     display: inline-block;
     overflow-wrap: break-word;
@@ -302,6 +282,18 @@ header nav {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.title-home-center {
+    display: inline-block;
+    overflow-wrap: break-word;
+    background: var(--gradient-heading);
+    color: var(--gradient-heading, transparent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+
 }
 
 .text-home {
@@ -316,7 +308,7 @@ header nav {
     height: fit-content;
 
     position: relative;
-    top: -10rem;
+    top: 0rem;
 
     width: 100%;
     height: 100%;

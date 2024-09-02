@@ -13,8 +13,8 @@
 
 {% block body %}
 
-<div class="home-section">
-    <div class="home-title">
+<div class="container-lg d-flex row">
+    <div class="col">
         <div class="home-section-text">
             <h1 class="h1-heading title-home">Tout Pour La Culture</h1>
             <p class="p1-paragraph text-shadow text-home">
@@ -32,7 +32,7 @@
             text_color : "black"
         })}}></div>
     </div>
-    <div id="main-image">
+    <div id="main-image col">
         <div {{react_component('Images/Image', {
             src : "/img/plain/man_in_city_no_background.png", 
             alt : "main_in_city_no_background",
@@ -47,7 +47,7 @@
 
 <div class="section-separator"></div>
 
-<div class="home-section">
+<div class="container-lg">
     <div id="news-image">
         <div id="news-image-frame">
             <div {{react_component('Images/Image', {
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="home-title">
+    <div class="container-lg">
         <div class="home-section-text">
             <h1 class="h1-heading title-home">Les Dernières News</h1>
             <p class="p1-paragraph text-shadow text-home">
@@ -92,6 +92,22 @@
             </p>
         </div>
     </div>
+</div>
+
+<div class="home-section-line">
+    <div class="home-title-section">
+        <div class="home-section-text">
+            <h1 class="h1-heading title-home-center">Les Dernières Vidéos en Légende</h1>
+            <p class="p1-paragraph text-shadow text-home">
+                Le Flow, la 111ème ou encore nos clips musicaux. Suivez en temps réel nos contenus vidéos pour découvrir de nombreux artistes et de nouvelles musiques.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container py-4 px-3 mx-auto">
+    <h1>Hello, Bootstrap and Webpack!</h1>
+    <button class="btn btn-primary">Primary button</button>
 </div>
 
 
