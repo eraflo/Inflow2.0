@@ -27,6 +27,10 @@
 
 // ------- Global Styles -------
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--primary-blue);

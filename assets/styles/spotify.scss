@@ -10,7 +10,7 @@
     position: relative;
 }
 
-.playlistsContainer > div {
+.playlistsContainer>div {
     min-width: 30%;
 }
 
@@ -35,4 +35,46 @@
         font-size: large;
         font-weight: bold;
     }
+
+    .loading-overlay {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: none;
+        /* Initially hidden */
+    }
+
+    .loading-spinner {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+body {
+    background: conic-gradient(from -69.36deg at 50% 50%,
+            #4EE2CE 0deg,
+            #1EEF33 133.88deg,
+            #5C9CFB 189.16deg,
+            #18E66A 219.58deg,
+            #5CDFFB 247.65deg,
+            #4EE2CE 360deg) no-repeat;
+
+    background-attachment: fixed;
+
 }
