@@ -20,8 +20,7 @@
     <body>
         <div {{ react_component('Header', { 
             isAdmin: is_granted('ROLE_ADMIN'),  
-            isLoggedIn: is_granted('ROLE_USER'),
-            id: app.user is null ? -1 : app.user.id,
+            isConnected: is_granted('ROLE_USER')
         }) }}></div>
         
         <main>

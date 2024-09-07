@@ -1,23 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inflow{% endblock %}
+{% block title %}Inflow - Playlists{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/styles/spotify.css') }}">
+{% endblock %}
 
 {% block body %}
 
+
+
     <link rel="alternate" type="application/json+oembed" href="https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Fshow%2F5eXZwvvxt3K2dxha3BSaAe" />
+    {# {{ dump(playlists) }} #}
+    <div {{
+        react_component(
+            'Carousel',
+            {
+                playlists: [...playlists]
+            }
+        )
+    }}></div>
+
+    <div class='tracksContainer'>
+        <p>
+            Sons
+        </p>
+        <hr />
+        <h1>Cliquez sur une playlist pour voir sa composition</h1>
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        <turbo-frame id="tracks">
+        </turbo-frame>
+    </div>
+
+    {# <div class='playlistsContainer'>
     {% for playlist in playlists %}
 
-        <div class="card">
-            <a href="{{path('app_spotify_playlist', {'name': playlist.name})}}">
-                <img class="card-img-top" src="{{playlist.images[0].url}}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{playlist.name}}</h5>
-                </div>
-            </a>
+        {{ dump(playlist) }}
+        {% set playlistLink = path('app_spotify_playlist', {'name': playlist.name}) %}
+
+        <div {{
+            react_component(
+                'playlistCard',
+                {
+                    playlistCover: playlist.images[0].url,
+                    playlistTitle: playlist.name,
+                    playlistLink: playlistLink
+                }
+            )
+        }}>
         </div>
 
     {% endfor %}
+    </div> #}
 
-
+    {{ encore_entry_script_tags('spotify') }}
 
 {% endblock %}

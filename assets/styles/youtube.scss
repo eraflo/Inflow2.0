@@ -1,0 +1,26 @@
+@import url(parts/videoCard.scss);
+
+body {
+    background: radial-gradient(ellipse farthest-corner at left 20% top 20%, red, blue), radial-gradient(ellipse farthest-corner at right 20% bottom 20%, purple, blue);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.pagination {
+    margin: auto;
+    margin: 1rem;
+}
+
+.videoGrid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.5fr));
+    gap: 1rem;
+    grid-auto-rows: auto;
+}

@@ -44,17 +44,24 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+
+    // shared assets
     .addEntry('app', './assets/app.js')
 
+    // per page assets
     .addEntry('article', './assets/js/article.js')
     .addEntry('comments', './assets/js/comments.js')
     .addEntry('mic', './assets/js/mic.js')
+    .addEntry('youtube', './assets/js/youtube.js')
+    .addEntry('spotify', './assets/js/spotify.js')
 
     // Css files
+    .addStyleEntry('./styles/youtube', './assets/styles/youtube.scss')
+    .addStyleEntry('./styles/spotify', './assets/styles/spotify.scss')
+
     .addStyleEntry('./css/login', './assets/css/login.css')
     .addStyleEntry('./css/pagination', './assets/css/pagination.css')
     .addStyleEntry('./css/register', './assets/css/register.css')
-    .addStyleEntry('./css/youtube', './assets/css/youtube.css')
     .addStyleEntry('./css/accueil', './assets/styles/accueil.scss')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

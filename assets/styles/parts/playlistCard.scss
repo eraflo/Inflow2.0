@@ -1,0 +1,40 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 90%;
+    margin: auto;
+
+    .cover {
+        width: fit-content;
+        height: fit-content;
+        aspect-ratio: 1/1;
+        background-size: cover;
+        background-position: center;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .info {
+        position: absolute;
+        width: 100%;
+        height: 30%;
+        bottom: 0;
+        border-radius: 0 0 10px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 0px 0px 5px black;
+
+        .title {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 0.8rem;
+        }
+    }
+}
