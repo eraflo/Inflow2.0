@@ -18,9 +18,9 @@
                 react_component(
                     'videoCard',
                     {
-                        videoThumbnail: video.snippet.thumbnails.high.url|raw,
+                        videoThumbnail: video.snippet.thumbnails.medium.url|raw,
                         videoTitle: video.snippet.title,
-                        videoLink: 'https://www.youtube.com/watch?v=' ~ video.id.videoId
+                        videoLink: 'https://www.youtube.com/watch?v=' ~ video.id
                     }
                 )
             }}>
